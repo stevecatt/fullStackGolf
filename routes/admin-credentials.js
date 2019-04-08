@@ -15,9 +15,6 @@ router.use(session({
 }))
 router.use(bodyParser.urlencoded({ extended: false }))
 
-
-let admins = []
-
 router.get('/admin-login', (req,res) => {
   res.render('admin-login')
 })
@@ -30,7 +27,6 @@ router.post('/admin-login', (req,response) => {
       if (res) {
         if(req.session) {
           req.session.adminUsername = username
-          console.log(admins)
           response.redirect('/leaderboard')
         } else {
           console.log('unexpected error...')
@@ -48,11 +44,16 @@ router.get('/admin/register', (req, res) => {
 
 router.post('/admin-register', (req,res) => {
   let username = req.body.username
+  let name = req.body.name
   let hash = bcrypt.hashSync(req.body.password, saltRounds)
-  db.none('INSERT INTO admins(username, hash) VALUES($1,$2);', [username, hash])
-  let admin = {username:username, hash:hash}
-  admins.push(admin)
-  res.redirect('/admin-login')
+  db.one('SELECT username FROM admins where username = $1', [username]).then((admin) => {
+    if (admin) {
+      res.render('admin-register', {message: 'Admin already registered! Please enter new username.'})
+    } else {
+      db.none('INSERT INTO admins(username, hash, name) VALUES($1,$2,$3);', [username, hash, name])
+      res.redirect('/admin-login')
+    }
+  })
 })
 
 module.exports = router

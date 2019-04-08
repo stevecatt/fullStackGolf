@@ -9,8 +9,10 @@
       {{> menu}}
       <div>
         <h2>Register a New Admin</h2>
+        <h3>{{message}}</h3>
         <form action="/admin-register" method="POST">
           <div>
+            <input type="text" name="name" placeholder="Steve Cattanach"/>
             <input type="text" name="username" placeholder="username"/>
             <input type="password" name="password" placeholder="password"/>
           </div>
