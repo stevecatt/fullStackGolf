@@ -72,8 +72,8 @@ app.get('/input-scores', (req, res) => {
   res.render('input-scores')
 })
 //test updating scores with hard code 
-let player='player1'
-let score= 55
+//let player='player1'
+//let score= 55
 //pushes work the FIFO paft of Quotas, adding latest score to Q1 removing oldest score fromm Q11 
 /*db.one('SELECT q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11 FROM "Quotas" WHERE golfer = $1', [player])
 .then ((quota)=>{
