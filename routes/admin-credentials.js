@@ -26,25 +26,20 @@ router.post('/admin-login', (req,response) => {
   let username = req.body.username
   db.one('SELECT username, hash FROM admins WHERE username = $1', [username])
   .then((admin) => {
-    console.log(admin.username + "hash: " + admin.hash)
+    bcrypt.compare(req.body.password, admin.hash, function(err, res) {
+      if (res) {
+        if(req.session) {
+          req.session.adminUsername = username
+          console.log(admins)
+          response.redirect('/leaderboard')
+        } else {
+          console.log('unexpected error...')
+        }
+      } else {
+        console.log('Invalid credentials. Error: ' + err)
+      }
+    })
   })
-  response.redirect('/admin-login')
-  // let persistedAdmin = admins.find((admin) => {
-  //   return admin.username = username
-  // })
-  // bcrypt.compare(req.body.password, persistedAdmin.hash, function(err, res) {
-  //   if (res) {
-  //     if(req.session) {
-  //       req.session.username = username
-  //       console.log(admins)
-  //       response.redirect('/leaderboard')
-  //     } else {
-  //       console.log('unexpected error...')
-  //     }
-  //   } else {
-  //     console.log('Invalid credentials. Error: ' + err)
-  //   }
-  // })
 })
 
 router.get('/admin/register', (req, res) => {
