@@ -7,6 +7,7 @@ const app = express()
 const pgp = require('pg-promise')()
 const adminCredRoutes = require('./routes/admin-credentials')
 const inputScoresRoutes = require('./routes/input-scores')
+const authenticate = require('./routes/admin-authenticate')
 
 connectionString = {
   "host": "isilo.db.elephantsql.com",
@@ -27,6 +28,7 @@ app.use(session({
 
 const VIEWS_PATH = path.join(__dirname, '/views')
 
+app.all('/admin/*', authenticate)
 app.use('/', adminCredRoutes)
 app.use('/', inputScoresRoutes)
 app.use(bodyParser.urlencoded({ extended: false }))
