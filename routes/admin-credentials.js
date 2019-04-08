@@ -16,7 +16,15 @@ router.use(session({
 router.use(bodyParser.urlencoded({ extended: false }))
 
 router.get('/admin-login', (req,res) => {
-  res.render('admin-login')
+  if (req.session) {
+    if(req.session.adminUsername) {
+      res.redirect('/admin/dashboard')
+    } else {
+      res.render('admin-login')
+    }
+  } else {
+    res.render('admin-login')
+  }
 })
 
 router.post('/admin-login', (req,response) => {
@@ -54,6 +62,10 @@ router.post('/admin-register', (req,res) => {
       res.redirect('/admin-login')
     }
   })
+})
+
+router.get('/admin/dashboard' (req,res) => {
+  res.render('admin-dashboard')
 })
 
 module.exports = router
