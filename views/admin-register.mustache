@@ -2,18 +2,19 @@
 <html lang="en" dir="ltr">
   <head>
     <link rel="stylesheet" href="#"/>
-    <title>Admin Login</title>
+    <title>Admin Register</title>
   </head>
   <body>
     <div>
+      {{> menu}}
       <div>
-        <h2>Admin Login</h2>
-        <form action="/admin/login" method="POST">
+        <h2>Register a New Admin</h2>
+        <form action="/admin-register" method="POST">
           <div>
             <input type="text" name="username" placeholder="username"/>
             <input type="password" name="password" placeholder="password"/>
           </div>
-          <button type="submit">Login</button>
+          <button type="submit">Register</button>
         </form>
       </div>
     </div>

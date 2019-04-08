@@ -8,6 +8,7 @@ const pgp = require('pg-promise')()
 const adminCredRoutes = require('./routes/admin-credentials')
 const inputScoresRoutes = require('./routes/input-scores')
 const calculateQuotas = require('./routes/calculate-quotas')
+const authenticate = require('./routes/admin-authenticate')
 
 connectionString = {
   "host": "isilo.db.elephantsql.com",
@@ -19,7 +20,6 @@ connectionString = {
 }
 
 db = pgp(connectionString)
-
 let session = require('express-session')
 app.use(session({
   secret: 'Quoth the raven, beware, for twas brillig',
@@ -29,6 +29,7 @@ app.use(session({
 
 const VIEWS_PATH = path.join(__dirname, '/views')
 
+app.all('/admin/*', authenticate)
 app.use('/', adminCredRoutes)
 app.use('/', inputScoresRoutes)
 app.use('/',calculateQuotas)
@@ -36,6 +37,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.engine('mustache',mustacheExpress(VIEWS_PATH + '/partials', '.mustache'))
 app.set('views','./views')
 app.set('view engine','mustache')
+
 
 
 app.get("/quota",(req,res)=>{
@@ -47,10 +49,6 @@ app.get("/quota",(req,res)=>{
 
 })
 //render mustache pages
-
-app.get('/admin-login', (req, res) => {
-  res.render('admin-login')
-})
 
 app.get('/last-weeks-scores', (req, res) => {
   res.render('last-weeks-scores')
