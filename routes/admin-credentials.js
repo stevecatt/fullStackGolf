@@ -35,7 +35,7 @@ router.post('/admin-login', (req,response) => {
       if (res) {
         if(req.session) {
           req.session.adminUsername = username
-          response.redirect('/leaderboard')
+          response.redirect('/admin/dashboard')
         } else {
           console.log('unexpected error...')
         }
