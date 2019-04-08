@@ -24,13 +24,13 @@ app.use(session({
   saveUninitialized: true
 }))
 
+const VIEWS_PATH = path.join(__dirname, '/views')
 
 app.use('/', adminCredRoutes)
 app.use(bodyParser.urlencoded({ extended: false }))
-app.engine('mustache',mustacheExpress())
+app.engine('mustache',mustacheExpress(VIEWS_PATH + '/partials', '.mustache'))
 app.set('views','./views')
 app.set('view engine','mustache')
-
 
 //gets the scores from database and calculates quotas based on league rules
 app.get("/quotas",(req,res)=>{
@@ -101,6 +101,31 @@ db.any('SELECT * FROM "Quotas"')
 
 })
 
+//render mustache pages
+
+app.get('/admin-login', (req, res) => {
+  res.render('admin-login')
+})
+
+app.get('/last-weeks-scores', (req, res) => {
+  res.render('last-weeks-scores')
+})
+
+app.get('/next-weeks-matches', (req, res) => {
+  res.render('next-weeks-matches')
+})
+
+app.get('/view-player-quotas', (req, res) => {
+  res.render('view-player-quotas')
+})
+
+app.get('/leaderboard', (req, res) => {
+  res.render('leaderboard')
+})
+
+app.get('/input-scores', (req, res) => {
+  res.render('input-scores')
+})
 
 
 app.listen(3000,function(){
