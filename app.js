@@ -18,7 +18,6 @@ connectionString = {
 }
 
 db = pgp(connectionString)
-
 let session = require('express-session')
 app.use(session({
   secret: 'Quoth the raven, beware, for twas brillig',
@@ -92,7 +91,7 @@ db.any('SELECT * FROM "Quotas"')
       console.log(thisWeekQuota)
     }
     else if(quota.q7==null){
-      let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3+quota.q4+quota.q5+quota.q6)/6) 
+      let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3+quota.q4+quota.q5+quota.q6)/6)
       let quotapush = {name:quota.golfer,quota:thisWeekQuota}
       thisWeeksQuotas.push(quotapush)
       console.log(thisWeekQuota)
@@ -136,9 +135,9 @@ db.any('SELECT * FROM "Quotas"')
 
 //render mustache pages
 
-app.get('/admin-login', (req, res) => {
-  res.render('admin-login')
-})
+// app.get('/admin-login', (req, res) => {
+//   res.render('admin-login')
+// })
 
 app.get('/last-weeks-scores', (req, res) => {
   res.render('last-weeks-scores')
