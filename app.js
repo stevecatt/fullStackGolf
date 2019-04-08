@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const path = require('path')
 const app = express()
 const pgp = require('pg-promise')()
+const adminCredRoutes = require('./routes/admin-credentials')
 
 const connectionString = {
   "host": "isilo.db.elephantsql.com",
@@ -16,10 +17,18 @@ const connectionString = {
 }
 
 const db = pgp(connectionString)
+let session = require('express-session')
+app.use(session({
+  secret: 'Quoth the raven, beware, for twas brillig',
+  resave: false,
+  saveUninitialized: true
+}))
 
+const VIEWS_PATH = path.join(__dirname, '/views')
 
+app.use('/', adminCredRoutes)
 app.use(bodyParser.urlencoded({ extended: false }))
-app.engine('mustache',mustacheExpress())
+app.engine('mustache',mustacheExpress(VIEWS_PATH + '/partials', '.mustache'))
 app.set('views','./views')
 app.set('view engine','mustache')
 
@@ -32,7 +41,7 @@ db.any('SELECT * FROM "Quotas"')
   //console.log(quotas)
   for(index=0;index<quotas.length;index++){
     let quota=quotas[index]
-  
+
     console.log(quota)
     if(quota.q1==null){
       let thisWeekQuota=5
@@ -116,11 +125,32 @@ db.any('SELECT * FROM "Quotas"')
     }
    // console.log(thisWeekQuota)
   }
-  console.log(thisWeeksQuotas)
   res.render('quotas',{thisweek:thisWeeksQuotas})
-  
+
 })
 
+})
+
+//render mustache pages
+
+app.get('/admin-login', (req, res) => {
+  res.render('admin-login')
+})
+
+app.get('/last-weeks-scores', (req, res) => {
+  res.render('last-weeks-scores')
+})
+
+app.get('/next-weeks-matches', (req, res) => {
+  res.render('next-weeks-matches')
+})
+
+app.get('/view-player-quotas', (req, res) => {
+  res.render('view-player-quotas')
+})
+
+app.get('/leaderboard', (req, res) => {
+  res.render('leaderboard')
 })
 app.get("/quota",(req,res)=>{
   db.any('SELECT * FROM "Quotas"')
@@ -128,7 +158,13 @@ app.get("/quota",(req,res)=>{
     res.render('quotas',{quotas:quotas})
 
   })
+
 })
+
+app.get('/input-scores', (req, res) => {
+  res.render('input-scores')
+})
+
 
 app.listen(3000,function(){
   console.log("node server has started")
