@@ -73,6 +73,8 @@ app.get('/leaderboard', (req, res) => {
 app.get('/input-scores', (req, res) => {
   res.render('input-scores')
 })
+<<<<<<< HEAD
+=======
 //test updating scores with hard code
 let player='player1'
 let score= 55
@@ -93,8 +95,9 @@ db.one('SELECT q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11 FROM "Quotas" WHERE golfer = $
   //console.log(updatedQuotaList[11])
 
   //console.log(updatedQuotaList)
+>>>>>>> master
 
-})
+
 
 app.listen(3000,function(){
   console.log("node server has started")
