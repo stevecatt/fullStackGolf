@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const path = require('path')
 const app = express()
 const pgp = require('pg-promise')()
+const adminCredRoutes = require('./routes/admin-credentials')
 
 const connectionString = {
   "host": "isilo.db.elephantsql.com",
@@ -16,9 +17,16 @@ const connectionString = {
 }
 
 const db = pgp(connectionString)
+let session = require('express-session')
+app.use(session({
+  secret: 'Quoth the raven, beware, for twas brillig',
+  resave: false,
+  saveUninitialized: true
+}))
 
 const VIEWS_PATH = path.join(__dirname, '/views')
 
+app.use('/', adminCredRoutes)
 app.use(bodyParser.urlencoded({ extended: false }))
 app.engine('mustache',mustacheExpress(VIEWS_PATH + '/partials', '.mustache'))
 app.set('views','./views')
