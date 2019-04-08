@@ -6,8 +6,9 @@ const path = require('path')
 const app = express()
 const pgp = require('pg-promise')()
 const adminCredRoutes = require('./routes/admin-credentials')
+const inputScoresRoutes = require('./routes/input-scores')
 
-const connectionString = {
+connectionString = {
   "host": "isilo.db.elephantsql.com",
   "port": 5432,
   "database": "awfaxvvb",
@@ -16,7 +17,8 @@ const connectionString = {
 
 }
 
-const db = pgp(connectionString)
+db = pgp(connectionString)
+
 let session = require('express-session')
 app.use(session({
   secret: 'Quoth the raven, beware, for twas brillig',
@@ -27,6 +29,7 @@ app.use(session({
 const VIEWS_PATH = path.join(__dirname, '/views')
 
 app.use('/', adminCredRoutes)
+app.use('/', inputScoresRoutes)
 app.use(bodyParser.urlencoded({ extended: false }))
 app.engine('mustache',mustacheExpress(VIEWS_PATH + '/partials', '.mustache'))
 app.set('views','./views')
@@ -121,10 +124,6 @@ app.get('/view-player-quotas', (req, res) => {
 
 app.get('/leaderboard', (req, res) => {
   res.render('leaderboard')
-})
-
-app.get('/input-scores', (req, res) => {
-  res.render('input-scores')
 })
 
 
