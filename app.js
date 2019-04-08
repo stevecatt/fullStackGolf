@@ -16,7 +16,7 @@ const connectionString = {
 
 }
 
-const db = pgp(connectionString)
+db = pgp(connectionString)
 let session = require('express-session')
 app.use(session({
   secret: 'Quoth the raven, beware, for twas brillig',
@@ -103,9 +103,9 @@ db.any('SELECT * FROM "Quotas"')
 
 //render mustache pages
 
-app.get('/admin-login', (req, res) => {
-  res.render('admin-login')
-})
+// app.get('/admin-login', (req, res) => {
+//   res.render('admin-login')
+// })
 
 app.get('/last-weeks-scores', (req, res) => {
   res.render('last-weeks-scores')
