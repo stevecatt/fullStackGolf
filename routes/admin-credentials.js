@@ -19,7 +19,7 @@ router.use(bodyParser.urlencoded({ extended: false }))
 let admins = []
 
 router.get('/admin-login', (req,res) => {
-  res.render('admin-test')
+  res.render('admin-login')
 })
 
 router.post('/admin-login', (req,response) => {

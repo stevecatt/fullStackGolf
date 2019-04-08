@@ -135,10 +135,6 @@ db.any('SELECT * FROM "Quotas"')
 
 //render mustache pages
 
-// app.get('/admin-login', (req, res) => {
-//   res.render('admin-login')
-// })
-
 app.get('/last-weeks-scores', (req, res) => {
   res.render('last-weeks-scores')
 })
