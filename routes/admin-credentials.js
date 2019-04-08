@@ -64,7 +64,7 @@ router.post('/admin-register', (req,res) => {
   })
 })
 
-router.get('/admin/dashboard' (req,res) => {
+router.get('/admin/dashboard', (req,res) => {
   res.render('admin-dashboard')
 })
 
