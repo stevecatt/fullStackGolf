@@ -6,8 +6,9 @@ const path = require('path')
 const app = express()
 const pgp = require('pg-promise')()
 const adminCredRoutes = require('./routes/admin-credentials')
+const inputScoresRoutes = require('./routes/input-scores')
 
-const connectionString = {
+connectionString = {
   "host": "isilo.db.elephantsql.com",
   "port": 5432,
   "database": "awfaxvvb",
@@ -27,6 +28,7 @@ app.use(session({
 const VIEWS_PATH = path.join(__dirname, '/views')
 
 app.use('/', adminCredRoutes)
+app.use('/', inputScoresRoutes)
 app.use(bodyParser.urlencoded({ extended: false }))
 app.engine('mustache',mustacheExpress(VIEWS_PATH + '/partials', '.mustache'))
 app.set('views','./views')
@@ -89,7 +91,7 @@ db.any('SELECT * FROM "Quotas"')
       console.log(thisWeekQuota)
     }
     else if(quota.q7==null){
-      let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3+quota.q4+quota.q5+quota.q6)/6) 
+      let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3+quota.q4+quota.q5+quota.q6)/6)
       let quotapush = {name:quota.golfer,quota:thisWeekQuota}
       thisWeeksQuotas.push(quotapush)
       console.log(thisWeekQuota)
@@ -159,10 +161,6 @@ app.get("/quota",(req,res)=>{
 
   })
 
-})
-
-app.get('/input-scores', (req, res) => {
-  res.render('input-scores')
 })
 
 

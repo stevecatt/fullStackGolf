@@ -10,5 +10,13 @@
 
     <h2>Input Scores</h2>
 
+    <form action="/add-player" method="POST">
+      <input type="text" name="playerName" placeholder="Enter Player Name" />
+      <input type="text" name="score" placeholder="Enter Score" />
+      <button type="submit">Save</button>
+    </form>
+
+    {{message}}
+
   </body>
 </html>
