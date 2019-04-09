@@ -10,7 +10,14 @@ router.use(bodyParser.urlencoded({ extended: false }))
 router.get('/admin/archive-teams', (req,res) => {
   res.render('admin-archive')
 })
-router.post('/admin/archive-teams')
-db.none('SELECT * INTO $1 FROM teams;', [archiveTeams]).then()
+router.post('/admin/archive-teams', (req,res) => {
+  let year = new Date().getFullYear().toString()
+  let archivedTeams = year + "-archived-teams"
+  db.none('SELECT * INTO $1 FROM teams;', [archivedTeams])
+  .then(() => {
+    res.render('admin-archive', {message: "Successfully archived Current Season's teams"})
+  })
+})
+
 
 module.exports = router

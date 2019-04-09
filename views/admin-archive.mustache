@@ -2,15 +2,15 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Archive Teams</title>
   </head>
   <body>
     <div>
       {{> menu}}
       <div>
-        <h2>Add a New Team</h2>
+        <h2>Archive Current Season to Start a new one</h2>
+        <h3>{{message}}</h3>
         <form action="/admin/archive-teams" method="POST">
-
           <h3>Archive current season? If not use links above to go back.</h3>
           <button type="submit">Archive</button>
         </form>
