@@ -9,13 +9,18 @@
       {{> menu}}
       <div>
         <h2>Archive Current Season to Start a new one</h2>
-        <h3>{{message}}</h3>
+        {{message2}}
+        {{#message1}}
+        <h3>{{message1}}</h3>
+        <form action="/admin/undo-archive" method="POST">
+          <span>Undo archive?</span>
+          <button type="submit">Undo</button>
+        </form>
+        {{/message1}}
         <form action="/admin/archive-teams" method="POST">
           <h3>Archive current season? If not use links above to go back.</h3>
+          <h5>This can only be undone ONCE.</h5>
           <button type="submit">Archive</button>
-        </form>
-        <form action="/admin/undo-archive" method="POST">
-          <button type="submit">Undo</button>
         </form>
       </div>
     </div>
