@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Archive Teams</title>
+  </head>
+  <body>
+    <div>
+      {{> menu}}
+      <div>
+        <h2>Archive Current Season to Start a new one</h2>
+        {{message2}}
+        {{#message1}}
+        <h3>{{message1}}</h3>
+        <form action="/admin/undo-archive" method="POST">
+          <span>Undo archive?</span>
+          <button type="submit">Undo</button>
+        </form>
+        {{/message1}}
+        <form action="/admin/archive-teams" method="POST">
+          <h3>Archive current season? If not use links above to go back.</h3>
+          <h5>This can only be undone ONCE.</h5>
+          <button type="submit">Archive</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
