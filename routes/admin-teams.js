@@ -7,6 +7,8 @@ const pgp = require('pg-promise')()
 
 router.use(bodyParser.urlencoded({ extended: false }))
 
+let teamMembers = []
+
 router.get('/admin/add-teams', (req, res) => {
   res.render('add-teams')
 })
@@ -17,7 +19,8 @@ router.post('/add-teams', (req, res) => {
   let playerTwo = req.body.playerTwo
   let hash = bcrypt.hashSync(req.body.password, saltRounds)
 
-  db.any('SELECT team FROM teams where team = $1', [teamNumber]).then((team) => {
+
+  db.any('SELECT team FROM teams WHERE team = $1', [teamNumber]).then((team) => {
     if (team.length != 0) {
       res.render('add-teams', {message1: 'Team Number is taken! Please enter new Team Number.'})
     } else {
@@ -27,5 +30,36 @@ router.post('/add-teams', (req, res) => {
   })
   .catch((error) => {console.log("error in /add-teams")})
 })
+
+router.post('/search-player-one', (req, res) => {
+  let playerName = req.body.playerName
+  db.any(`SELECT * FROM player WHERE LOWER(name) LIKE LOWER('${playerName}%')`).then((players) => {
+    console.log(players)
+    res.render('add-teams', {players: players, select: "Select"})
+  })
+})
+
+router.post('/select-player-one', (req, res) => {
+  console.log(req.body)
+  let playerOne = req.body.player
+
+  res.render('add-teams', {player1: playerOne, memberOne: playerOne})
+})
+
+router.post('/search-player-two', (req, res) => {
+  let playerName = req.body.playerName
+  let player1 = req.body.playerOne
+  db.any(`SELECT * FROM player WHERE LOWER(name) LIKE LOWER('${playerName}%')`).then((players) => {
+    console.log(players)
+    res.render('add-teams', {players: players, player1: player1, memberOne: player1, select: 'Select'})
+  })
+})
+
+router.post('/select-player-two', (req, res) => {
+  let playerTwo = req.body.player
+  let player1 = req.body.playerOne
+
+  res.render('add-teams', {player2: playerTwo, player1: player1})
+  })
 
 module.exports = router
