@@ -65,6 +65,7 @@ async function f(){
   await inputScores(playerName2,score2)
   await inputScores(playerName3,score3)
   await inputScores(playerName4,score4)
+  
 }
 
 f()
@@ -78,6 +79,6 @@ f()
 })
 
 
-  
+ 
 
 module.exports = router
