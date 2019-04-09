@@ -9,7 +9,7 @@ router.get('/input-scores', (req, res) => {
   res.render('input-scores')
 })
 
- function inputScores(playerName,score){
+ async function inputScores(playerName,score){
 
   db.any('SELECT golfer FROM "Quotas" WHERE golfer=$1',[playerName])
   .then((player)=>{
@@ -68,7 +68,6 @@ async function f(){
   
 }
 
-f()
   
  
 
