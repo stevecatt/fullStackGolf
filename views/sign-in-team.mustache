@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div>
+      {{> menu}}
+      <div>
+        <h2>Team Sign In</h2>
+        <form action="/team-sign-in" method="POST">
+          <div>
+          <input type="text" name="teamNumber" placeholder="Enter Team Number" /> 
+          <input type="password" name="password" placeholder="Enter Team Login Password" />
+          </div>
+          <button type="submit">Submit</button>
+        </form>
+
+        {{message}}
+     
+
+      </div>
+    </div>
+  </body>
+</html>
