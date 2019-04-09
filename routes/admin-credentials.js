@@ -50,22 +50,32 @@ router.get('/admin/register', (req, res) => {
   res.render('admin-register')
 })
 
-router.post('/admin-register', (req,res) => {
+router.post('/admin/register', (req,res) => {
   let username = req.body.username
   let name = req.body.name
   let hash = bcrypt.hashSync(req.body.password, saltRounds)
-  db.one('SELECT username FROM admins where username = $1', [username]).then((admin) => {
-    if (admin) {
+  db.one('SELECT EXISTS(SELECT username FROM admins WHERE username = $1);', [username]).then((admin) => {
+    if (admin.exists) {
       res.render('admin-register', {message: 'Admin already registered! Please enter new username.'})
     } else {
       db.none('INSERT INTO admins(username, hash, name) VALUES($1,$2,$3);', [username, hash, name])
-      res.redirect('/admin-login')
+      res.render('admin-dashboard', {message: "New Admin Account Registered."})
     }
   })
 })
 
 router.get('/admin/dashboard', (req,res) => {
   res.render('admin-dashboard')
+})
+
+router.post('/admin/signout', (req,res) => {
+  if (req.session) {
+    req.session.destroy(() => {
+      res.redirect('/admin-login')
+    })
+  } else {
+    res.redirect('/admin/dashboard')
+  }
 })
 
 module.exports = router
