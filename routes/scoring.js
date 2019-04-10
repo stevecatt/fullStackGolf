@@ -6,13 +6,34 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10
 router.use(bodyParser.urlencoded({ extended: false }))
 
-
+let teams =[]
 let teamPlayer1="steve"
 let teamPlayer2="player6"
 let APlayer=""
 let BPlayer=""
 let ABPlayers=[]
 
+
+//looping through the teams to create teamPlayer1 and 2
+function getTeams(){
+    db.any('SELECT team,player1,player2 FROM teams')
+    .then((teams)=>{
+        
+        
+            console.log(teams)
+
+        })
+        
+    
+}
+
+
+router.get('/scoring',(req,res)=>{
+    getTeams()
+    
+    res.send("got the teams")
+    })
+//checks to see who is A player or B Player
 function ABPlayer(teamPlayer1,teamPlayer2){
 
     let thisweekplayer1 = thisWeeksQuotas.filter(quota=>quota.name==teamPlayer1)
@@ -36,9 +57,9 @@ function ABPlayer(teamPlayer1,teamPlayer2){
    let ABPlayersPush = {APlayer:APlayer, APlayerQuota:APlayerQuota,BPlayer:BPlayer,BPlayerQuota:BPlayerQuota}
    ABPlayers.push(ABPlayersPush)
    
-    console.log(APlayer)
-    console.log(BPlayer)
-    console.log(ABPlayers)
+    //console.log(APlayer)
+    //console.log(BPlayer)
+    //console.log(ABPlayers)
 
     }
 
