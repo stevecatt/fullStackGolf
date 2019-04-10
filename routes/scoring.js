@@ -6,21 +6,28 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10
 router.use(bodyParser.urlencoded({ extended: false }))
 
-let teams =[]
-let teamPlayer1="steve"
-let teamPlayer2="player6"
+
+
 let APlayer=""
 let BPlayer=""
-let ABPlayers=[]
+
 
 
 //looping through the teams to create teamPlayer1 and 2
 function getTeams(){
     db.any('SELECT team,player1,player2 FROM teams')
     .then((teams)=>{
+        console.log('this is teams list')
+        console.log(teams)
+        for (i=0; i < teams.length; i++){
+            let team = teams[i].team
+            let teamPlayer1 =teams[i].player1
+            let teamPlayer2 = teams[i].player2
+            ABPlayer(team,teamPlayer1,teamPlayer2)
+
+        }
         
-        
-            console.log(teams)
+           
 
         })
         
@@ -28,14 +35,11 @@ function getTeams(){
 }
 
 
-router.get('/scoring',(req,res)=>{
-    getTeams()
-    
-    res.send("got the teams")
-    })
-//checks to see who is A player or B Player
-function ABPlayer(teamPlayer1,teamPlayer2){
 
+//checks to see who is A player or B Player
+function ABPlayer(team,teamPlayer1,teamPlayer2){
+
+    let teamNumber=team
     let thisweekplayer1 = thisWeeksQuotas.filter(quota=>quota.name==teamPlayer1)
     let thisweekplayer2 = thisWeeksQuotas.filter(quota=>quota.name==teamPlayer2)
    
@@ -54,24 +58,29 @@ function ABPlayer(teamPlayer1,teamPlayer2){
        
     }
 
-   let ABPlayersPush = {APlayer:APlayer, APlayerQuota:APlayerQuota,BPlayer:BPlayer,BPlayerQuota:BPlayerQuota}
+   let ABPlayersPush = {teamNumber:teamNumber,APlayer:APlayer, APlayerQuota:APlayerQuota,BPlayer:BPlayer,BPlayerQuota:BPlayerQuota}
    ABPlayers.push(ABPlayersPush)
    
-    //console.log(APlayer)
-    //console.log(BPlayer)
-    //console.log(ABPlayers)
-
+    
     }
 
 router.get('/next-weeks-matches',(req,res)=>{
-    //some hardcodinq untill the teams are set
-       ABPlayer(teamPlayer1,teamPlayer2)
+    
+    getTeams()
+
+    
 
     res.render('next-weeks-matches',{ABPlayers:ABPlayers})
+
 })
 
+// use this to prepopulate the scoring input not yet
 
-
-
+/*
+router.get('/input-scores',(res,req)=>{
+    getteams()
+    res.render('input-scores',{ABPlayers:ABPlayers})
+})
+*/
 
 module.exports = router

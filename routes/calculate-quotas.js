@@ -5,7 +5,7 @@ const router = express.Router()
 
 router.use(bodyParser.urlencoded({ extended: false }))
 
-//gets the scores from database and calculates quotas based on league rules
+//gets the scores from database and calculates quotas based on league rules perhaps obsolete
 function calculateQuotas(){
   db.any('SELECT * FROM "Quotas"')
   .then ((quotas)=>{
@@ -102,7 +102,7 @@ function calculateQuotas(){
 }
 
 thisWeeksQuotas= []
-//gets the scores from database and calculates quotas based on league rules
+
 router.get("/quotas",(req,res)=>{
   calculateQuotas()
   res.render('quotas',{thisweek:thisWeeksQuotas})
