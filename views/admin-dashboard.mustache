@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Admin Dashboard</title>
+    <title></title>
   </head>
   <body>
   <div>
@@ -11,11 +11,14 @@
         <h2>Admin Dashboard</h2>
       </div>
         <div>
+          <h3>{{message}}</h3>
           <ul>
             <li><a href="/admin/register">Register a New Admin</a></li>
             <li><a href="/admin/add-teams">Add a New Team</a></li>
-            <li><a href="#">Manage Existing Teams</a></li>
+            <li><a href="#">Update Existing Teams</a></li>
             <li><a href="#">Change Scores</a></li>
+            <li><a href="/admin/archive-teams">Archive Teams</a></li>
+            <li><form action="/admin/signout" method="POST"><button type=submit>Sign Out</button></form></li>
           </ul>
     </div>
   </div>
