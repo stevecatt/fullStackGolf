@@ -10,13 +10,15 @@ router.use(bodyParser.urlencoded({ extended: false }))
 
 let APlayer=""
 let BPlayer=""
-let ABPlayers=[]
+
 
 
 //looping through the teams to create teamPlayer1 and 2
 function getTeams(){
     db.any('SELECT team,player1,player2 FROM teams')
     .then((teams)=>{
+        console.log('this is teams list')
+        console.log(teams)
         for (i=0; i < teams.length; i++){
             let team = teams[i].team
             let teamPlayer1 =teams[i].player1
@@ -69,10 +71,16 @@ router.get('/next-weeks-matches',(req,res)=>{
     
 
     res.render('next-weeks-matches',{ABPlayers:ABPlayers})
+
 })
 
+// use this to prepopulate the scoring input not yet
 
-
-
+/*
+router.get('/input-scores',(res,req)=>{
+    getteams()
+    res.render('input-scores',{ABPlayers:ABPlayers})
+})
+*/
 
 module.exports = router

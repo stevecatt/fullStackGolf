@@ -20,7 +20,6 @@ router.get('/input-scores', (req, res) => {
       console.log(quota)
       let updatedQuotaList = Object.values(quota)
       updatedQuotaList.unshift(score)
-
       updatedQuotaList.pop()
       updatedQuotaList.push(playerName)
       console.log(updatedQuotaList)
