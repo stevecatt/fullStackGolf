@@ -13,13 +13,13 @@ router.get('/team-sign-in',(req,res)=>{
 })
 
 function getTeams(){
-    db.any('SELECT team,player1,player2 FROM teams')
+    db.any('SELECT team,player_one,player_two FROM teams')
     .then((teams)=>{
         
         for (i=0; i < teams.length; i++){
             let team = teams[i].team
-            let teamPlayer1 =teams[i].player1
-            let teamPlayer2 = teams[i].player2
+            let teamPlayer1 =teams[i].player_one
+            let teamPlayer2 = teams[i].player_two
             ABPlayer(team,teamPlayer1,teamPlayer2)
 
         }
@@ -59,7 +59,7 @@ function ABPlayer(team,teamPlayer1,teamPlayer2){
    
     
     }
-
+/*
 
 router.post('/team-sign-in',(req,res)=>{
     let teamNumber=parseInt(req.body.teamNumber)
@@ -81,24 +81,26 @@ router.post('/team-sign-in',(req,res)=>{
         })
     })    
 })
+
+*/
 //original code trying to use ab players now 
 
-/* 
+
 router.post('/team-sign-in',(req,res)=>{
     let teamNumber=parseInt(req.body.teamNumber)
     let password = req.body.password
     let week = parseInt(req.body.week)
     console.log(teamNumber)
     console.log(password)
-    db.one('SELECT team,hash, player1,player2 FROM teams WHERE team = $1',[teamNumber])
+    db.one('SELECT team,hash, player_one,player_one FROM teams WHERE team = $1',[teamNumber])
     .then((hash)=>{
         console.log(hash)
         bcrypt.compare(password,hash.hash,function(err,result){
             if (result==true){
                 console.log("success")
                 //going to add a query to schedule by week to find players
-                let team1Player1=hash.player1
-                let team1Player2=hash.player2
+                let team1Player1=hash.player_one
+                let team1Player2=hash.player_two
                 let team1number=hash.team
 
 
@@ -126,7 +128,7 @@ router.post('/team-sign-in',(req,res)=>{
 })
 
 
-*/
+
 
 
 
