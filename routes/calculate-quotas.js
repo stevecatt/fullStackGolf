@@ -102,7 +102,7 @@ function calculateQuotas(){
 }
 
 thisWeeksQuotas= []
-//gets the scores from database and calculates quotas based on league rules
+
 router.get("/quotas",(req,res)=>{
   calculateQuotas()
   res.render('quotas',{thisweek:thisWeeksQuotas})

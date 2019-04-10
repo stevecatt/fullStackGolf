@@ -17,14 +17,14 @@ router.get('/input-scores', (req, res) => {
      console.log(player)
      db.one('SELECT q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11 FROM "Quotas" WHERE golfer = $1', [playerName])
   .then ((quota)=>{
-    console.log(quota)
-  let updatedQuotaList = Object.values(quota)
-  updatedQuotaList.unshift(score)
+      console.log(quota)
+      let updatedQuotaList = Object.values(quota)
+      updatedQuotaList.unshift(score)
 
-  updatedQuotaList.pop()
-  updatedQuotaList.push(playerName)
-  console.log(updatedQuotaList)
-  db.none('UPDATE "Quotas" SET q1=$1,q2=$2,q3=$3,q4=$4,q5=$5,q6=$6,q7=$7,q8=$8,q9=$9,q10=$10,q11=$11 WHERE golfer=$12',updatedQuotaList)
+      updatedQuotaList.pop()
+      updatedQuotaList.push(playerName)
+      console.log(updatedQuotaList)
+      db.none('UPDATE "Quotas" SET q1=$1,q2=$2,q3=$3,q4=$4,q5=$5,q6=$6,q7=$7,q8=$8,q9=$9,q10=$10,q11=$11 WHERE golfer=$12',updatedQuotaList)
   .then(()=>{
     console.log("Hello")
   })
@@ -33,10 +33,10 @@ router.get('/input-scores', (req, res) => {
     }
     else{
        db.one('INSERT INTO "Quotas"(golfer, q1) VALUES($1, $2) RETURNING id', [playerName, score])
-  .then((data) => {
-    console.log(data)
-     console.log("SUCCESS")
-    return "hello" 
+        .then((data) => {
+      console.log(data)
+      console.log("SUCCESS")
+     
   }).catch(error => console.log(error))
   
 
@@ -69,7 +69,7 @@ async function f(){
 }
 
   
- 
+ f()
 
 
 
