@@ -12,6 +12,7 @@ const authenticate = require('./routes/admin-authenticate')
 const adminTeams = require('./routes/admin-teams')
 const teamSignIn = require('./routes/team-signin')
 const archiveRoutes = require('./routes/admin-archive')
+const scoring = require('./routes/scoring')
 
 connectionString = {
   "host": "isilo.db.elephantsql.com",
@@ -39,6 +40,7 @@ app.use('/', inputScoresRoutes)
 app.use('/',calculateQuotas)
 app.use('/',teamSignIn)
 app.use('/', archiveRoutes)
+app.use('/',scoring)
 app.use(bodyParser.urlencoded({ extended: false }))
 app.engine('mustache',mustacheExpress(VIEWS_PATH + '/partials', '.mustache'))
 app.set('views','./views')
