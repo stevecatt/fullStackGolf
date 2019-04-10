@@ -16,7 +16,7 @@
           <div>
           <p>Search for Player Two: <input type="text" name="playerName" placeholder="Enter Player Name" /></p>
           </div>
-          <input type="hidden" name="playerOne" value="{{player1}}" />
+          <input type="hidden" name="playerOne" value="{{player_one}}" />
           <button type="submit">Search</button>
           </form>
         </div>
@@ -25,7 +25,7 @@
           {{#players}}
           <p><input type="radio" name="player" value="{{name}}" />{{name}}</p>
           {{/players}}
-          <input type="hidden" name="playerOne" value="{{player1}}" />
+          <input type="hidden" name="playerOne" value="{{player_one}}" />
           {{#select}}
           <button type="submit">{{select}} Player</button>
           {{/select}}
@@ -70,8 +70,8 @@
         <h2>Add a New Team</h2>
         <form action="/add-teams" method="POST">
           <div>
-          <p>Player One: <input type="text" name="playerOne" value="{{player1}}" readonly /></p>
-          <p>Player Two: <input type="text" name="playerTwo" value="{{player2}}" readonly /></p>
+          <p>Player One: <input type="text" name="playerOne" value="{{player_one}}" readonly /></p>
+          <p>Player Two: <input type="text" name="playerTwo" value="{{player_two}}" readonly /></p>
           <p>Team Number: <input type="text" name="teamNumber" placeholder="Enter Team Number" /></p>
           <p>Password: <input type="password" name="password" placeholder="Create Team Password" /></p>
           </div>
