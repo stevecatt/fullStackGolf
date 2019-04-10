@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Manage Existing Teams</title>
+  </head>
+  <body>
+    <div>
+      {{>menu}}
+
+      <div>
+        <h2>Manage Existing Teams</h2>
+        <ul>
+          {{#teams}}
+          <li>
+            <h3>Team {{team}}</h3>
+            <p>Player One: {{player_one}}</p>
+            <p>Player Two: {{player_two}}</p>
+            <form action="/delete-team" method="POST">
+              <input type="hidden" name="deleteTeam" value="{{id}}" />
+              <button type="submit">Delete</button>
+            </form>
+          </li>
+          {{/teams}}
+        </ul>
+        {{^teams}}
+          <h3>No existing teams found!</h3>
+        {{/teams}}
+      </div>
+    </div>
+  </body>
+</html>

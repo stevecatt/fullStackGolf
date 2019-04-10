@@ -7,7 +7,7 @@ const pgp = require('pg-promise')()
 
 router.use(bodyParser.urlencoded({ extended: false }))
 
-let teamMembers = []
+//js for admin creating teams
 
 router.get('/admin/add-teams', (req, res) => {
   res.render('add-teams')
@@ -25,23 +25,23 @@ router.post('/select-player-one', (req, res) => {
   console.log(req.body)
   let playerOne = req.body.player
 
-  res.render('add-teams', {player1: playerOne, memberOne: playerOne})
+  res.render('add-teams', {player_one: playerOne, memberOne: playerOne})
 })
 
 router.post('/search-player-two', (req, res) => {
   let playerName = req.body.playerName
-  let player1 = req.body.playerOne
+  let player_one = req.body.playerOne
   db.any(`SELECT name FROM players WHERE LOWER(name) LIKE LOWER('${playerName}%')`).then((players) => {
     console.log(players)
-    res.render('add-teams', {players: players, player1: player1, memberOne: player1, select: 'Select'})
+    res.render('add-teams', {players: players, player_one: player_one, memberOne: player_one, select: 'Select'})
   })
 })
 
 router.post('/select-player-two', (req, res) => {
   let playerTwo = req.body.player
-  let player1 = req.body.playerOne
+  let player_one = req.body.playerOne
 
-  res.render('add-teams', {player2: playerTwo, player1: player1})
+  res.render('add-teams', {player_two: playerTwo, player_one: player_one})
   })
 
 router.post('/add-new-player', (req, res) => {
@@ -62,11 +62,29 @@ router.post('/add-teams', (req, res) => {
     if (team.length != 0) {
       res.render('add-teams', {message1: 'Team Number is taken! Please enter new Team Number.'})
     } else {
-      db.one('INSERT INTO teams(team, player1, player2, hash) VALUES($1,$2,$3,$4) RETURNING id;', [teamNumber, playerOne, playerTwo, hash])
+      db.one('INSERT INTO teams(team, player_one, player_two, hash) VALUES($1,$2,$3,$4) RETURNING id;', [teamNumber, playerOne, playerTwo, hash])
       res.render('add-teams', {message2: 'Team has been added!'})
     }
   })
   .catch((error) => {console.log("error in /add-teams")})
+})
+
+//js for admin managing teams
+
+router.get('/admin/manage-teams', (req, res) => {
+
+  db.any('SELECT * FROM teams').then((teams) => {
+  res.render('manage-teams', {teams: teams})
+  })
+})
+
+router.post('/delete-team', (req, res) => {
+  let id = parseInt(req.body.deleteTeam)
+  console.log(id)
+
+  db.none('DELETE FROM teams WHERE id = $1', [id]).then(() => {
+    res.redirect('/admin/manage-teams')
+  })
 })
 
 module.exports = router
