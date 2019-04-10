@@ -18,7 +18,9 @@ router.post('/admin/archive-teams', (req,res) => {
   db.none('SELECT * INTO "$1" FROM teams;', [archivedTeams])
   .then(() => {
     db.none('DELETE FROM teams;').then(() => {
-          res.render('admin-archive', {message1: "Successfully archived Current Season's teams."})
+      db.none('AlTER SEQUENCE teams_id_seq RESTART WITH 1 OWNED BY teams.id;').then(() => {
+        res.render('admin-archive', {message1: "Successfully archived Current Season's teams."})
+      })
     })
   })
 })
