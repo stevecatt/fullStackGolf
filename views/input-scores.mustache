@@ -2,19 +2,33 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Input Scores</title>
+    <title></title>
   </head>
   <body>
 
     {{> menu}}
 
     <h2>Input Scores</h2>
+    <h3>Team Number {{team1Number}}</h3>
 
-    <form action="/add-player" method="POST">
-      <input type="text" name="playerName" placeholder="Enter Player Name" />
-      <input type="text" name="score" placeholder="Enter Score" />
-      <button type="submit">Save</button>
+    <form action="/input-score" method="POST">
+      <input type="text" name="playerName1" placeholder="Enter Player Name" value="{{team1Player1}}" />
+      <input type="text" name="score1" placeholder="Enter Score" />
+      <input type="text" name="playerName2" placeholder="Enter Player Name" value="{{team1Player2}}" />
+      <input type="text" name="score2" placeholder="Enter Score" />
+      
+   
+
+
+    <h3>Team Number {{team2Number}}</h3>
+
+      <input type="text" name="playerName3" placeholder="Enter Player Name" value="{{team2Player1}}" />
+      <input type="text" name="score3" placeholder="Enter Score" />
+      <input type="text" name="playerName4" placeholder="Enter Player Name" value="{{team2Player2}}" />
+      <input type="text" name="score4" placeholder="Enter Score" />
+      <button type="submit">submit</button>
     </form>
+
 
     {{message}}
 

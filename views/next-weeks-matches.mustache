@@ -2,13 +2,31 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Next Week's Matches</title>
+    <title></title>
   </head>
   <body>
 
     {{> menu}}
 
-    <h2>Next Week's Scores</h2>
+    <h2>Next Week's Matches</h2>
+    <div>
+    {{#ABPlayers}}
+    
+    <div>
+    {{APlayer}}
+    {{APlayerQuota}}
+
+    </div>
+    <div>
+    {{BPlayer}}
+    {{BPlayerQuota}}
+    </div>
+
+
+    {{/ABPlayers}}
+
+
+    </div>
 
   </body>
 </html>
