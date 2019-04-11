@@ -6,9 +6,10 @@ const router = express.Router()
 router.use(bodyParser.urlencoded({ extended: false }))
 
 router.get('/input-scores', (req, res) => {
+
   res.render('input-scores')
 })
-
+//function checks updates quota table /will be obsolete need to change the table thatrs all 
  async function inputScores(playerName,score){
 
   db.any('SELECT golfer FROM "Quotas" WHERE golfer=$1',[playerName])
