@@ -59,6 +59,7 @@ app.use('/',stevetest)
 app.use('/', scoreLogic)
 app.use('/',quotaManagement)
 
+app.use(express.static('public'))
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.engine('mustache',mustacheExpress(VIEWS_PATH + '/partials', '.mustache'))
