@@ -15,6 +15,7 @@ const archiveRoutes = require('./routes/admin-archive')
 const fullSchRoutes = require('./routes/full-schedule')
 const scoring = require('./routes/scoring')
 const getSchedule = require('./routes/get-schedule')
+const scoreLogic = require('./routes/score-logic')
 const quotaManagement = require('./routes/quotaVersion2')
 
 
@@ -51,6 +52,7 @@ app.use('/', archiveRoutes)
 app.use('/', fullSchRoutes)
 app.use('/',scoring)
 app.use('/',getSchedule)
+app.use('/', scoreLogic)
 app.use('/',quotaManagement)
 
 app.use(bodyParser.urlencoded({ extended: false }))
