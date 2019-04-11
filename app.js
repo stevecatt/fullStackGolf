@@ -77,6 +77,10 @@ app.get("/quota",(req,res)=>{
 })
 //render mustache pages
 
+app.get('/home', (req, res) => {
+  res.render('home')
+})
+
 app.get('/last-weeks-scores', (req, res) => {
   res.render('last-weeks-scores')
 })
