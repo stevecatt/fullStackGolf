@@ -7,7 +7,7 @@ const app = express()
 const pgp = require('pg-promise')()
 const adminCredRoutes = require('./routes/admin-credentials')
 const inputScoresRoutes = require('./routes/input-scores')
-const calculateQuotas = require('./routes/calculate-quotas')
+//const calculateQuotas = require('./routes/calculate-quotas')
 const authenticate = require('./routes/admin-authenticate')
 const adminTeams = require('./routes/admin-teams')
 const teamSignIn = require('./routes/team-signin')
@@ -16,6 +16,10 @@ const fullSchRoutes = require('./routes/full-schedule')
 const scoring = require('./routes/scoring')
 const getSchedule = require('./routes/get-schedule')
 const scoreLogic = require('./routes/score-logic')
+const quotaManagement = require('./routes/quotaVersion2')
+
+
+
 ABPlayers=[]
 thisWeeksQuotas= []
 
@@ -42,13 +46,15 @@ app.all('/admin/*', authenticate)
 app.use('/', adminCredRoutes)
 app.use('/', adminTeams)
 app.use('/', inputScoresRoutes)
-app.use('/',calculateQuotas)
+//app.use('/',calculateQuotas)
 app.use('/',teamSignIn)
 app.use('/', archiveRoutes)
 app.use('/', fullSchRoutes)
 app.use('/',scoring)
 app.use('/',getSchedule)
 app.use('/', scoreLogic)
+app.use('/',quotaManagement)
+
 app.use(bodyParser.urlencoded({ extended: false }))
 app.engine('mustache',mustacheExpress(VIEWS_PATH + '/partials', '.mustache'))
 app.set('views','./views')

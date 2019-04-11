@@ -15,14 +15,14 @@ let BPlayer=""
 
 //looping through the teams to create teamPlayer1 and 2
 function getTeams(){
-    db.any('SELECT team,player1,player2 FROM teams')
+    db.any('SELECT team,player_one,player_two FROM teams')
     .then((teams)=>{
         console.log('this is teams list')
         console.log(teams)
         for (i=0; i < teams.length; i++){
             let team = teams[i].team
-            let teamPlayer1 =teams[i].player1
-            let teamPlayer2 = teams[i].player2
+            let teamPlayer1 =teams[i].player_two
+            let teamPlayer2 = teams[i].player_two
             ABPlayer(team,teamPlayer1,teamPlayer2)
 
         }
