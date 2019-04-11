@@ -18,7 +18,12 @@ const getSchedule = require('./routes/get-schedule')
 //const quotaManagement = require('./routes/quotaVersion2')
 const stevetest=require('./routes/stevetest')
 const scoreLogic = require('./routes/score-logic')
+<<<<<<< HEAD
 //const quotaManagement = require('./routes/quotaVersion2')
+=======
+const quotaManagement = require('./routes/quotaVersion2')
+const leaderboardRoutes = require('./routes/leaderboard')
+>>>>>>> master
 
 
 
@@ -57,7 +62,14 @@ app.use('/',getSchedule)
 //app.use('/',quotaManagement)
 app.use('/',stevetest)
 app.use('/', scoreLogic)
+<<<<<<< HEAD
 //app.use('/',quotaManagement)
+=======
+app.use('/',quotaManagement)
+app.use('/', leaderboardRoutes)
+
+app.use(express.static('public'))
+>>>>>>> master
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.engine('mustache',mustacheExpress(VIEWS_PATH + '/partials', '.mustache'))
@@ -68,6 +80,10 @@ app.set('view engine','mustache')
 
 
 //render mustache pages
+
+app.get('/home', (req, res) => {
+  res.render('home')
+})
 
 app.get('/last-weeks-scores', (req, res) => {
   res.render('last-weeks-scores')
@@ -80,11 +96,6 @@ app.get('/next-weeks-matches', (req, res) => {
 app.get('/view-player-quotas', (req, res) => {
   res.render('view-player-quotas')
 })
-
-app.get('/leaderboard', (req, res) => {
-  res.render('leaderboard')
-})
-
 
 app.listen(3000,function(){
   console.log("node server has started")

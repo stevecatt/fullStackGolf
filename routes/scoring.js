@@ -32,8 +32,8 @@ function getTeams(){
         }
         
         })
-        
-    
+
+
 }
 
 let ABPlayers=[]
@@ -44,15 +44,12 @@ function ABPlayer(team,teamPlayer1,teamPlayer2){
     let teamNumber=team
     let thisweekplayer1 = thisWeeksQuotas.filter(quota=>quota.name==teamPlayer1)
     let thisweekplayer2 = thisWeeksQuotas.filter(quota=>quota.name==teamPlayer2)
-   
+
     if(thisweekplayer1[0].quota >= thisweekplayer2[0].quota){
          APlayer= teamPlayer1
          BPlayer= teamPlayer2
          APlayerQuota=thisweekplayer1[0].quota
          BPlayerQuota=thisweekplayer2[0].quota
-        // console.log("this is first case")
-        //  console.log(APlayerQuota)
-        // console.log(BPlayerQuota)
 
     }else{
          APlayer=teamPlayer2
@@ -72,14 +69,14 @@ function ABPlayer(team,teamPlayer1,teamPlayer2){
 }
 
 router.get('/next-weeks-matches',(req,res)=>{
-    
+
     getTeams()
     //console.log(ABPlayers)
     
        // console.log(x)
     
 
-    
+
 
     res.render('next-weeks-matches',{ABPlayers:ABPlayers})
 

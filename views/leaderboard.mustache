@@ -2,13 +2,26 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Leaderboard</title>
   </head>
   <body>
 
     {{> menu}}
 
     <h2>Leaderboard</h2>
+    <ul>
+      <li>
+        <span> <u>Team Number</u> </span> <span><u>Points</u></span>
+        <span><u>Players</u></span>
+      </li>
+      {{#teams}}
+      <li>
+        <span> {{team}}</span> <span>{{points}}</span>
+        <span>{{player_one}}</span><span>{{player_two}}</span>
+      </li>
+      {{/teams}}
+    </ul>
+
 
   </body>
 </html>
