@@ -5,12 +5,12 @@ const router = express.Router()
 
 router.use(bodyParser.urlencoded({ extended: false }))
 
-//gets the scores from database and calculates quotas based on league rules perhaps obsolete
+//gets the scores from database and calculates quotas based on league rules
 function calculateQuotas(){
-  db.any("select to_char(AVG (p_score),'99999999999999999D99') AS average_score, p_name, COUNT (p_score) from PUBLIC.golf_score where p_score !=0 group by p_name HAVING COUNT (p_score) > 3")
+  db.any('SELECT * FROM "steveq_test"')
   .then ((quotas)=>{
-   console.log(quotas)
-    /*for(index=0;index<quotas.length;index++){
+  //console.log(quotas)
+    for(index=0;index<quotas.length;index++){
     let quota=quotas[index]
 
       console.log(quota)
@@ -96,7 +96,7 @@ function calculateQuotas(){
     }
    // console.log(thisWeekQuota)
   }
- */
+ 
 
 })
 }
@@ -105,7 +105,7 @@ thisWeeksQuotas= []
 
 router.get("/quotas",(req,res)=>{
   calculateQuotas()
-  res.send("Working on Quotas")
+  res.render('quotas',{thisweek:thisWeeksQuotas})
     
     })
 
