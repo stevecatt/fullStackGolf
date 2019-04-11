@@ -59,7 +59,6 @@ router.get('/input-scores', (req, res) => {
 
 
 
-<<<<<<< HEAD
 // async function f(){
 //   await inputScores(playerName1,score1)
 //   await inputScores(playerName2,score2)
@@ -70,18 +69,6 @@ router.get('/input-scores', (req, res) => {
 
   
 //  f()
-=======
-async function f(){
-  await inputScores(playerName1,score1)
-  await inputScores(playerName2,score2)
-  await inputScores(playerName3,score3)
-  await inputScores(playerName4,score4)
-
-}
-
-
- f()
->>>>>>> master
 
 
 

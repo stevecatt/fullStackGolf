@@ -18,12 +18,9 @@ const getSchedule = require('./routes/get-schedule')
 //const quotaManagement = require('./routes/quotaVersion2')
 const stevetest=require('./routes/stevetest')
 const scoreLogic = require('./routes/score-logic')
-<<<<<<< HEAD
 //const quotaManagement = require('./routes/quotaVersion2')
-=======
-const quotaManagement = require('./routes/quotaVersion2')
+//const quotaManagement = require('./routes/quotaVersion2')
 const leaderboardRoutes = require('./routes/leaderboard')
->>>>>>> master
 
 
 
@@ -62,14 +59,11 @@ app.use('/',getSchedule)
 //app.use('/',quotaManagement)
 app.use('/',stevetest)
 app.use('/', scoreLogic)
-<<<<<<< HEAD
 //app.use('/',quotaManagement)
-=======
-app.use('/',quotaManagement)
+//app.use('/',quotaManagement)
 app.use('/', leaderboardRoutes)
 
 app.use(express.static('public'))
->>>>>>> master
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.engine('mustache',mustacheExpress(VIEWS_PATH + '/partials', '.mustache'))
