@@ -15,8 +15,13 @@ const archiveRoutes = require('./routes/admin-archive')
 const fullSchRoutes = require('./routes/full-schedule')
 const scoring = require('./routes/scoring')
 const getSchedule = require('./routes/get-schedule')
+<<<<<<< HEAD
 //const quotaManagement = require('./routes/quotaVersion2')
 const stevetest=require('./routes/stevetest')
+=======
+const scoreLogic = require('./routes/score-logic')
+const quotaManagement = require('./routes/quotaVersion2')
+>>>>>>> master
 
 
 
@@ -52,8 +57,13 @@ app.use('/', archiveRoutes)
 app.use('/', fullSchRoutes)
 app.use('/',scoring)
 app.use('/',getSchedule)
+<<<<<<< HEAD
 //app.use('/',quotaManagement)
 app.use('/',stevetest)
+=======
+app.use('/', scoreLogic)
+app.use('/',quotaManagement)
+>>>>>>> master
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.engine('mustache',mustacheExpress(VIEWS_PATH + '/partials', '.mustache'))
