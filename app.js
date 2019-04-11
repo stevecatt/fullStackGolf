@@ -18,12 +18,13 @@ const getSchedule = require('./routes/get-schedule')
 //const quotaManagement = require('./routes/quotaVersion2')
 const stevetest=require('./routes/stevetest')
 const scoreLogic = require('./routes/score-logic')
-const quotaManagement = require('./routes/quotaVersion2')
+//const quotaManagement = require('./routes/quotaVersion2')
+//const quotaManagement = require('./routes/quotaVersion2')
 const leaderboardRoutes = require('./routes/leaderboard')
 
 
 
-ABPlayers=[]
+//ABPlayers=[]
 thisWeeksQuotas= []
 
 connectionString = {
@@ -58,7 +59,8 @@ app.use('/',getSchedule)
 //app.use('/',quotaManagement)
 app.use('/',stevetest)
 app.use('/', scoreLogic)
-app.use('/',quotaManagement)
+//app.use('/',quotaManagement)
+//app.use('/',quotaManagement)
 app.use('/', leaderboardRoutes)
 
 app.use(express.static('public'))
@@ -70,14 +72,7 @@ app.set('view engine','mustache')
 
 
 
-app.get("/quota",(req,res)=>{
-  db.any('SELECT * FROM "Quotas"')
-  .then ((quotas)=>{
-    res.render('quotas',{quotas:quotas})
 
-  })
-
-})
 //render mustache pages
 
 app.get('/home', (req, res) => {
