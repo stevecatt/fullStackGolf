@@ -19,6 +19,7 @@ const getSchedule = require('./routes/get-schedule')
 const stevetest=require('./routes/stevetest')
 const scoreLogic = require('./routes/score-logic')
 const quotaManagement = require('./routes/quotaVersion2')
+const leaderboardRoutes = require('./routes/leaderboard')
 
 
 
@@ -58,6 +59,7 @@ app.use('/',getSchedule)
 app.use('/',stevetest)
 app.use('/', scoreLogic)
 app.use('/',quotaManagement)
+app.use('/', leaderboardRoutes)
 
 app.use(express.static('public'))
 
@@ -93,11 +95,6 @@ app.get('/next-weeks-matches', (req, res) => {
 app.get('/view-player-quotas', (req, res) => {
   res.render('view-player-quotas')
 })
-
-app.get('/leaderboard', (req, res) => {
-  res.render('leaderboard')
-})
-
 
 app.listen(3000,function(){
   console.log("node server has started")
