@@ -359,7 +359,6 @@ function teamPoints(teamOnePlayerOne,teamOnePlayerTwo,teamTwoPlayerOne,teamTwoPl
       } else if (teamOneOverUnder < teamTwoOverUnder) {
         teamTwoPoints += 2
       } else {
-        console.log("math happended like it was supposed to")
         teamOnePoints += 2
         teamTwoPoints += 1
       }

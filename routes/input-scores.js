@@ -6,10 +6,9 @@ const router = express.Router()
 router.use(bodyParser.urlencoded({ extended: false }))
 
 router.get('/input-scores', (req, res) => {
-
   res.render('input-scores')
 })
-//function checks updates quota table /will be obsolete need to change the table thatrs all 
+//function checks updates quota table /will be obsolete need to change the table thatrs all
  async function inputScores(playerName,score){
 
   db.any('SELECT golfer FROM "Quotas" WHERE golfer=$1',[playerName])
@@ -28,7 +27,7 @@ router.get('/input-scores', (req, res) => {
   .then(()=>{
     console.log("Hello")
   })
- 
+
       }).catch(error => console.log(error))
     }
     else{
@@ -36,9 +35,9 @@ router.get('/input-scores', (req, res) => {
         .then((data) => {
       console.log(data)
       console.log("SUCCESS")
-     
+
   }).catch(error => console.log(error))
-  
+
 
 
     }
@@ -56,8 +55,8 @@ router.post('/input-score', (req, res) => {
   let playerName4 = req.body.playerName4
   let score4 = parseInt(req.body.score4)
 
- 
- 
+
+
 
 
 async function f(){
@@ -65,10 +64,10 @@ async function f(){
   await inputScores(playerName2,score2)
   await inputScores(playerName3,score3)
   await inputScores(playerName4,score4)
-  
+
 }
 
-  
+
  f()
 
 
@@ -78,6 +77,6 @@ async function f(){
 })
 
 
- 
+
 
 module.exports = router
