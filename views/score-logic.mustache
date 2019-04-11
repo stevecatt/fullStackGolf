@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!-- This for testing purposes.-->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Score Logic</title>
+  </head>
+  <body>
+
+    {{> menu}}
+
+    <h2>Score Logic</h2>
+    <h3>Team Number {{team1Number}}</h3>
+
+    <form action="/input-score-logic" method="POST">
+      {{team1Player1}}
+      <input type="text" name="score1" placeholder="Enter Score" />
+      {{team1Player2}}
+      <input type="text" name="score2" placeholder="Enter Score" />
+
+
+
+
+    <h3>Team Number {{team2Number}}</h3>
+
+      {{team2Player1}}
+      <input type="text" name="score3" placeholder="Enter Score" />
+      {{team2Player2}}
+      <input type="text" name="score4" placeholder="Enter Score" />
+      <button type="submit">Submit</button>
+    </form>
+
+    {{#scores}}
+    {{/scores}}
+
+
+  </body>
+</html>

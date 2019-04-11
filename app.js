@@ -15,6 +15,7 @@ const archiveRoutes = require('./routes/admin-archive')
 const fullSchRoutes = require('./routes/full-schedule')
 const scoring = require('./routes/scoring')
 const getSchedule = require('./routes/get-schedule')
+const scoreLogic = require('./routes/score-logic')
 ABPlayers=[]
 thisWeeksQuotas= []
 
@@ -47,7 +48,7 @@ app.use('/', archiveRoutes)
 app.use('/', fullSchRoutes)
 app.use('/',scoring)
 app.use('/',getSchedule)
-
+app.use('/', scoreLogic)
 app.use(bodyParser.urlencoded({ extended: false }))
 app.engine('mustache',mustacheExpress(VIEWS_PATH + '/partials', '.mustache'))
 app.set('views','./views')
