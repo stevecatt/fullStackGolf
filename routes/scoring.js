@@ -313,6 +313,8 @@ let players =
 }
 let teamOnePoints = 0
 let teamTwoPoints = 0
+let teamOneOldPoints = 0
+let teamTwoOldPoints = 0
 let teamOneOverUnder = 0
 let teamTwoOverUnder = 0
 //inputs first teams score
@@ -389,17 +391,9 @@ router.post('/input-second',(req,res)=>{
         t2BPlayer.overUnder = BPlayerScore - t2BPlayer.quota
         t1APlayer = players.t1P1
         t1BPlayer = players.t1P2
-        playerPoints(t1APlayer, t2APlayer)
-        playerPoints(t1BPlayer, t2BPlayer)
         teamOneOverUnder = t1APlayer.overUnder + t1BPlayer.overUnder
         teamTwoOverUnder = t2APlayer.overUnder + t2BPlayer.overUnder
-        teamPoints(t1APlayer,t1BPlayer,t2APlayer,t2BPlayer)
-        console.log("Team 1 A player:", t1APlayer)
-        console.log("Team 1 B player:",t1BPlayer)
-        console.log("Team 2 A player:",t2APlayer)
-        console.log("Team 2 B player:",t2BPlayer)
-        console.log("Team One total points", teamOnePoints)
-        console.log("Team Two total points", teamTwoPoints)
+
 
         if(isNaN(APlayerScore)){
           console.log("Player One did not enter a score")
@@ -411,8 +405,23 @@ router.post('/input-second',(req,res)=>{
         } else{
           inputScores(BPlayer,date,BPlayerScore)
         }
-
-        res.send("scores are in")
+        db.one('SELECT points FROM teams WHERE team = $1;', [t1APlayer.teamNumber]).then((points)=>{
+          teamOneOldPoints = points.points
+          db.one('SELECT points FROM teams WHERE team = $1;', [t2APlayer.teamNumber]).then((points) => {
+            teamTwoOldPoints = points.points
+            console.log("team one: " + teamOneOldPoints, "team two: " +  teamTwoOldPoints)
+            playerPoints(t1APlayer, t2APlayer)
+            playerPoints(t1BPlayer, t2BPlayer)
+            teamPoints(t1APlayer,t1BPlayer,t2APlayer,t2BPlayer)
+            let teamOnePointsToSend = parseFloat(teamOnePoints) + parseFloat(teamOneOldPoints)
+            let teamTwoPointsToSend = parseFloat(teamTwoPoints) + parseFloat(teamTwoOldPoints)
+            db.none('UPDATE teams SET points = $1 WHERE team = $2', [teamOnePointsToSend,t1APlayer.teamNumber])
+            .then(()=>{
+              db.none('UPDATE teams SET points = $1 WHERE team = $2', [teamTwoPointsToSend,t2APlayer.teamNumber])
+              res.send('scores are in')
+            })
+          })
+        })
     })
 
 
