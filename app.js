@@ -88,6 +88,10 @@ app.get('/view-player-quotas', (req, res) => {
   res.render('view-player-quotas')
 })
 
+app.ge('/hello', (req,res) => {
+  res.send('heroku works')
+})
+
 app.listen(PORT,function(){
   console.log("node server has started")
 })
