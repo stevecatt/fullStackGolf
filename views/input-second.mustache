@@ -7,30 +7,19 @@
   <body>
 
     {{> menu}}
-    {{#thisTeam}}
+    {{#otherTeam}}
     <h2>Input Scores</h2>
     <h3>Team Number {{teamNumber}}</h3>
 
-    <form action="/input-score" method="POST">
+    <form action="/input-second" method="POST">
       <input type="text" name="playerName1" placeholder="Enter Player Name" value="{{APlayer}}" />
       <input type="text" name="score1" placeholder="Enter Score" />
       <input type="text" name="playerName2" placeholder="Enter Player Name" value="{{BPlayer}}" />
       <input type="text" name="score2" placeholder="Enter Score" />
-      <input type="text" name="opposition" placeholder="Enter Opposing Team #"/>
       <input type="hidden" name= "teamNumber" value="{{teamNumber}}" />
       <button type="submit">submit</button>
       </form>
       
-    {{/thisTeam}}
+    {{/otherTeam}}
    
 
-
-   
-      
-   
-
-
-    {{message}}
-
-  </body>
-</html>
