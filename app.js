@@ -6,8 +6,8 @@ const path = require('path')
 const app = express()
 const pgp = require('pg-promise')()
 const adminCredRoutes = require('./routes/admin-credentials')
-const inputScoresRoutes = require('./routes/input-scores')
-const calculateQuotas = require('./routes/calculate-quotas')
+//const inputScoresRoutes = require('./routes/input-scores')
+//const calculateQuotas = require('./routes/calculate-quotas')
 const authenticate = require('./routes/admin-authenticate')
 const adminTeams = require('./routes/admin-teams')
 const teamSignIn = require('./routes/team-signin')
@@ -18,12 +18,11 @@ const getSchedule = require('./routes/get-schedule')
 //const quotaManagement = require('./routes/quotaVersion2')
 const stevetest=require('./routes/stevetest')
 const scoreLogic = require('./routes/score-logic')
-const quotaManagement = require('./routes/quotaVersion2')
 const leaderboardRoutes = require('./routes/leaderboard')
 
 
 
-ABPlayers=[]
+//ABPlayers=[]
 thisWeeksQuotas= []
 
 connectionString = {
@@ -48,8 +47,8 @@ const VIEWS_PATH = path.join(__dirname, '/views')
 app.all('/admin/*', authenticate)
 app.use('/', adminCredRoutes)
 app.use('/', adminTeams)
-app.use('/', inputScoresRoutes)
-app.use('/',calculateQuotas)
+//app.use('/', inputScoresRoutes)
+//app.use('/',calculateQuotas)
 app.use('/',teamSignIn)
 app.use('/', archiveRoutes)
 app.use('/', fullSchRoutes)
@@ -58,7 +57,7 @@ app.use('/',getSchedule)
 //app.use('/',quotaManagement)
 app.use('/',stevetest)
 app.use('/', scoreLogic)
-app.use('/',quotaManagement)
+
 app.use('/', leaderboardRoutes)
 
 app.use(express.static('public'))
@@ -70,14 +69,7 @@ app.set('view engine','mustache')
 
 
 
-app.get("/quota",(req,res)=>{
-  db.any('SELECT * FROM "Quotas"')
-  .then ((quotas)=>{
-    res.render('quotas',{quotas:quotas})
 
-  })
-
-})
 //render mustache pages
 
 app.get('/home', (req, res) => {
