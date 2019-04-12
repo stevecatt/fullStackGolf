@@ -10,6 +10,9 @@
     {{#otherTeam}}
     <h2>Input Scores</h2>
     <h3>Team Number {{teamNumber}}</h3>
+    {{#date}}
+    <h3>DateOf Game {{date}}
+
 
     <form action="/input-second" method="POST">
       <input type="hidden" name="t1APlayer" value="{{t1APlayer}}"/>
@@ -35,7 +38,11 @@
       <input type="hidden" name="bPlayerQuota" value="{{BPlayerQuota}}" />
 
       <input type="hidden" name= "teamNumber" value="{{teamNumber}}" />
+      <input type="hidden" name="date" value="{{date}}"/>
       <button type="submit">submit</button>
       </form>
-
+       {{/date}}
     {{/otherTeam}}
+
+</body>
+</html>
