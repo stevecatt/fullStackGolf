@@ -418,14 +418,11 @@ router.post('/input-second',(req,res)=>{
             db.none('UPDATE teams SET points = $1 WHERE team = $2', [teamOnePointsToSend,t1APlayer.teamNumber])
             .then(()=>{
               db.none('UPDATE teams SET points = $1 WHERE team = $2', [teamTwoPointsToSend,t2APlayer.teamNumber])
-              res.send('scores are in')
+              res.redirect('/team-sign-in')
             })
           })
         })
     })
-
-
-
 
 
 router.get("/quotas",(req,res)=>{
