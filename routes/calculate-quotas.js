@@ -6,7 +6,8 @@ const router = express.Router()
 router.use(bodyParser.urlencoded({ extended: false }))
 
 //gets the scores from database and calculates quotas based on league rules
-function calculateQuotas(){
+  function calculateQuotas(){
+  thisWeeksQuotas.length=0
   db.any('SELECT * FROM "steveq_test"')
   .then ((quotas)=>{
   //console.log(quotas)
