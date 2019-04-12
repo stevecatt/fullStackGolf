@@ -12,14 +12,21 @@
     <h3>Team Number {{teamNumber}}</h3>
 
     <form action="/input-second" method="POST">
+      <input type="hidden" name="t1APlayer" value="{name:{{t1APlayer.name}}, teamNumber: {{t1APlayer.teamNumber}},quota: {{t1APlayer.quota}},overUnder: {{t1APlayer.overUnder}},played: {{t1APlayer.played}} }">
+      <input type="hidden" name="t1BPlayer" value="{{t1BPlayer}}">
+
       <input type="text" name="playerName1" placeholder="Enter Player Name" value="{{APlayer}}" />
+      No show? <input type="checkbox" name="threePlayed" value="false"/>
       <input type="text" name="score1" placeholder="Enter Score" />
+      <input type="hidden" name="aPlayerQuota" value="{{APlayerQuota}}" />
+
       <input type="text" name="playerName2" placeholder="Enter Player Name" value="{{BPlayer}}" />
+      No show? <input type="checkbox" name="fourPlayed" value="false"/>
       <input type="text" name="score2" placeholder="Enter Score" />
+      <input type="hidden" name="bPlayerQuota" value="{{BPlayerQuota}}" />
+
       <input type="hidden" name= "teamNumber" value="{{teamNumber}}" />
       <button type="submit">submit</button>
       </form>
-      
-    {{/otherTeam}}
-   
 
+    {{/otherTeam}}
