@@ -1,5 +1,4 @@
 const express = require('express')
-const models = require('./models')
 const mustacheExpress = require('mustache-express')
 const bodyParser = require('body-parser')
 const path = require('path')
