@@ -205,6 +205,8 @@ function ABPlayer(team,teamPlayer1,teamPlayer2){
     
 }
 
+
+//this isnt used yet
 router.get('/next-weeks-matches',(req,res)=>{
 
     getTeams()
@@ -265,7 +267,7 @@ router.post('/team-sign-in',(req,res)=>{
     
 })
 
-
+//inputs first teams score
 router.post('/input-score',(req,res)=>{
                 
     let oppTeamNumber=parseInt(req.body.opposition)
@@ -291,7 +293,7 @@ router.post('/input-score',(req,res)=>{
         ABPlayer(team,teamPlayer1,teamPlayer2)
         
 
-        // }
+        
             let otherTeam= ABPlayers.filter(team=>team.teamNumber==oppTeamNumber)
             console.log(otherTeam)
             
@@ -309,7 +311,7 @@ router.post('/input-score',(req,res)=>{
 
 
             })
-
+//inputs opponents score
 router.post('/input-second',(req,res)=>{
         let teamNumber=parseInt(req.body.teamNumber)
         let APlayer= req.body.playerName1
