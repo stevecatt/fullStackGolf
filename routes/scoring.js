@@ -367,6 +367,7 @@ router.post('/input-score',(req,res)=>{
                  })
             })
 
+
 //inputs opponents score
 router.post('/input-second',(req,res)=>{
         let teamNumber=parseInt(req.body.teamNumber)
