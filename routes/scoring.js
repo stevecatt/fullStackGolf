@@ -11,25 +11,30 @@ router.use(bodyParser.urlencoded({ extended: false }))
 let APlayer=""
 let BPlayer=""
 let ABPlayers=[]
+let dates=[]
 
 //scoring to database
-function inputScores(playerName,score){
+function inputScores(playerName,matchDate,score){
 
     db.any('SELECT golfer FROM "steveq_test" WHERE golfer=$1',[playerName])
     .then((player)=>{
      if(player!=""){
-       console.log(player)
+       //console.log(player)
        db.one('SELECT q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11 FROM "steveq_test" WHERE golfer = $1', [playerName])
     .then ((quota)=>{
-        console.log(quota)
+        //console.log(quota)
         let updatedQuotaList = Object.values(quota)
         updatedQuotaList.unshift(score)
         updatedQuotaList.pop()
         updatedQuotaList.push(playerName)
-        console.log(updatedQuotaList)
+        //console.log(matchDate)
         db.none('UPDATE "steveq_test" SET q1=$1,q2=$2,q3=$3,q4=$4,q5=$5,q6=$6,q7=$7,q8=$8,q9=$9,q10=$10,q11=$11 WHERE golfer=$12',updatedQuotaList)
     .then(()=>{
-      console.log("Hello")
+      //console.log("Hello")
+        db.none('INSERT INTO sandbox_steve (p_name,p_date,p_score) VALUES($1,$2,$3)',[playerName,matchDate,score]) 
+    })
+    .then(()=>{
+      console.log("inputs ok")
     })
   
         }).catch(error => console.log(error))
@@ -37,8 +42,8 @@ function inputScores(playerName,score){
       else{
          db.one('INSERT INTO "steveq_test"(golfer, q1) VALUES($1, $2) RETURNING id', [playerName, score])
           .then((data) => {
-        console.log(data)
-        console.log("SUCCESS")
+            db.none('INSERT INTO sandbox_steve (p_name,p_date,p_score) VALUES($1,$2,$3)',[playerName,matchDate,score])
+        console.log("new dude entered")
   
     }).catch(error => console.log(error))
   
@@ -163,7 +168,7 @@ function getTeams(){
             // console.log("this from getteams")
             // console.log(teamPlayer1)
             // console.log(teamPlayer2)
-            console.log("in for loop of getTeams()")
+            //console.log("in for loop of getTeams()")
             ABPlayer(team,teamPlayer1,teamPlayer2)
 
         }
@@ -177,7 +182,7 @@ function getTeams(){
 
 //checks to see who is A player or B Player
 function ABPlayer(team,teamPlayer1,teamPlayer2){
-    console.log("pushing to array")
+    //console.log("pushing to array")
     let teamNumber=team
     let thisweekplayer1 = thisWeeksQuotas.filter(quota=>quota.name==teamPlayer1)
     let thisweekplayer2 = thisWeeksQuotas.filter(quota=>quota.name==teamPlayer2)
@@ -226,35 +231,43 @@ router.post('/team-sign-in',(req,res)=>{
     let teamNumber=parseInt(req.body.teamNumber)
     let password = req.body.password
     let week = parseInt(req.body.week)
-    console.log(teamNumber)
-    console.log(password)
-    thisWeeksQuotas.length=0
+    //console.log(teamNumber)
+    //console.log(password)
+    
     calculateQuotas()
-    console.log(thisWeeksQuotas)
+    dates.length=0
+
+    //console.log(thisWeeksQuotas)
+    db.one('SELECT date FROM week_date WHERE id=$1',[week])
+    .then((date)=>{dates.push(date)
+    //console.log(dates)
+          })
+    .then(
 
     db.one('SELECT team,hash, player_one, player_two FROM teams WHERE team = $1',[teamNumber])
     .then((hash)=>{
-        console.log(hash)
+        //console.log(hash)
         bcrypt.compare(password,hash.hash,function(err,result){
             if (result==true){
                 console.log("success")
                 let team = hash.team
                 let teamPlayer1 =hash.player_one
                 let teamPlayer2 = hash.player_two
-            console.log("this from gettneweams")
-                 console.log(teamPlayer1)
-                 console.log(teamPlayer2)
+                //console.log("this from gettneweams")
+                 //console.log(teamPlayer1)
+                 //console.log(teamPlayer2)
                  ABPlayers.length=0
                  
              
                 ABPlayer(team,teamPlayer1,teamPlayer2)
+                //console.log(ABPlayers)
 
                 let thisTeam= ABPlayers.filter(team=>team.teamNumber==teamNumber)
 
-                console.log("this is this team")
-                console.log(thisTeam)
+                //console.log("this is this team")
+                //console.log(thisTeam)
                 
-                res.render('input-scores',{thisTeam:thisTeam})
+                res.render('input-scores',{thisTeam:thisTeam,date:dates})
                 
             }else{
                 console.log("wrong Password")
@@ -263,7 +276,7 @@ router.post('/team-sign-in',(req,res)=>{
             }
         })
     })
-
+    )
     
 })
 
@@ -276,13 +289,15 @@ router.post('/input-score',(req,res)=>{
     let BPlayer= req.body.playerName2
     let APlayerScore=parseInt(req.body.score1)
     let BPlayerScore=parseInt(req.body.score2)
+    let date=req.body.date
+    //console.log(date)
     
-    inputScores(APlayer,APlayerScore)
-    inputScores(BPlayer,BPlayerScore)
-
+    inputScores(APlayer,date,APlayerScore)
+    inputScores(BPlayer,date,BPlayerScore)
+   
     db.one('SELECT team,player_one,player_two FROM teams where team = $1',oppTeamNumber)
      .then((teams)=>{
-        console.log(getTeams)
+        //console.log(getTeams)
         
        
         let team = teams.team
@@ -295,9 +310,9 @@ router.post('/input-score',(req,res)=>{
 
         
             let otherTeam= ABPlayers.filter(team=>team.teamNumber==oppTeamNumber)
-            console.log(otherTeam)
+            //console.log(otherTeam)
             
-            res.render('input-second',{otherTeam:otherTeam})
+            res.render('input-second',{otherTeam:otherTeam,date:dates})
 
                  })
                
@@ -314,12 +329,14 @@ router.post('/input-score',(req,res)=>{
 //inputs opponents score
 router.post('/input-second',(req,res)=>{
         let teamNumber=parseInt(req.body.teamNumber)
+        let date=req.body.date
         let APlayer= req.body.playerName1
         let BPlayer= req.body.playerName2
         let APlayerScore=parseInt(req.body.score1)
         let BPlayerScore=parseInt(req.body.score2)
-        inputScores(APlayer,APlayerScore)
-        inputScores(BPlayer,BPlayerScore)
+        
+        inputScores(APlayer,date,APlayerScore)
+        inputScores(BPlayer,date,BPlayerScore)
 
 
         res.send("scores are in")
@@ -332,7 +349,7 @@ router.post('/input-second',(req,res)=>{
 router.get("/quotas",(req,res)=>{
      
       calculateQuotas()
-      console.log(thisWeeksQuotas)
+      //console.log(thisWeeksQuotas)
       res.render('quotas',{thisweek:thisWeeksQuotas})
         
         })    
@@ -341,7 +358,7 @@ router.get("/quotas",(req,res)=>{
 router.post("/getquotas",(req,res)=>{
           //thisWeeksQuotas.length=0
     calculateQuotas()
-    console.log(thisWeeksQuotas)
+    //console.log(thisWeeksQuotas)
     res.render('quotas',{thisweek:thisWeeksQuotas})
             
             })    
