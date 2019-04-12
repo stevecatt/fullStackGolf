@@ -19,7 +19,7 @@ const getSchedule = require('./routes/get-schedule')
 const stevetest=require('./routes/stevetest')
 const scoreLogic = require('./routes/score-logic')
 const leaderboardRoutes = require('./routes/leaderboard')
-
+const PORT = process.env.PORT || 8080
 
 
 //ABPlayers=[]
@@ -88,6 +88,6 @@ app.get('/view-player-quotas', (req, res) => {
   res.render('view-player-quotas')
 })
 
-app.listen(3000,function(){
+app.listen(PORT,function(){
   console.log("node server has started")
 })
