@@ -14,8 +14,8 @@
     "express-session": "^1.15.6",
     "mustache-express": "^1.2.8",
     "pg": "^7.9.0",
-    "pg-promise": "^8.6.4",
-    "sequelize": "^5.2.12"
+    "pg-promise": "^8.6.4"
+   
   },
   "repository": {
     "type": "git",
