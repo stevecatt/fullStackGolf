@@ -477,15 +477,22 @@ router.post('/input-second',(req,res)=>{
           teamOneOldPoints = points.points
           db.one('SELECT points FROM teams WHERE team = $1;', [t2APlayer.teamNumber]).then((points) => {
             teamTwoOldPoints = points.points
-            console.log("team one: " + teamOneOldPoints, "team two: " +  teamTwoOldPoints)
+            //console.log("team one: " + teamOneOldPoints, "team two: " +  teamTwoOldPoints)
             playerPoints(t1APlayer, t2APlayer)
             playerPoints(t1BPlayer, t2BPlayer)
             teamPoints(t1APlayer,t1BPlayer,t2APlayer,t2BPlayer)
+            console.log("team one: " + teamOnePoints, "team two: " +  teamTwoPoints)
+            
             let teamOnePointsToSend = parseFloat(teamOnePoints) + parseFloat(teamOneOldPoints)
             let teamTwoPointsToSend = parseFloat(teamTwoPoints) + parseFloat(teamTwoOldPoints)
             db.none('UPDATE teams SET points = $1 WHERE team = $2', [teamOnePointsToSend,t1APlayer.teamNumber])
             .then(()=>{
               db.none('UPDATE teams SET points = $1 WHERE team = $2', [teamTwoPointsToSend,t2APlayer.teamNumber])
+              .then(()=>{
+                teamOnePoints = 0
+                teamTwoPoints = 0
+
+              })
               res.redirect('/team-sign-in')
             })
           })
@@ -493,13 +500,6 @@ router.post('/input-second',(req,res)=>{
     })
 
 
-// router.get("/quotas",(req,res)=>{
-
-//       calculateQuotas()
-//       //console.log(thisWeeksQuotas)
-//       res.render('quotas',{thisweek:thisWeeksQuotas})
-
-//         })
 
 
 
@@ -516,6 +516,7 @@ function isNoShow(boxValue) {
   }
 }
 function playerPoints(playerOne, playerTwo) {
+  
   if(playerOne.played == false && playerTwo.played == false){
     playerOne.overUnder = -3
     playerTwo.overUnder = -3
