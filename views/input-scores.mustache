@@ -14,14 +14,20 @@
     <h3>Team Number {{teamNumber}}</h3>
     {{#date}}
     <h3>DateOf Game {{date}}
-    
+
 
 
     <form action="/input-score" method="POST">
       <input type="text" name="playerName1" placeholder="Enter Player Name" value="{{APlayer}}" />
+      No show? <input type="checkbox" name="onePlayed" value="false"/>
       <input type="text" name="score1" placeholder="Enter Score" />
+      <input type="hidden" name="aPlayerQuota" value="{{APlayerQuota}}" />
+
       <input type="text" name="playerName2" placeholder="Enter Player Name" value="{{BPlayer}}" />
+      No show? <input type="checkbox" name="twoPlayed" value="false"/>
       <input type="text" name="score2" placeholder="Enter Score" />
+      <input type="hidden" name="bPlayerQuota" value="{{BPlayerQuota}}" />
+
       <input type="text" name="opposition" placeholder="Enter Opposing Team #"/>
       <input type="hidden" name= "teamNumber" value="{{teamNumber}}"/>
       <input type="hidden" name="date" value="{{date}}"/>
@@ -29,12 +35,12 @@
       </form>
       {{/date}}
     {{/thisTeam}}
-   
 
 
-   
-      
-   
+
+
+
+
 
 
     {{message}}

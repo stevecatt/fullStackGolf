@@ -31,12 +31,12 @@ function inputScores(playerName,matchDate,score){
         db.none('UPDATE "steveq_test" SET q1=$1,q2=$2,q3=$3,q4=$4,q5=$5,q6=$6,q7=$7,q8=$8,q9=$9,q10=$10,q11=$11 WHERE golfer=$12',updatedQuotaList)
     .then(()=>{
       //console.log("Hello")
-        db.none('INSERT INTO sandbox_steve (p_name,p_date,p_score) VALUES($1,$2,$3)',[playerName,matchDate,score]) 
+        db.none('INSERT INTO sandbox_steve (p_name,p_date,p_score) VALUES($1,$2,$3)',[playerName,matchDate,score])
     })
     .then(()=>{
       console.log("inputs ok")
     })
-  
+
         }).catch(error => console.log(error))
       }
       else{
@@ -44,11 +44,11 @@ function inputScores(playerName,matchDate,score){
           .then((data) => {
             db.none('INSERT INTO sandbox_steve (p_name,p_date,p_score) VALUES($1,$2,$3)',[playerName,matchDate,score])
         console.log("new dude entered")
-  
+
     }).catch(error => console.log(error))
-  
-  
-  
+
+
+
       }
     })
   }
@@ -57,20 +57,20 @@ function inputScores(playerName,matchDate,score){
 
 //calculate quotas
 function calculateQuotas(){
-  
+
     db.any('SELECT * FROM "steveq_test"')
     .then ((quotas)=>{
       //clears the array
       thisWeeksQuotas.length=0
       for(index=0;index<quotas.length;index++){
       let quota=quotas[index]
-  
+
         //console.log(quota)
         if(quota.q1==null){
           let thisWeekQuota=5
           let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
           thisWeeksQuotas.push(quotapush)
-  
+
         //console.log(thisWeekQuota)
           //console.log(quota.golfer)
       }
@@ -98,7 +98,7 @@ function calculateQuotas(){
         let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
         //console.log(thisWeekQuota)
-  
+
       }
       else if(quota.q5==null){
         let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3+quota.q4)/4)
@@ -113,7 +113,7 @@ function calculateQuotas(){
         //console.log(thisWeekQuota)
       }
       else if(quota.q7==null){
-        let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3+quota.q4+quota.q5+quota.q6)/6) 
+        let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3+quota.q4+quota.q5+quota.q6)/6)
         let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
         //console.log(thisWeekQuota)
@@ -149,8 +149,8 @@ function calculateQuotas(){
       }
       //console.log(thisWeekQuota)
     }
-   
-  
+
+
   })
   }
 
@@ -172,7 +172,7 @@ function getTeams(){
             ABPlayer(team,teamPlayer1,teamPlayer2)
 
         }
-        
+
         })
 
 
@@ -201,13 +201,13 @@ function ABPlayer(team,teamPlayer1,teamPlayer2){
         //  console.log("this is second case")
         //  console.log(APlayerQuota)
         // console.log(BPlayerQuota)
-       
+
     }
 
    let ABPlayersPush = {teamNumber:teamNumber,APlayer:APlayer, APlayerQuota:APlayerQuota,BPlayer:BPlayer,BPlayerQuota:BPlayerQuota}
    ABPlayers.push(ABPlayersPush)
-   
-    
+
+
 }
 
 
@@ -216,9 +216,9 @@ router.get('/next-weeks-matches',(req,res)=>{
 
     getTeams()
     //console.log(ABPlayers)
-    
+
        // console.log(x)
-    
+
 
 
 
@@ -227,13 +227,13 @@ router.get('/next-weeks-matches',(req,res)=>{
 })
 
 router.post('/team-sign-in',(req,res)=>{
-    
+
     let teamNumber=parseInt(req.body.teamNumber)
     let password = req.body.password
     let week = parseInt(req.body.week)
     //console.log(teamNumber)
     //console.log(password)
-    
+
     calculateQuotas()
     dates.length=0
 
@@ -257,8 +257,8 @@ router.post('/team-sign-in',(req,res)=>{
                  //console.log(teamPlayer1)
                  //console.log(teamPlayer2)
                  ABPlayers.length=0
-                 
-             
+
+
                 ABPlayer(team,teamPlayer1,teamPlayer2)
                 //console.log(ABPlayers)
 
@@ -266,23 +266,60 @@ router.post('/team-sign-in',(req,res)=>{
 
                 //console.log("this is this team")
                 //console.log(thisTeam)
-                
+
                 res.render('input-scores',{thisTeam:thisTeam,date:dates})
-                
+
             }else{
                 console.log("wrong Password")
                 res.render('sign-in-team',{message:"Incorrect Password"})
-               
+
             }
         })
     })
     )
-    
+
 })
 
+let players =
+{
+  t1P1: {
+    name: "",
+    teamNumber: 0,
+    quota: 0,
+    overUnder: 0,
+    played: true
+  },
+  t1P2: {
+    name: "",
+    teamNumber: 0,
+    quota: 0,
+    overUnder: 0,
+    played: true
+  },
+  t2P1: {
+    name: "",
+    teamNumber: 0,
+    quota: 0,
+    overUnder: 0,
+    played: true
+  },
+  t2P2: {
+    name: "",
+    teamNumber: 0,
+    quota: 0,
+    overUnder: 0,
+    played: true
+  }
+}
+let teamOnePoints = 0
+let teamTwoPoints = 0
+let teamOneOldPoints = 0
+let teamTwoOldPoints = 0
+let teamOneOverUnder = 0
+let teamTwoOverUnder = 0
 //inputs first teams score
 router.post('/input-score',(req,res)=>{
-                
+
     let oppTeamNumber=parseInt(req.body.opposition)
     let teamNumber=parseInt(req.body.teamNumber)
     let APlayer= req.body.playerName1
@@ -290,42 +327,47 @@ router.post('/input-score',(req,res)=>{
     let APlayerScore=parseInt(req.body.score1)
     let BPlayerScore=parseInt(req.body.score2)
     let date=req.body.date
-    //console.log(date)
-    
-    inputScores(APlayer,date,APlayerScore)
-    inputScores(BPlayer,date,BPlayerScore)
-   
+    t1APlayer = players.t1P1
+    t1BPlayer = players.t1P2
+    t1APlayer.teamNumber = teamNumber
+    t1BPlayer.teamNumber = teamNumber
+    t1APlayer.name = APlayer
+    t1BPlayer.name = BPlayer
+    t1APlayer.quota = parseInt(req.body.aPlayerQuota)
+    t1BPlayer.quota = parseInt(req.body.bPlayerQuota)
+    t1APlayer.played = isNoShow(req.body.onePlayed)
+    t1BPlayer.played = isNoShow(req.body.twoPlayed)
+    t1APlayer.overUnder = APlayerScore - t1APlayer.quota
+    t1BPlayer.overUnder = BPlayerScore - t1BPlayer.quota
+    if(isNaN(APlayerScore)){
+      console.log("Player One did not enter a score")
+    } else{
+      inputScores(APlayer,date,APlayerScore)
+    }
+    if(isNaN(BPlayerScore)){
+      console.log("Player Two did not enter a score")
+    } else{
+      inputScores(BPlayer,date,BPlayerScore)
+    }
+
     db.one('SELECT team,player_one,player_two FROM teams where team = $1',oppTeamNumber)
      .then((teams)=>{
-        //console.log(getTeams)
-        
-       
+        console.log(getTeams)
         let team = teams.team
         let teamPlayer1 =teams.player_one
         let teamPlayer2 = teams.player_two
-           
-        ABPlayers.length=0    
-        ABPlayer(team,teamPlayer1,teamPlayer2)
-        
 
-        
+        ABPlayers.length=0
+        ABPlayer(team,teamPlayer1,teamPlayer2)
+
             let otherTeam= ABPlayers.filter(team=>team.teamNumber==oppTeamNumber)
-            //console.log(otherTeam)
-            
-            res.render('input-second',{otherTeam:otherTeam,date:dates})
+
+            res.render('input-second',{otherTeam:otherTeam, date:dates, t1APlayer:t1APlayer, t1BPlayer:t1BPlayer})
 
                  })
-               
-
-                
-
-               
-                
-                
-                
-
-
             })
+
+
 //inputs opponents score
 router.post('/input-second',(req,res)=>{
         let teamNumber=parseInt(req.body.teamNumber)
@@ -334,25 +376,63 @@ router.post('/input-second',(req,res)=>{
         let BPlayer= req.body.playerName2
         let APlayerScore=parseInt(req.body.score1)
         let BPlayerScore=parseInt(req.body.score2)
-        
-        inputScores(APlayer,date,APlayerScore)
-        inputScores(BPlayer,date,BPlayerScore)
+        let t1APlayer = players.t1P1
+        let t1BPlayer = players.t1P2
+        t2APlayer = players.t2P1
+        t2BPlayer = players.t2P2
+        t2APlayer.teamNumber = teamNumber
+        t2BPlayer.teamNumber = teamNumber
+        t2APlayer.name = APlayer
+        t2BPlayer.name = BPlayer
+        t2APlayer.quota = parseInt(req.body.aPlayerQuota)
+        t2BPlayer.quota = parseInt(req.body.bPlayerQuota)
+        t2APlayer.played = isNoShow(req.body.onePlayed)
+        t2BPlayer.played = isNoShow(req.body.twoPlayed)
+        t2APlayer.overUnder = APlayerScore - t2APlayer.quota
+        t2BPlayer.overUnder = BPlayerScore - t2BPlayer.quota
+        t1APlayer = players.t1P1
+        t1BPlayer = players.t1P2
+        teamOneOverUnder = t1APlayer.overUnder + t1BPlayer.overUnder
+        teamTwoOverUnder = t2APlayer.overUnder + t2BPlayer.overUnder
 
 
-        res.send("scores are in")
+        if(isNaN(APlayerScore)){
+          console.log("Player One did not enter a score")
+        } else{
+          inputScores(APlayer,date, APlayerScore)
+        }
+        if(isNaN(BPlayerScore)){
+          console.log("Player Two did not enter a score")
+        } else{
+          inputScores(BPlayer,date,BPlayerScore)
+        }
+        db.one('SELECT points FROM teams WHERE team = $1;', [t1APlayer.teamNumber]).then((points)=>{
+          teamOneOldPoints = points.points
+          db.one('SELECT points FROM teams WHERE team = $1;', [t2APlayer.teamNumber]).then((points) => {
+            teamTwoOldPoints = points.points
+            console.log("team one: " + teamOneOldPoints, "team two: " +  teamTwoOldPoints)
+            playerPoints(t1APlayer, t2APlayer)
+            playerPoints(t1BPlayer, t2BPlayer)
+            teamPoints(t1APlayer,t1BPlayer,t2APlayer,t2BPlayer)
+            let teamOnePointsToSend = parseFloat(teamOnePoints) + parseFloat(teamOneOldPoints)
+            let teamTwoPointsToSend = parseFloat(teamTwoPoints) + parseFloat(teamTwoOldPoints)
+            db.none('UPDATE teams SET points = $1 WHERE team = $2', [teamOnePointsToSend,t1APlayer.teamNumber])
+            .then(()=>{
+              db.none('UPDATE teams SET points = $1 WHERE team = $2', [teamTwoPointsToSend,t2APlayer.teamNumber])
+              res.redirect('/team-sign-in')
+            })
+          })
+        })
     })
 
 
-
-
-
 router.get("/quotas",(req,res)=>{
-     
+
       calculateQuotas()
       //console.log(thisWeeksQuotas)
       res.render('quotas',{thisweek:thisWeeksQuotas})
-        
-        })    
+
+        })
 
 
 router.post("/getquotas",(req,res)=>{
@@ -360,8 +440,8 @@ router.post("/getquotas",(req,res)=>{
     calculateQuotas()
     //console.log(thisWeeksQuotas)
     res.render('quotas',{thisweek:thisWeeksQuotas})
-            
-            })    
+
+            })
     // use this to prepopulate the scoring input not yet
 
 /*
@@ -371,5 +451,289 @@ router.('/input-scores',(res,req)=>{
 })
 */
 
+//Functions to calculate points awarded per team
+function isNoShow(boxValue) {
+  console.log(boxValue)
+  if (boxValue == 'false') {
+    return false
+  }
+  else{
+    return true
+  }
+}
+function playerPoints(playerOne, playerTwo) {
+  if(playerOne.played == false && playerTwo.played == false){
+    playerOne.overUnder = -3
+    playerTwo.overUnder = -3
+    teamOnePoints += 0
+    teamTwoPoints += 0
+  } else if (playerOne.played == false){
+    playerOne.overUnder = -3
+    if(playerOne.overUnder > playerTwo.overUnder){
+      teamOnePoints += 0
+    } else if (playerOne.overUnder < playerTwo.overUnder) {
+      teamTwoPoints += 3
+    } else {
+      teamOnePoints += 0
+      teamTwoPoints += 1.5
+    }
+  } else if(playerTwo.played == false){
+    playerTwo.overUnder = -3
+    if(playerOne.overUnder > playerTwo.overUnder){
+      teamOnePoints += 3
+    } else if (playerOne.overUnder < playerTwo.overUnder) {
+      teamTwoPoints += 0
+    } else {
+      teamOnePoints += 1.5
+      teamTwoPoints += 0
+    }
+  } else if(playerOne.overUnder > playerTwo.overUnder){
+    teamOnePoints += 3
+  } else if (playerOne.overUnder < playerTwo.overUnder) {
+    teamTwoPoints += 3
+  } else {
+    teamOnePoints += 1.5
+    teamTwoPoints += 1.5
+  }
+}
+
+function teamPoints(teamOnePlayerOne,teamOnePlayerTwo,teamTwoPlayerOne,teamTwoPlayerTwo) {
+  if (teamOnePlayerOne.played == false){
+    if(teamOnePlayerTwo.played == false){
+      if (teamTwoPlayerOne.played == false && teamTwoPlayerTwo.played == false){
+        teamOnePoints = 0
+        teamTwoPoints = 0
+      }
+      else if(teamTwoPlayerOne.played == false || teamTwoPlayerTwo.played == false){
+        if (teamOneOverUnder > teamTwoOverUnder){
+          teamOnePoints += 0
+        } else if (teamOneOverUnder < teamTwoOverUnder) {
+          teamTwoPoints += 2
+        } else {
+          teamOnePoints += 0
+          teamTwoPoints += 1
+        }
+      }
+      else {
+        if (teamOneOverUnder > teamTwoOverUnder){
+        teamOnePoints += 0
+      } else if (teamOneOverUnder < teamTwoOverUnder) {
+        teamTwoPoints += 4
+      } else {
+        teamOnePoints += 0
+        teamTwoPoints += 2
+      }
+    }
+    } else if(teamTwoPlayerOne.played == false && teamTwoPlayerTwo.played == false){
+      if (teamOneOverUnder > teamTwoOverUnder){
+        teamOnePoints += 2
+      } else if (teamOneOverUnder < teamTwoOverUnder) {
+        teamTwoPoints += 0
+      } else {
+        teamOnePoints += 1
+        teamTwoPoints += 0
+      }
+    }
+    else if(teamTwoPlayerOne.played == false || teamTwoPlayerTwo.played == false){
+      if (teamOneOverUnder > teamTwoOverUnder){
+        teamOnePoints += 2
+      } else if (teamOneOverUnder < teamTwoOverUnder) {
+        teamTwoPoints += 2
+      } else {
+        teamOnePoints += 1
+        teamTwoPoints += 1
+      }
+    }
+    else{
+      if (teamOneOverUnder > teamTwoOverUnder){
+        teamOnePoints += 2
+      } else if (teamOneOverUnder < teamTwoOverUnder) {
+        teamTwoPoints += 4
+      } else {
+        teamOnePoints += 1
+        teamTwoPoints += 2
+      }
+    }
+  } else if (teamOnePlayerTwo.played == false){
+    if(teamOnePlayerOne.played == false){
+      if (teamTwoPlayerOne.played == false && teamTwoPlayerTwo.played == false){
+        teamOnePoints = 0
+        teamTwoPoints = 0
+      }
+      else if(teamTwoPlayerOne.played == false || teamTwoPlayerTwo.played == false){
+        if (teamOneOverUnder > teamTwoOverUnder){
+          teamOnePoints += 0
+        } else if (teamOneOverUnder < teamTwoOverUnder) {
+          teamTwoPoints += 2
+        } else {
+          teamOnePoints += 0
+          teamTwoPoints += 1
+        }
+      }
+      else {
+        if (teamOneOverUnder > teamTwoOverUnder){
+        teamOnePoints += 0
+      } else if (teamOneOverUnder < teamTwoOverUnder) {
+        teamTwoPoints += 4
+      } else {
+        teamOnePoints += 0
+        teamTwoPoints += 2
+      }
+    }
+  } else if(teamTwoPlayerOne.played == false && teamTwoPlayerTwo.played == false){
+      if (teamOneOverUnder > teamTwoOverUnder){
+        teamOnePoints += 2
+      } else if (teamOneOverUnder < teamTwoOverUnder) {
+        teamTwoPoints += 0
+      } else {
+        teamOnePoints += 1
+        teamTwoPoints += 0
+      }
+    }
+    else if(teamTwoPlayerOne.played == false || teamTwoPlayerTwo.played == false){
+      if (teamOneOverUnder > teamTwoOverUnder){
+        teamOnePoints += 2
+      } else if (teamOneOverUnder < teamTwoOverUnder) {
+        teamTwoPoints += 2
+      } else {
+        teamOnePoints += 1
+        teamTwoPoints += 1
+      }
+    }
+    else{
+      if (teamOneOverUnder > teamTwoOverUnder){
+        teamOnePoints += 2
+      } else if (teamOneOverUnder < teamTwoOverUnder) {
+        teamTwoPoints += 4
+      } else {
+        teamOnePoints += 1
+        teamTwoPoints += 2
+      }
+    }
+  } else if (teamTwoPlayerOne.played == false){
+    if(teamTwoPlayerTwo.played == false){
+      if (teamOnePlayerOne.played == false && teamOnePlayerTwo.played == false){
+        teamOnePoints = 0
+        teamTwoPoints = 0
+      }
+      else if(teamOnePlayerOne.played == false || teamOnePlayerTwo.played == false){
+        if (teamOneOverUnder > teamTwoOverUnder){
+          teamOnePoints += 2
+        } else if (teamOneOverUnder < teamTwoOverUnder) {
+          teamTwoPoints += 0
+        } else {
+          teamOnePoints += 1
+          teamTwoPoints += 0
+        }
+      }
+      else {
+        if (teamOneOverUnder > teamTwoOverUnder){
+        teamOnePoints += 4
+      } else if (teamOneOverUnder < teamTwoOverUnder) {
+        teamTwoPoints += 0
+      } else {
+        teamOnePoints += 2
+        teamTwoPoints += 0
+      }
+    }
+  } else if(teamOnePlayerOne.played == false && teamOnePlayerTwo.played == false){
+      if (teamOneOverUnder > teamTwoOverUnder){
+        teamOnePoints += 0
+      } else if (teamOneOverUnder < teamTwoOverUnder) {
+        teamTwoPoints += 2
+      } else {
+        teamOnePoints += 1
+        teamTwoPoints += 0
+      }
+    }
+    else if(teamOnePlayerOne.played == false || teamOnePlayerTwo.played == false){
+      if (teamOneOverUnder > teamTwoOverUnder){
+        teamOnePoints += 2
+      } else if (teamOneOverUnder < teamTwoOverUnder) {
+        teamTwoPoints += 2
+      } else {
+        teamOnePoints += 1
+        teamTwoPoints += 1
+      }
+    }
+    else{
+      if (teamOneOverUnder > teamTwoOverUnder){
+        teamOnePoints += 4
+      } else if (teamOneOverUnder < teamTwoOverUnder) {
+        teamTwoPoints += 2
+      } else {
+        teamOnePoints += 2
+        teamTwoPoints += 1
+      }
+    }
+  }
+  else if (teamTwoPlayerTwo.played == false){
+    if(teamTwoPlayerOne.played == false){
+      if (teamOnePlayerOne.played == false && teamOnePlayerTwo.played == false){
+        teamOnePoints = 0
+        teamTwoPoints = 0
+      }
+      else if(teamOnePlayerOne.played == false || teamOnePlayerTwo.played == false){
+        if (teamOneOverUnder > teamTwoOverUnder){
+          teamOnePoints += 2
+        } else if (teamOneOverUnder < teamTwoOverUnder) {
+          teamTwoPoints += 0
+        } else {
+          teamOnePoints += 1
+          teamTwoPoints += 0
+        }
+      }
+      else {
+        if(teamOneOverUnder > teamTwoOverUnder){
+        teamOnePoints += 4
+      } else if (teamOneOverUnder < teamTwoOverUnder) {
+        teamTwoPoints += 0
+      } else {
+        teamOnePoints += 2
+        teamTwoPoints += 0
+      }
+      }
+    } else if(teamOnePlayerOne.played == false && teamOnePlayerTwo.played == false){
+      if (teamOneOverUnder > teamTwoOverUnder){
+        teamOnePoints += 0
+      } else if (teamOneOverUnder < teamTwoOverUnder) {
+        teamTwoPoints += 2
+      } else {
+        teamOnePoints += 1
+        teamTwoPoints += 0
+      }
+    }
+    else if(teamOnePlayerOne.played == false || teamOnePlayerTwo.played == false){
+      if (teamOneOverUnder > teamTwoOverUnder){
+        teamOnePoints += 2
+      } else if (teamOneOverUnder < teamTwoOverUnder) {
+        teamTwoPoints += 2
+      } else {
+        teamOnePoints += 1
+        teamTwoPoints += 1
+      }
+    }
+    else{
+      if (teamOneOverUnder > teamTwoOverUnder){
+        teamOnePoints += 4
+      } else if (teamOneOverUnder < teamTwoOverUnder) {
+        teamTwoPoints += 2
+      } else {
+        teamOnePoints += 2
+        teamTwoPoints += 1
+      }
+    }
+  }
+  else {
+    if (teamOneOverUnder > teamTwoOverUnder){
+      teamOnePoints += 4
+    } else if (teamOneOverUnder < teamTwoOverUnder) {
+      teamTwoPoints += 4
+    } else {
+      teamOnePoints += 2
+      teamTwoPoints += 2
+    }
+  }
+}
 
 module.exports = router
