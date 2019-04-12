@@ -1,0 +1,41 @@
+.menu {
+  margin-bottom: 4rem;
+}
+
+#leaderboardBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.numberColumn {
+  padding-right: 2rem;
+}
+.pointsColumn {
+  padding-right: 1rem;
+}
+.playerColumn {
+
+}
+
+.number {
+  padding-left: 1rem;
+  padding-right: 8rem;
+}
+
+.points {
+  padding-right: 5rem;
+  text-align: right;
+}
+
+.playerOne {
+  padding-right: 1rem;
+}
+
+.playerTwo {
+
+}
+.team {
+  /* display: flex; */
+
+}
