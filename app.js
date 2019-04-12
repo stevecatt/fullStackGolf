@@ -87,7 +87,7 @@ app.get('/view-player-quotas', (req, res) => {
   res.render('view-player-quotas')
 })
 
-app.ge('/hello', (req,res) => {
+app.get('/hello', (req,res) => {
   res.send('heroku works')
 })
 
