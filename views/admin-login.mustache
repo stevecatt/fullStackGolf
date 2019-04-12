@@ -1,21 +1,33 @@
-<!DOCTYPE html>
-  {{> meta}}
-    <title>Admin Login</title>
-  </head>
+<html>
+<head>
+    <!-- Required meta tags -->
+    {{> meta}}
+    <link rel="stylesheet" href="/styles/admin-login.css">
+
+</head>
   <body>
-    <div>
-      {{> menu}}
-      <div>
-        <h2>Admin Login</h2>
-        <form action="/admin-login" method="POST">
-          <div>
-            <input type="text" name="username" placeholder="username"/>
-            <input type="password" name="password" placeholder="password"/>
+    <!-- navbar partial -->
+    {{> menu}}
+<div class="loginCard">
+  <div class="card text-center" style="width: 30rem;">
+    <img src="/images/admingolf.jpg" class="card-img-top">
+    <div class="card-body">
+      <h2 class="card-title">Admin Login</h2>
+      <div class="card-text">
+
+        <form class="login" action="/admin-login" method="POST">
+          <div class="form-group">
+            <input type="text" name="username" class="form-control" placeholder="Enter Username" />
           </div>
-          <button type="submit">Login</button>
+          <div class="form-group">
+            <input type="password" name="password" class="form-control" placeholder="Enter Password" />
+          </div>
+          <button type="submit" class="btn btn-secondary" style="background-color: #00240a;">Login &raquo;</button>
         </form>
       </div>
+      </div>
     </div>
+  </div>
+    {{> script}}
   </body>
-  {{> script}}
-</html>
+  </html>
