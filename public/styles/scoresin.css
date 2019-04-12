@@ -1,1 +1,9 @@
 body {background-image: url("/images/golf1.jpg")}
+.input-box {
+    background-image: url('/images/diamond');
+    background-color:white;
+}
+.heads {
+    color: white;
+    
+}
