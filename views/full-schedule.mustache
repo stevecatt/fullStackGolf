@@ -13,38 +13,65 @@
 <body>
 {{>menu}}
 
+     <div class="reqform">
+        <h2>Team Schedule</h2>
+        <div>
+        <form action="/full-schedule" method="POST">
+          <div>
+          <h3>Enter a week to view matches</h3><br>
+          <p><input type="text" name="week" placeholder="Enter a Week" /></p>
+          </div>
+          <button type="submit">Search</button>
+          <strong style="color:red">{{message9}}</strong>
+          </form>
+    </div>
 
 
-
-<table class="table table-hover table-dark">
+<table class="table table-hover table-sm table-bordered"> 
   <thead>
-    <tr>
-      <th scope="col">Event</th>
-      <th scope="col">Tee 1</th>
-      <th scope="col">Tee 2</th>
-      <th scope="col">Tee 3</th>
+  
+			<tr>
+      <th scope="col">Week #</th>
+      <th scope="col">Match 1</th>
+      <th scope="col">Match 2</th>
+      <th scope="col">Match 3</th>
+      <th scope="col">Match 4</th>
+      <th scope="col">Match 5</th>
+      <th scope="col">Match 6</th>
+      <th scope="col">Match 7</th>
+      <th scope="col">Match 8</th>
+      <th scope="col">Match 9</th>
+      <th scope="col">Match 10</th>
+      <th scope="col">Match 11</th>
+      <th scope="col">Match 12</th>
+      <th scope="col">Match 13</th>
+      <th scope="col">Match 14</th>
+      <th scope="col">Match 15</th>
     </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">April 1</th>
-      <td>1-3</td>
-      <td>5-6</td>
-      <td>4-7</td>
+    </thead>
+  
+<tbody> 
+<tr>
+      <th scope="row">{{week}}</th>
+      {{#match}}
+      <td>{{match_one}}</td>
+      <td>{{match_two}}</td>
+      <td>{{match_three}}</td>
+      <td>{{match_four}}</td>
+      <td>{{match_five}}</td>
+      <td>{{match_six}}</td>
+      <td>{{match_seven}}</td>
+      <td>{{match_eight}}</td>
+      <td>{{match_nine}}</td>
+      <td>{{match_ten}}</td>
+      <td>{{match_eleven}}</td>
+      <td>{{match_twelve}}</td>
+      <td>{{match_thirteen}}</td>
+      <td>{{match_fourteen}}</td>
+      <td>{{match_fifteen}}</td>  
+       {{/match}}
     </tr>
-    <tr>
-      <th scope="row">April 8</th>
-      <td>5-7</td>
-      <td>1-4</td>
-      <td>2-3</td>
-    </tr>
-    <tr>
-      <th scope="row">April 15</th>
-      <td>2-4</td>
-      <td>3-8</td>
-      <td>6-7</td>
-    </tr>
-  </tbody>
+    </tbody>
 </table>
 </body>
 
