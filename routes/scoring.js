@@ -298,6 +298,10 @@ let players =
     played: true
   }
 }
+let teamOnePoints = 0
+let teamTwoPoints = 0
+let teamOneOverUnder = 0
+let teamTwoOverUnder = 0
 //inputs first teams score
 router.post('/input-score',(req,res)=>{
 
@@ -307,14 +311,14 @@ router.post('/input-score',(req,res)=>{
     let BPlayer= req.body.playerName2
     let APlayerScore=parseInt(req.body.score1)
     let BPlayerScore=parseInt(req.body.score2)
-    let t1APlayer = players.t1P1
-    let t1BPlayer = players.t1P2
+    t1APlayer = players.t1P1
+    t1BPlayer = players.t1P2
     t1APlayer.teamNumber = teamNumber
     t1BPlayer.teamNumber = teamNumber
     t1APlayer.name = APlayer
     t1BPlayer.name = BPlayer
-    t1APlayer.quota = req.body.aPlayerQuota
-    t1BPlayer.quota = req.body.bPlayerQuota
+    t1APlayer.quota = parseInt(req.body.aPlayerQuota)
+    t1BPlayer.quota = parseInt(req.body.bPlayerQuota)
     t1APlayer.played = isNoShow(req.body.onePlayed)
     t1BPlayer.played = isNoShow(req.body.twoPlayed)
     t1APlayer.overUnder = APlayerScore - t1APlayer.quota
@@ -356,21 +360,33 @@ router.post('/input-second',(req,res)=>{
         let BPlayer= req.body.playerName2
         let APlayerScore=parseInt(req.body.score1)
         let BPlayerScore=parseInt(req.body.score2)
-        let t2APlayer = players.t2P1
-        let t2BPlayer = players.t2P2
+        let t1APlayer = players.t1P1
+        let t1BPlayer = players.t1P2
+        t2APlayer = players.t2P1
+        t2BPlayer = players.t2P2
         t2APlayer.teamNumber = teamNumber
         t2BPlayer.teamNumber = teamNumber
         t2APlayer.name = APlayer
         t2BPlayer.name = BPlayer
-        t2APlayer.quota = req.body.aPlayerQuota
-        t2BPlayer.quota = req.body.bPlayerQuota
+        t2APlayer.quota = parseInt(req.body.aPlayerQuota)
+        t2BPlayer.quota = parseInt(req.body.bPlayerQuota)
         t2APlayer.played = isNoShow(req.body.onePlayed)
         t2BPlayer.played = isNoShow(req.body.twoPlayed)
         t2APlayer.overUnder = APlayerScore - t2APlayer.quota
         t2BPlayer.overUnder = BPlayerScore - t2BPlayer.quota
-        t1APlayer = req.body.t1APlayer
-        t1BPlayer =req.body.t1BPlayer
-        console.log(t1APlayer.name)
+        t1APlayer = players.t1P1
+        t1BPlayer = players.t1P2
+        playerPoints(t1APlayer, t2APlayer)
+        playerPoints(t1BPlayer, t2BPlayer)
+        teamOneOverUnder = t1APlayer.overUnder + t1BPlayer.overUnder
+        teamTwoOverUnder = t2APlayer.overUnder + t2BPlayer.overUnder
+        teamPoints(t1APlayer,t1BPlayer,t2APlayer,t2BPlayer)
+        console.log("Team 1 A player:", t1APlayer)
+        console.log("Team 1 B player:",t1BPlayer)
+        console.log("Team 2 A player:",t2APlayer)
+        console.log("Team 2 B player:",t2BPlayer)
+        console.log("Team One total points", teamOnePoints)
+        console.log("Team Two total points", teamTwoPoints)
 
         if(isNaN(APlayerScore)){
           console.log("Player One did not enter a score")

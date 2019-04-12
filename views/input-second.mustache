@@ -12,8 +12,17 @@
     <h3>Team Number {{teamNumber}}</h3>
 
     <form action="/input-second" method="POST">
-      <input type="hidden" name="t1APlayer" value="{name:{{t1APlayer.name}}, teamNumber: {{t1APlayer.teamNumber}},quota: {{t1APlayer.quota}},overUnder: {{t1APlayer.overUnder}},played: {{t1APlayer.played}} }">
-      <input type="hidden" name="t1BPlayer" value="{{t1BPlayer}}">
+      <input type="hidden" name="t1APlayer" value="{{t1APlayer}}"/>
+      <input type="hidden" name="t1APlayerName" value="{{t1APlayer.name}}"/>
+      <input type="hidden" name="t1TeamNumber" value="{{t1APlayer.teamNumber}}"/>
+      <input type="hidden" name="t1APlayerQuota": value="{{t1APlayer.quota}}" />
+      <input type="hidden" name="t1APlayerOverUnder" value="{{t1APlayer.overUnder}}" />
+      <input type="hidden" name="t1APlayerPlayed" value="{{t1APlayer.played}}"/>
+
+      <input type="hidden" name="t1BPlayerName" value="{{t1BPlayer.name}}"/>
+      <input type="hidden" name="t1BPlayerQuota" value="{{t1BPlayer.quota}}" />
+      <input type="hidden" name="t1BPlayerOverUnder" value="{{t1BPlayer.overUnder}}" />
+      <input type="hidden" name="t1BPlayerPlayed" value="{{t1BPlayer.played}}"/>
 
       <input type="text" name="playerName1" placeholder="Enter Player Name" value="{{APlayer}}" />
       No show? <input type="checkbox" name="threePlayed" value="false"/>
