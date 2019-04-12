@@ -10,6 +10,7 @@ router.use(bodyParser.urlencoded({ extended: false }))
 
 let APlayer=""
 let BPlayer=""
+let ABPlayers=[]
 
 //scoring to database
 function inputScores(playerName,score){
@@ -51,9 +52,11 @@ function inputScores(playerName,score){
 
 //calculate quotas
 function calculateQuotas(){
+  
     db.any('SELECT * FROM "steveq_test"')
     .then ((quotas)=>{
-    //console.log(quotas)
+      //clears the array
+      thisWeeksQuotas.length=0
       for(index=0;index<quotas.length;index++){
       let quota=quotas[index]
   
@@ -148,6 +151,7 @@ function calculateQuotas(){
 
 //looping through the teams to create teamPlayer1 and 2
 function getTeams(){
+    ABPlayers.length=0
     db.any('SELECT team,player_one,player_two FROM teams')
     .then((teams)=>{
         // console.log('this is teams list')
@@ -169,7 +173,7 @@ function getTeams(){
 
 }
 
-let ABPlayers=[]
+
 
 //checks to see who is A player or B Player
 function ABPlayer(team,teamPlayer1,teamPlayer2){
@@ -222,8 +226,9 @@ router.post('/team-sign-in',(req,res)=>{
     let week = parseInt(req.body.week)
     console.log(teamNumber)
     console.log(password)
-    
+    thisWeeksQuotas.length=0
     calculateQuotas()
+    console.log(thisWeeksQuotas)
 
     db.one('SELECT team,hash, player_one, player_two FROM teams WHERE team = $1',[teamNumber])
     .then((hash)=>{
@@ -237,6 +242,8 @@ router.post('/team-sign-in',(req,res)=>{
             console.log("this from gettneweams")
                  console.log(teamPlayer1)
                  console.log(teamPlayer2)
+                 ABPlayers.length=0
+                 
              
                 ABPlayer(team,teamPlayer1,teamPlayer2)
 
@@ -280,12 +287,13 @@ router.post('/input-score',(req,res)=>{
         let teamPlayer1 =teams.player_one
         let teamPlayer2 = teams.player_two
            
-             
+        ABPlayers.length=0    
         ABPlayer(team,teamPlayer1,teamPlayer2)
         
 
         // }
             let otherTeam= ABPlayers.filter(team=>team.teamNumber==oppTeamNumber)
+            console.log(otherTeam)
             
             res.render('input-second',{otherTeam:otherTeam})
 
@@ -315,6 +323,26 @@ router.post('/input-second',(req,res)=>{
         res.send("scores are in")
     })
 
+
+
+
+
+router.get("/quotas",(req,res)=>{
+     
+      calculateQuotas()
+      console.log(thisWeeksQuotas)
+      res.render('quotas',{thisweek:thisWeeksQuotas})
+        
+        })    
+
+
+router.post("/getquotas",(req,res)=>{
+          //thisWeeksQuotas.length=0
+    calculateQuotas()
+    console.log(thisWeeksQuotas)
+    res.render('quotas',{thisweek:thisWeeksQuotas})
+            
+            })    
     // use this to prepopulate the scoring input not yet
 
 /*
