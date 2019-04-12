@@ -1,0 +1,14 @@
+body {
+  margin: 3rem;
+  background-image: url("/images/diamond.jpg");
+}
+
+.dashCard {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.card-title {
+  color: #00240a;
+}
