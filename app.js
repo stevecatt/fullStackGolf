@@ -1,5 +1,4 @@
 const express = require('express')
-const models = require('./models')
 const mustacheExpress = require('mustache-express')
 const bodyParser = require('body-parser')
 const path = require('path')
@@ -88,7 +87,7 @@ app.get('/view-player-quotas', (req, res) => {
   res.render('view-player-quotas')
 })
 
-app.ge('/hello', (req,res) => {
+app.get('/hello', (req,res) => {
   res.send('heroku works')
 })
 
