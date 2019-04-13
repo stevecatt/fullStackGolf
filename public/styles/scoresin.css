@@ -1,1 +1,9 @@
-body {background-image: url("/images/golf1.jpg")}
+body {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    background-image: url("/images/golf1.jpg")
+  }
+
+.menu {
+  margin-bottom: 1.5rem;
+}
