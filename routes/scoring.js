@@ -272,6 +272,9 @@ function checkForBSub(BPlayer,origBPlayer){
 //     res.render('next-weeks-matches',{ABPlayers:ABPlayers})
 
 // })
+router.get('/team-sign-in',(req,res)=>{
+  res.render('sign-in-team')
+})
 
 router.post('/team-sign-in',(req,res)=>{
     calculateQuotas()
