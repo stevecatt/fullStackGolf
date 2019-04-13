@@ -1,3 +1,14 @@
+<<<<<<< HEAD
+body {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    background-image: url("/images/golf1.jpg")
+  }
+
+.menu {
+  margin-bottom: 1.5rem;
+}
+=======
 body {background-image: url("/images/golf1.jpg")}
 .input-box {
     background-image: url('/images/diamond');
@@ -7,3 +18,4 @@ body {background-image: url("/images/golf1.jpg")}
     color: white;
     
 }
+>>>>>>> master
