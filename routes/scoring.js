@@ -284,49 +284,53 @@ router.post('/team-sign-in',(req,res)=>{
 
     
     dates.length=0
+    if(thisWeeksQuotas.length==0){
+      res.render('sign-in-team',{message:"Sorry server busy please try again"})
+
+    }else{
     
 
-    console.log(thisWeeksQuotas)
-    db.one('SELECT date FROM week_date WHERE id=$1',[week])
-    .then((date)=>{dates.push(date)
-    //console.log(dates)
+       console.log(thisWeeksQuotas)
+        db.one('SELECT date FROM week_date WHERE id=$1',[week])
+         .then((date)=>{dates.push(date)
+        //console.log(dates)
           })
-    .then(
+         .then(
 
-    db.one('SELECT team,hash, player_one, player_two FROM teams WHERE team = $1',[teamNumber])
-    .then((hash)=>{
+          db.one('SELECT team,hash, player_one, player_two FROM teams WHERE team = $1',[teamNumber])
+            .then((hash)=>{
         //console.log(hash)
-        bcrypt.compare(password,hash.hash,function(err,result){
-            if (result==true){
-                console.log("success")
-                let team = hash.team
-                let teamPlayer1 =hash.player_one
-                let teamPlayer2 = hash.player_two
+               bcrypt.compare(password,hash.hash,function(err,result){
+                  if (result==true){
+                     console.log("success")
+                    let team = hash.team
+                    let teamPlayer1 =hash.player_one
+                    let teamPlayer2 = hash.player_two
                 //console.log("this from gettneweams")
                  //console.log(teamPlayer1)
                  //console.log(teamPlayer2)
-                 ABPlayers.length=0
+                      ABPlayers.length=0
 
 
-                ABPlayer(team,teamPlayer1,teamPlayer2)
-                //console.log(ABPlayers)
+                      ABPlayer(team,teamPlayer1,teamPlayer2)
+                      //console.log(ABPlayers)
 
-                let thisTeam= ABPlayers.filter(team=>team.teamNumber==teamNumber)
+                      let thisTeam= ABPlayers.filter(team=>team.teamNumber==teamNumber)
 
                 //console.log("this is this team")
                 //console.log(thisTeam)
 
-                res.render('input-scores',{thisTeam:thisTeam,date:dates})
+                      res.render('input-scores',{thisTeam:thisTeam,date:dates})
 
-            }else{
-                console.log("wrong Password")
-                res.render('sign-in-team',{message:"Incorrect Password"})
+                  }else{
+                      console.log("wrong Password")
+                      res.render('sign-in-team',{message:"Incorrect Password"})
 
             }
         })
     })
     )
-
+  }
 })
 
 let players =
