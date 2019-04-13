@@ -5,23 +5,18 @@ const path = require('path')
 const app = express()
 const pgp = require('pg-promise')()
 const adminCredRoutes = require('./routes/admin-credentials')
-//const inputScoresRoutes = require('./routes/input-scores')
-//const calculateQuotas = require('./routes/calculate-quotas')
 const authenticate = require('./routes/admin-authenticate')
 const adminTeams = require('./routes/admin-teams')
-const teamSignIn = require('./routes/team-signin')
 const archiveRoutes = require('./routes/admin-archive')
 const fullSchRoutes = require('./routes/full-schedule')
 const scoring = require('./routes/scoring')
 const getSchedule = require('./routes/get-schedule')
-//const quotaManagement = require('./routes/quotaVersion2')
 const stevetest=require('./routes/stevetest')
 const scoreLogic = require('./routes/score-logic')
 const leaderboardRoutes = require('./routes/leaderboard')
 const PORT = process.env.PORT || 8080
 
 
-//ABPlayers=[]
 thisWeeksQuotas= []
 
 connectionString = {
@@ -46,14 +41,10 @@ const VIEWS_PATH = path.join(__dirname, '/views')
 app.all('/admin/*', authenticate)
 app.use('/', adminCredRoutes)
 app.use('/', adminTeams)
-//app.use('/', inputScoresRoutes)
-//app.use('/',calculateQuotas)
-app.use('/',teamSignIn)
 app.use('/', archiveRoutes)
 app.use('/', fullSchRoutes)
 app.use('/',scoring)
 app.use('/',getSchedule)
-//app.use('/',quotaManagement)
 app.use('/',stevetest)
 app.use('/', scoreLogic)
 
