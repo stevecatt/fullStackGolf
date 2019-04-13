@@ -12,6 +12,8 @@ let APlayer=""
 let BPlayer=""
 let ABPlayers=[]
 let dates=[]
+let subANewPlayer=[]
+let subBNewPlayer=[]
 
 //scoring to database
 function inputScores(playerName,matchDate,score){
@@ -65,89 +67,88 @@ function calculateQuotas(){
       for(index=0;index<quotas.length;index++){
       let quota=quotas[index]
 
-        //console.log(quota)
+        
         if(quota.q1==null){
           let thisWeekQuota=5
           let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
           thisWeeksQuotas.push(quotapush)
 
-        //console.log(thisWeekQuota)
-          //console.log(quota.golfer)
+       
       }
         else if(quota.q2==null){
           let thisWeekQuota=quota.q1+3
         let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
-        //console.log(thisWeekQuota)
+       
       }
       else if(quota.q3==null){
         if(quota.q1>=quota.q2){
           let thisWeekQuota=quota.q1
           let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
-          //console.log(thisWeekQuota)
+          
         }
         else{thisWeekQuota=quota.q2
         let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
-        //console.log(thisWeekQuota)
+       
       }
     }
       else if(quota.q4==null){
         let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3)/3)
         let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
-        //console.log(thisWeekQuota)
+        
 
       }
       else if(quota.q5==null){
         let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3+quota.q4)/4)
         let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
-        //console.log(thisWeekQuota)
+        
       }
       else if(quota.q6==null){
         let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3+quota.q4+quota.q5)/5)
         let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
-        //console.log(thisWeekQuota)
+        
       }
       else if(quota.q7==null){
         let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3+quota.q4+quota.q5+quota.q6)/6)
         let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
-        //console.log(thisWeekQuota)
+        
       }
       else if(quota.q8==null){
         let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3+quota.q4+quota.q5+quota.q6+quota.q7)/7)
         let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
-        //console.log(thisWeekQuota)
+        
       }
       else if(quota.q9==null){
         let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3+quota.q4+quota.q5+quota.q6+quota.q7+quota.q8)/8 )
         let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
-        //console.log(thisWeekQuota)
+        
       }
       else if(quota.q10==null){
         let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3+quota.q4+quota.q5+quota.q6+quota.q7+quota.q8+quota.q9)/9 )
         let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
-        //console.log(thisWeekQuota)
+        
       }
       else if(quota.q11==null){
         let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3+quota.q4+quota.q5+quota.q6+quota.q7+quota.q8+quota.q9+quota.q10)/10 )
         let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
-        //console.log(thisWeekQuota)
+       
       }
       else{let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3+quota.q4+quota.q5+quota.q6+quota.q7+quota.q8+quota.q9+quota.q10)/10)
         let quotapush = {name:quota.golfer,quota:thisWeekQuota}
         thisWeeksQuotas.push(quotapush)
-        //console.log(thisWeekQuota)
+        
       }
-      //console.log(thisWeekQuota)
+      
     }
 
 
@@ -211,20 +212,66 @@ function ABPlayer(team,teamPlayer1,teamPlayer2){
 }
 
 
+function checkForASub(APlayer,origAPlayer){
+    subBNewPlayer.length=0
+  
+if (APlayer != origAPlayer) {
+
+  let newAPlayer = thisWeeksQuotas.filter(quota=>quota.name==APlayer)
+  newAPlayerQuota=newAPlayer[0].quota
+  subANewPlayer.push(newAPlayerQuota)
+  // console.log("this is new player quota")
+  // console.log(newAPlayerQuota)
+  
+}
+else  {
+    let newAPlayer = thisWeeksQuotas.filter(quota=>quota.name==APlayer)
+      newAPlayerQuota=newAPlayer[0].quota
+      subANewPlayer.push(newAPlayerQuota)
+      // console.log("this is new player quota")
+      // console.log(newAPlayerQuota)
+      // console.log("Bsubno Asub")      
+      // console.log("Asubno Asub")
+
+}
+}
+
+function checkForBSub(BPlayer,origBPlayer){
+      subBNewPlayer.length=0
+  
+  if (BPlayer != origBPlayer) {
+  
+    let newBPlayer = thisWeeksQuotas.filter(quota=>quota.name==BPlayer)
+    newBPlayerQuota=newBPlayer[0].quota
+    subBNewPlayer.push(newBPlayerQuota)
+    // console.log("this is new a player quota")
+    // console.log(newBPlayerQuota)
+    
+  }
+  else  {
+    let newBPlayer = thisWeeksQuotas.filter(quota=>quota.name==BPlayer)
+    newBPlayerQuota=newBPlayer[0].quota
+    subBNewPlayer.push(newBPlayerQuota)
+    // console.log("this is new b player quota")
+    // console.log(newBPlayerQuota)
+    // console.log("Bsubno Asub")
+  
+  }
+  }
 //this isnt used yet
-router.get('/next-weeks-matches',(req,res)=>{
+// router.get('/next-weeks-matches',(req,res)=>{
 
-    getTeams()
-    //console.log(ABPlayers)
+//     getTeams()
+//     //console.log(ABPlayers)
 
-       // console.log(x)
-
-
+//        // console.log(x)
 
 
-    res.render('next-weeks-matches',{ABPlayers:ABPlayers})
 
-})
+
+//     res.render('next-weeks-matches',{ABPlayers:ABPlayers})
+
+// })
 
 router.post('/team-sign-in',(req,res)=>{
 
@@ -327,14 +374,27 @@ router.post('/input-score',(req,res)=>{
     let APlayerScore=parseInt(req.body.score1)
     let BPlayerScore=parseInt(req.body.score2)
     let date=req.body.date
+    let origAPlayer = req.body.origAPlayer
+    let origBPlayer = req.body.origBPlayer
+    // console.log(req.body.origAPlayer)
+    // console.log(req.body.origBPlayer)
+
+
+  
+  checkForASub(APlayer,origAPlayer)
+  checkForBSub(BPlayer,origBPlayer)
+  console.log(subANewPlayer[0])
+  console.log(subBNewPlayer[0])
+
+  
     t1APlayer = players.t1P1
     t1BPlayer = players.t1P2
     t1APlayer.teamNumber = teamNumber
     t1BPlayer.teamNumber = teamNumber
     t1APlayer.name = APlayer
     t1BPlayer.name = BPlayer
-    t1APlayer.quota = parseInt(req.body.aPlayerQuota)
-    t1BPlayer.quota = parseInt(req.body.bPlayerQuota)
+    t1APlayer.quota = subANewPlayer[0]
+    t1BPlayer.quota = subBNewPlayer[0]
     t1APlayer.played = isNoShow(req.body.onePlayed)
     t1BPlayer.played = isNoShow(req.body.twoPlayed)
     t1APlayer.overUnder = APlayerScore - t1APlayer.quota
@@ -378,14 +438,16 @@ router.post('/input-second',(req,res)=>{
         let BPlayerScore=parseInt(req.body.score2)
         let t1APlayer = players.t1P1
         let t1BPlayer = players.t1P2
+        let origAPlayer = req.body.origAPlayer
+        let origBPlayer = req.body.origBPlayer
         t2APlayer = players.t2P1
         t2BPlayer = players.t2P2
         t2APlayer.teamNumber = teamNumber
         t2BPlayer.teamNumber = teamNumber
         t2APlayer.name = APlayer
         t2BPlayer.name = BPlayer
-        t2APlayer.quota = parseInt(req.body.aPlayerQuota)
-        t2BPlayer.quota = parseInt(req.body.bPlayerQuota)
+        t1APlayer.quota = subANewPlayer[0]
+        t1BPlayer.quota = subBNewPlayer[0]
         t2APlayer.played = isNoShow(req.body.onePlayed)
         t2BPlayer.played = isNoShow(req.body.twoPlayed)
         t2APlayer.overUnder = APlayerScore - t2APlayer.quota
@@ -395,6 +457,11 @@ router.post('/input-second',(req,res)=>{
         teamOneOverUnder = t1APlayer.overUnder + t1BPlayer.overUnder
         teamTwoOverUnder = t2APlayer.overUnder + t2BPlayer.overUnder
 
+
+        checkForASub(APlayer,origAPlayer)
+        checkForBSub(BPlayer,origBPlayer)
+        console.log(subANewPlayer[0])
+        console.log(subBNewPlayer[0])
 
         if(isNaN(APlayerScore)){
           console.log("Player One did not enter a score")
@@ -410,15 +477,22 @@ router.post('/input-second',(req,res)=>{
           teamOneOldPoints = points.points
           db.one('SELECT points FROM teams WHERE team = $1;', [t2APlayer.teamNumber]).then((points) => {
             teamTwoOldPoints = points.points
-            console.log("team one: " + teamOneOldPoints, "team two: " +  teamTwoOldPoints)
+            //console.log("team one: " + teamOneOldPoints, "team two: " +  teamTwoOldPoints)
             playerPoints(t1APlayer, t2APlayer)
             playerPoints(t1BPlayer, t2BPlayer)
             teamPoints(t1APlayer,t1BPlayer,t2APlayer,t2BPlayer)
+            console.log("team one: " + teamOnePoints, "team two: " +  teamTwoPoints)
+            
             let teamOnePointsToSend = parseFloat(teamOnePoints) + parseFloat(teamOneOldPoints)
             let teamTwoPointsToSend = parseFloat(teamTwoPoints) + parseFloat(teamTwoOldPoints)
             db.none('UPDATE teams SET points = $1 WHERE team = $2', [teamOnePointsToSend,t1APlayer.teamNumber])
             .then(()=>{
               db.none('UPDATE teams SET points = $1 WHERE team = $2', [teamTwoPointsToSend,t2APlayer.teamNumber])
+              .then(()=>{
+                teamOnePoints = 0
+                teamTwoPoints = 0
+
+              })
               res.redirect('/team-sign-in')
             })
           })
@@ -426,30 +500,10 @@ router.post('/input-second',(req,res)=>{
     })
 
 
-router.get("/quotas",(req,res)=>{
-
-      calculateQuotas()
-      //console.log(thisWeeksQuotas)
-      res.render('quotas',{thisweek:thisWeeksQuotas})
-
-        })
 
 
-router.post("/getquotas",(req,res)=>{
-          //thisWeeksQuotas.length=0
-    calculateQuotas()
-    //console.log(thisWeeksQuotas)
-    res.render('quotas',{thisweek:thisWeeksQuotas})
 
-            })
-    // use this to prepopulate the scoring input not yet
-
-/*
-router.('/input-scores',(res,req)=>{
-    getteams()
-    res.render('input-scores',{ABPlayers:ABPlayers})
-})
-*/
+   
 
 //Functions to calculate points awarded per team
 function isNoShow(boxValue) {
@@ -462,6 +516,7 @@ function isNoShow(boxValue) {
   }
 }
 function playerPoints(playerOne, playerTwo) {
+  
   if(playerOne.played == false && playerTwo.played == false){
     playerOne.overUnder = -3
     playerTwo.overUnder = -3
