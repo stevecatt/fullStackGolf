@@ -239,19 +239,19 @@ else  {
 function checkForBSub(BPlayer,origBPlayer){
       subBNewPlayer.length=0
   
-  if (BPlayer != origBPlayer) {
+      if (BPlayer != origBPlayer) {
   
-    let newBPlayer = thisWeeksQuotas.filter(quota=>quota.name==BPlayer)
-    newBPlayerQuota=newBPlayer[0].quota
-    subBNewPlayer.push(newBPlayerQuota)
+      let newBPlayer = thisWeeksQuotas.filter(quota=>quota.name==BPlayer)
+     newBPlayerQuota=newBPlayer[0].quota
+      subBNewPlayer.push(newBPlayerQuota)
     // console.log("this is new a player quota")
     // console.log(newBPlayerQuota)
     
-  }
-  else  {
-    let newBPlayer = thisWeeksQuotas.filter(quota=>quota.name==BPlayer)
-    newBPlayerQuota=newBPlayer[0].quota
-    subBNewPlayer.push(newBPlayerQuota)
+    }
+      else  {
+     let newBPlayer = thisWeeksQuotas.filter(quota=>quota.name==BPlayer)
+      newBPlayerQuota=newBPlayer[0].quota
+      subBNewPlayer.push(newBPlayerQuota)
     // console.log("this is new b player quota")
     // console.log(newBPlayerQuota)
     // console.log("Bsubno Asub")
@@ -283,8 +283,9 @@ router.post('/team-sign-in',(req,res)=>{
 
     calculateQuotas()
     dates.length=0
+    calculateQuotas()
 
-    //console.log(thisWeeksQuotas)
+    console.log(thisWeeksQuotas)
     db.one('SELECT date FROM week_date WHERE id=$1',[week])
     .then((date)=>{dates.push(date)
     //console.log(dates)
@@ -334,14 +335,16 @@ let players =
     teamNumber: 0,
     quota: 0,
     overUnder: 0,
-    played: true
+    played: true,
+    score: 0
   },
   t1P2: {
     name: "",
     teamNumber: 0,
     quota: 0,
     overUnder: 0,
-    played: true
+    played: true,
+    score: 0
   },
   t2P1: {
     name: "",
@@ -378,13 +381,18 @@ router.post('/input-score',(req,res)=>{
     let origBPlayer = req.body.origBPlayer
     // console.log(req.body.origAPlayer)
     // console.log(req.body.origBPlayer)
-
+  console.log(oppTeamNumber)
 
   
   checkForASub(APlayer,origAPlayer)
   checkForBSub(BPlayer,origBPlayer)
-  console.log(subANewPlayer[0])
-  console.log(subBNewPlayer[0])
+   console.log("TEAM 1 Status")
+   console.log('Aplayer status')
+   console.log(isNoShow(req.body.onePlayed))
+   console.log('bplayer status')
+   console.log(isNoShow(req.body.twoPlayed))
+  //console.log(subANewPlayer[0])
+  //onsole.log(subBNewPlayer[0])
 
   
     t1APlayer = players.t1P1
@@ -393,12 +401,40 @@ router.post('/input-score',(req,res)=>{
     t1BPlayer.teamNumber = teamNumber
     t1APlayer.name = APlayer
     t1BPlayer.name = BPlayer
+    t1APlayer.score= APlayerScore
+    t1BPlayer.score= BPlayerScore
     t1APlayer.quota = subANewPlayer[0]
     t1BPlayer.quota = subBNewPlayer[0]
     t1APlayer.played = isNoShow(req.body.onePlayed)
     t1BPlayer.played = isNoShow(req.body.twoPlayed)
     t1APlayer.overUnder = APlayerScore - t1APlayer.quota
     t1BPlayer.overUnder = BPlayerScore - t1BPlayer.quota
+    //Must enter secont team number
+    if(isNaN(oppTeamNumber)){
+      console.log('entering second team')
+     
+      res.render('input-scores',{message:"must enter opposing team",dateredo:dates, t1APlayer:t1APlayer, t1BPlayer:t1BPlayer })
+    }else{
+      
+      db.one('SELECT team,player_one,player_two FROM teams where team = $1',oppTeamNumber)
+      .then((teams)=>{
+         //console.log(getTeams)
+         let team = teams.team
+         let teamPlayer1 =teams.player_one
+         let teamPlayer2 = teams.player_two
+ 
+         ABPlayers.length=0
+         ABPlayer(team,teamPlayer1,teamPlayer2)
+ 
+             let otherTeam= ABPlayers.filter(team=>team.teamNumber==oppTeamNumber)
+ 
+             res.render('input-second',{otherTeam:otherTeam, date:dates, t1APlayer:t1APlayer, t1BPlayer:t1BPlayer})
+ 
+                  })
+      
+  
+
+    }
     if(isNaN(APlayerScore)){
       console.log("Player One did not enter a score")
     } else{
@@ -410,21 +446,10 @@ router.post('/input-score',(req,res)=>{
       inputScores(BPlayer,date,BPlayerScore)
     }
 
-    db.one('SELECT team,player_one,player_two FROM teams where team = $1',oppTeamNumber)
-     .then((teams)=>{
-        console.log(getTeams)
-        let team = teams.team
-        let teamPlayer1 =teams.player_one
-        let teamPlayer2 = teams.player_two
+    
+    
 
-        ABPlayers.length=0
-        ABPlayer(team,teamPlayer1,teamPlayer2)
-
-            let otherTeam= ABPlayers.filter(team=>team.teamNumber==oppTeamNumber)
-
-            res.render('input-second',{otherTeam:otherTeam, date:dates, t1APlayer:t1APlayer, t1BPlayer:t1BPlayer})
-
-                 })
+   
             })
 
 
@@ -448,8 +473,8 @@ router.post('/input-second',(req,res)=>{
         t2BPlayer.name = BPlayer
         t1APlayer.quota = subANewPlayer[0]
         t1BPlayer.quota = subBNewPlayer[0]
-        t2APlayer.played = isNoShow(req.body.onePlayed)
-        t2BPlayer.played = isNoShow(req.body.twoPlayed)
+        t2APlayer.played = isNoShow(req.body.threePlayed)
+        t2BPlayer.played = isNoShow(req.body.fourPlayed)
         t2APlayer.overUnder = APlayerScore - t2APlayer.quota
         t2BPlayer.overUnder = BPlayerScore - t2BPlayer.quota
         t1APlayer = players.t1P1
@@ -460,8 +485,12 @@ router.post('/input-second',(req,res)=>{
 
         checkForASub(APlayer,origAPlayer)
         checkForBSub(BPlayer,origBPlayer)
-        console.log(subANewPlayer[0])
-        console.log(subBNewPlayer[0])
+        console.log("TEAM 2 Status")
+        console.log('Aplayer status')
+        console.log(isNoShow(req.body.threePlayed))
+        console.log('bplayer status')
+        console.log(isNoShow(req.body.fourPlayed))
+        //console.log(subBNewPlayer[0])
 
         if(isNaN(APlayerScore)){
           console.log("Player One did not enter a score")
@@ -507,6 +536,7 @@ router.post('/input-second',(req,res)=>{
 
 //Functions to calculate points awarded per team
 function isNoShow(boxValue) {
+  console.log("firing boxvalue function")
   console.log(boxValue)
   if (boxValue == 'false') {
     return false
@@ -553,20 +583,46 @@ function playerPoints(playerOne, playerTwo) {
 }
 
 function teamPoints(teamOnePlayerOne,teamOnePlayerTwo,teamTwoPlayerOne,teamTwoPlayerTwo) {
+  //this looks correct 
   if (teamOnePlayerOne.played == false){
+    //team one cannot make points here
     if(teamOnePlayerTwo.played == false){
+      //correct
       if (teamTwoPlayerOne.played == false && teamTwoPlayerTwo.played == false){
+        //no points awarded in this case
         teamOnePoints = 0
         teamTwoPoints = 0
-      }
-      else if(teamTwoPlayerOne.played == false || teamTwoPlayerTwo.played == false){
+      }// this looks wrong dont think you can get one point 
+      else if(teamTwoPlayerOne.played == false && teamTwoPlayerTwo.played == true){
         if (teamOneOverUnder > teamTwoOverUnder){
+          //no points for team two either in this case cos they lost against no shows
           teamOnePoints += 0
+          teamTwoPoints += 0
+          
         } else if (teamOneOverUnder < teamTwoOverUnder) {
+          //only one player playing so correct
           teamTwoPoints += 2
         } else {
+          //this is tied with no show situation so ok 
           teamOnePoints += 0
           teamTwoPoints += 1
+          //console.log("how did this situation occur")
+        }
+      }
+      else if(teamTwoPlayerOne.played == true && teamTwoPlayerTwo.played == false){
+        if (teamOneOverUnder > teamTwoOverUnder){
+          //no points for team two either in this case cos they lost against no shows
+          teamOnePoints += 0
+          teamTwoPoints += 0
+          
+        } else if (teamOneOverUnder < teamTwoOverUnder) {
+          //only one player playing so correct
+          teamTwoPoints += 2
+        } else {
+          //this is tied with no show situation so ok 
+          teamOnePoints += 0
+          teamTwoPoints += 1
+          //console.log("how did this situation occur")
         }
       }
       else {
@@ -575,21 +631,36 @@ function teamPoints(teamOnePlayerOne,teamOnePlayerTwo,teamTwoPlayerOne,teamTwoPl
       } else if (teamOneOverUnder < teamTwoOverUnder) {
         teamTwoPoints += 4
       } else {
+        //tied situation 
         teamOnePoints += 0
         teamTwoPoints += 2
       }
     }
+    //team 1 player 2 playing
     } else if(teamTwoPlayerOne.played == false && teamTwoPlayerTwo.played == false){
       if (teamOneOverUnder > teamTwoOverUnder){
         teamOnePoints += 2
       } else if (teamOneOverUnder < teamTwoOverUnder) {
         teamTwoPoints += 0
       } else {
+        //tie
         teamOnePoints += 1
         teamTwoPoints += 0
       }
+    } 
+    //looks like it triggers if one or none play so this gould be an issue think it needs to be if player 1 ns and player 2 show or player 1 show and player2 ns
+    else if(teamTwoPlayerOne.played == false && teamTwoPlayerTwo.played == true){
+      if (teamOneOverUnder > teamTwoOverUnder){
+        teamOnePoints += 2
+      } else if (teamOneOverUnder < teamTwoOverUnder) {
+        teamTwoPoints += 2
+      } else {
+        teamOnePoints += 1
+        teamTwoPoints += 1
+      }
     }
-    else if(teamTwoPlayerOne.played == false || teamTwoPlayerTwo.played == false){
+    //added another case
+    else if(teamTwoPlayerOne.played == true && teamTwoPlayerTwo.played == false){
       if (teamOneOverUnder > teamTwoOverUnder){
         teamOnePoints += 2
       } else if (teamOneOverUnder < teamTwoOverUnder) {
@@ -600,6 +671,7 @@ function teamPoints(teamOnePlayerOne,teamOnePlayerTwo,teamTwoPlayerOne,teamTwoPl
       }
     }
     else{
+      // teamm 1 1 player team 2 2 players
       if (teamOneOverUnder > teamTwoOverUnder){
         teamOnePoints += 2
       } else if (teamOneOverUnder < teamTwoOverUnder) {
@@ -645,7 +717,18 @@ function teamPoints(teamOnePlayerOne,teamOnePlayerTwo,teamTwoPlayerOne,teamTwoPl
         teamTwoPoints += 0
       }
     }
-    else if(teamTwoPlayerOne.played == false || teamTwoPlayerTwo.played == false){
+    //added another case 
+    else if(teamTwoPlayerOne.played == false && teamTwoPlayerTwo.played == true){
+      if (teamOneOverUnder > teamTwoOverUnder){
+        teamOnePoints += 2
+      } else if (teamOneOverUnder < teamTwoOverUnder) {
+        teamTwoPoints += 2
+      } else {
+        teamOnePoints += 1
+        teamTwoPoints += 1
+      }
+    }
+    else if(teamTwoPlayerOne.played == true && teamTwoPlayerTwo.played == false){
       if (teamOneOverUnder > teamTwoOverUnder){
         teamOnePoints += 2
       } else if (teamOneOverUnder < teamTwoOverUnder) {
@@ -671,7 +754,18 @@ function teamPoints(teamOnePlayerOne,teamOnePlayerTwo,teamTwoPlayerOne,teamTwoPl
         teamOnePoints = 0
         teamTwoPoints = 0
       }
-      else if(teamOnePlayerOne.played == false || teamOnePlayerTwo.played == false){
+      //added another test case
+      else if(teamOnePlayerOne.played == false && teamOnePlayerTwo.played == true){
+        if (teamOneOverUnder > teamTwoOverUnder){
+          teamOnePoints += 2
+        } else if (teamOneOverUnder < teamTwoOverUnder) {
+          teamTwoPoints += 0
+        } else {
+          teamOnePoints += 1
+          teamTwoPoints += 0
+        }
+      }
+      else if(teamOnePlayerOne.played == true && teamOnePlayerTwo.played == false){
         if (teamOneOverUnder > teamTwoOverUnder){
           teamOnePoints += 2
         } else if (teamOneOverUnder < teamTwoOverUnder) {
@@ -701,7 +795,18 @@ function teamPoints(teamOnePlayerOne,teamOnePlayerTwo,teamTwoPlayerOne,teamTwoPl
         teamTwoPoints += 0
       }
     }
-    else if(teamOnePlayerOne.played == false || teamOnePlayerTwo.played == false){
+    //added another test case
+    else if(teamOnePlayerOne.played == false && teamOnePlayerTwo.played == false){
+      if (teamOneOverUnder > teamTwoOverUnder){
+        teamOnePoints += 2
+      } else if (teamOneOverUnder < teamTwoOverUnder) {
+        teamTwoPoints += 2
+      } else {
+        teamOnePoints += 1
+        teamTwoPoints += 1
+      }
+    }
+    else if(teamOnePlayerOne.played == true && teamOnePlayerTwo.played == false){
       if (teamOneOverUnder > teamTwoOverUnder){
         teamOnePoints += 2
       } else if (teamOneOverUnder < teamTwoOverUnder) {
@@ -728,7 +833,18 @@ function teamPoints(teamOnePlayerOne,teamOnePlayerTwo,teamTwoPlayerOne,teamTwoPl
         teamOnePoints = 0
         teamTwoPoints = 0
       }
-      else if(teamOnePlayerOne.played == false || teamOnePlayerTwo.played == false){
+      //another case to fix eroneous 1 point
+      else if(teamOnePlayerOne.played == false && teamOnePlayerTwo.played == true){
+        if (teamOneOverUnder > teamTwoOverUnder){
+          teamOnePoints += 2
+        } else if (teamOneOverUnder < teamTwoOverUnder) {
+          teamTwoPoints += 0
+        } else {
+          teamOnePoints += 1
+          teamTwoPoints += 0
+        }
+      }
+      else if(teamOnePlayerOne.played == true && teamOnePlayerTwo.played == false){
         if (teamOneOverUnder > teamTwoOverUnder){
           teamOnePoints += 2
         } else if (teamOneOverUnder < teamTwoOverUnder) {
@@ -758,7 +874,18 @@ function teamPoints(teamOnePlayerOne,teamOnePlayerTwo,teamTwoPlayerOne,teamTwoPl
         teamTwoPoints += 0
       }
     }
-    else if(teamOnePlayerOne.played == false || teamOnePlayerTwo.played == false){
+    //anothere 1 point fix
+    else if(teamOnePlayerOne.played == false && teamOnePlayerTwo.played == true){
+      if (teamOneOverUnder > teamTwoOverUnder){
+        teamOnePoints += 2
+      } else if (teamOneOverUnder < teamTwoOverUnder) {
+        teamTwoPoints += 2
+      } else {
+        teamOnePoints += 1
+        teamTwoPoints += 1
+      }
+    }
+    else if(teamOnePlayerOne.played == true && teamOnePlayerTwo.played == false){
       if (teamOneOverUnder > teamTwoOverUnder){
         teamOnePoints += 2
       } else if (teamOneOverUnder < teamTwoOverUnder) {
