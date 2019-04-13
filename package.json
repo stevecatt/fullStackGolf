@@ -15,10 +15,7 @@
     "mustache-express": "^1.2.8",
     "pg": "^7.9.0",
     "pg-promise": "^8.6.4"
-<<<<<<< HEAD
-   
-=======
->>>>>>> master
+
   },
   "repository": {
     "type": "git",
