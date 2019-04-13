@@ -290,7 +290,7 @@ router.post('/team-sign-in',(req,res)=>{
     }else{
     
 
-       console.log(thisWeeksQuotas)
+       //console.log(thisWeeksQuotas)
         db.one('SELECT date FROM week_date WHERE id=$1',[week])
          .then((date)=>{dates.push(date)
         //console.log(dates)
@@ -527,7 +527,7 @@ router.post('/input-second',(req,res)=>{
                 teamTwoPoints = 0
 
               })
-              res.redirect('/team-sign-in')
+              res.render('sign-in-team',{message:`Team: ${t1APlayer.teamNumber}: ${teamOnePoints} Team: ${t2APlayer.teamNumber}: ${teamTwoPoints} Points `})
             })
           })
         })
