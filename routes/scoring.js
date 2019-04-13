@@ -274,6 +274,7 @@ function checkForBSub(BPlayer,origBPlayer){
 // })
 
 router.post('/team-sign-in',(req,res)=>{
+    calculateQuotas()
 
     let teamNumber=parseInt(req.body.teamNumber)
     let password = req.body.password
@@ -281,9 +282,9 @@ router.post('/team-sign-in',(req,res)=>{
     //console.log(teamNumber)
     //console.log(password)
 
-    calculateQuotas()
+    
     dates.length=0
-    calculateQuotas()
+    
 
     console.log(thisWeeksQuotas)
     db.one('SELECT date FROM week_date WHERE id=$1',[week])
