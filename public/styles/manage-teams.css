@@ -1,0 +1,42 @@
+body {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  margin: 3rem;
+  background-image: url("/images/diamond.jpg");
+}
+
+.menu {
+  margin-bottom: 1.5rem;
+}
+
+.manCard {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.manCard #cardSize {
+  width: 30rem;
+}
+
+.manCard .btn-link {
+  background-color: #00240a;
+  color: white;
+}
+
+.card-title {
+  color: #00240a;
+}
+
+ul {
+  list-style-type: none;
+  text-decoration: none;
+  padding: 0;
+}
+
+.addCard .delTeam {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}

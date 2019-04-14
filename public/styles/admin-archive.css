@@ -1,0 +1,46 @@
+body {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  margin: 3rem;
+  background-image: url("/images/diamond.jpg");
+}
+
+.menu {
+  margin-bottom: 1.5rem;
+}
+
+.arcCard {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.arcCard #cardSize {
+  width: 40rem;
+}
+
+.card-title {
+  color: #00240a;
+}
+
+.arcCard #buttonOne {
+  background-color: #00240a;
+  color: white;
+}
+
+.arcCard #buttonTwo {
+  background-color: #00240a;
+  color: white;
+}
+
+.arcUndo {
+  width: 100%;
+  padding: 15px;
+  margin: auto;
+}
+
+.arcTeams {
+  width: 100%;
+  padding: 15px;
+  margin: auto;
+}

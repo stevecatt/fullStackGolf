@@ -1,24 +1,37 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <link rel="stylesheet" href="#"/>
-    <title>Admin Register</title>
-  </head>
+<html>
+<head>
+  <!-- Required meta tags -->
+  {{> meta}}
+  <link rel="stylesheet" href="/styles/admin-register.css">
+  <title>Admin Register</title>
+</head>
   <body>
-    <div>
-      {{> menu}}
-      <div>
-        <h2>Register a New Admin</h2>
-        <h3>{{message}}</h3>
-        <form action="/admin/register" method="POST">
-          <div>
-            <input type="text" name="name" placeholder="Steve Cattanach"/>
-            <input type="text" name="username" placeholder="username"/>
-            <input type="password" name="password" placeholder="password"/>
+    <!-- navbar partial -->
+    {{> menu}}
+    <div class="regCard">
+      <div id="cardSize" class="card text-center">
+        <div class="card-body">
+          <h2 class="card-title">Register a New Admin</h2>
+          <div><hr>
+          <p>{{message}}</p>
+          <div class="card-text">
+            <form class="admReg" action="/admin/register" method="POST">
+              <div class="form-group">
+                <input type="text" name="name" class="form-control" placeholder="Enter Name" />
+              </div>
+              <div class="form-group">
+                <input type="text" name="username" class="form-control" placeholder="Enter Username" />
+              </div>
+              <div class="form-group">
+                <input type="password" name="password" class="form-control" placeholder="Enter Password" />
+              </div>
+              <button id="button" type="submit" class="btn btn-link">Register &raquo;</button>
+            </form>
           </div>
-          <button type="submit">Register</button>
-        </form>
+          </div>
+        </div>
       </div>
     </div>
+    {{> script}}
   </body>
 </html>

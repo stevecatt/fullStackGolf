@@ -1,30 +1,36 @@
-<!DOCTYPE html>
-{{>meta}}
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-     <link rel="stylesheet" href="/styles/scoresin.css">
-    <title>Team Login</title>
-  </head>
+<html>
+<head>
+  <!-- Required meta tags -->
+  {{> meta}}
+  <link rel="stylesheet" href="/styles/login.css">
+  <title>Team Login</title>
+</head>
   <body>
-    <div>
-      {{> menu}}
-      <div>
-        
-        <form action="/team-sign-in" method="POST">
-          <div>
-          <input type ="text" name= "week" placeholder="Enter Week #" />
-          <input type="text" name="teamNumber" placeholder="Enter Team #" /> 
-          <input type="password" name="password" placeholder="Enter Team Login Password" />
+    <!-- navbar partial -->
+    {{> menu}}
+    <div class="loginCard">
+      <div id="cardSize" class="card text-center">
+        <img src="/images/golf1edit.jpeg" class="card-img-top">
+        <div class="card-body">
+          <h2 class="card-title">Team Login</h2>
+          <div class="card-text">
+            <form class="login" action="/team-sign-in" method="POST">
+              <div class="form-group">
+                <input type="text" name="week" class="form-control" placeholder="Enter Week #" />
+              </div>
+              <div class="form-group">
+                <input type="text" name="teamNumber" class="form-control" placeholder="Enter Team #" />
+              </div>
+              <div class="form-group">
+                <input type="password" name="password" class="form-control" placeholder="Enter Password" />
+              </div>
+              <button id="button" type="submit" class="btn btn-link">Login &raquo;</button>
+            </form>
+            <p>{{message}}</p>
           </div>
-          <button type="submit">Submit</button>
-        </form>
-
-        <h2>{{message}}</h2>
-     
-
+        </div>
       </div>
     </div>
+    {{> script}}
   </body>
-  {{> script}}
 </html>

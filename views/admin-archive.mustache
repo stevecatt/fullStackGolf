@@ -1,28 +1,42 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Archive Teams</title>
-  </head>
+<html>
+<head>
+  <!-- Required meta tags -->
+  {{> meta}}
+  <link rel="stylesheet" href="/styles/admin-archive.css">
+  <title>Admin Archive</title>
+</head>
   <body>
-    <div>
-      {{> menu}}
-      <div>
-        <h2>Archive Current Season to Start a new one</h2>
-        {{message2}}
-        {{#message1}}
-        <h3>{{message1}}</h3>
-        <form action="/admin/undo-archive" method="POST">
-          <span>Undo archive?</span>
-          <button type="submit">Undo</button>
-        </form>
-        {{/message1}}
-        <form action="/admin/archive-teams" method="POST">
-          <h3>Archive current season? If not use links above to go back.</h3>
-          <h5>This can only be undone ONCE.</h5>
-          <button type="submit">Archive</button>
-        </form>
+    <!-- navbar partial -->
+    {{> menu}}
+
+    <div class="arcCard">
+      <div id="cardSize" class="card text-center">
+        <div class="card-body">
+          <h2 class="card-title">Archive Current Season</h2>
+          <div><hr>
+          {{#message1}}
+          <p>{{message1}}</p>
+          <div class="card-text">
+            <form class="arcUndo" action="/admin/undo-archive" method="POST">
+              <div class="form-group">
+                <h4>Undo archive?</h4>
+              </div>
+              <button id="buttonOne" type="submit" class="btn btn-link">Undo &raquo;</button>
+            </form>
+            {{/message1}}
+            <form class="arcTeams" action="/admin/archive-teams" method="POST">
+              <div class="form-group">
+                <h4>Archive the current season to start a new one.</h4>
+                <h5>Warning: Archive can only be undone once. </h5>
+              </div>
+              <button id="buttonTwo" type="submit" class="btn btn-link">Archive &raquo;</button>
+            </form>
+            <p>{{message2}}</p>
+          </div>
+          </div>
+        </div>
       </div>
     </div>
+    {{> script}}
   </body>
 </html>
