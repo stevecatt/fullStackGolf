@@ -1,21 +1,18 @@
-<<<<<<< HEAD
 body {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-    background-image: url("/images/golf1.jpg")
-  }
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  background-image: url("/images/golf1.jpg")
+}
 
 .menu {
   margin-bottom: 1.5rem;
 }
-=======
-body {background-image: url("/images/golf1.jpg")}
+
 .input-box {
     background-image: url('/images/diamond');
     background-color:white;
 }
 .heads {
     color: white;
-    
+
 }
->>>>>>> master
