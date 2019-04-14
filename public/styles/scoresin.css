@@ -1,8 +1,8 @@
 body {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-    background-image: url("/images/golf1.jpg")
-  }
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  background-image: url("/images/golf1.jpg")
+}
 
 .menu {
   margin-bottom: 1.5rem;
@@ -14,6 +14,6 @@ body {
 }
 .heads {
     color: white;
-    
+
 }
 h2 {color: white}

@@ -1,33 +1,32 @@
 <html>
 <head>
-    <!-- Required meta tags -->
-    {{> meta}}
-    <link rel="stylesheet" href="/styles/admin-login.css">
+  <!-- Required meta tags -->
+  {{> meta}}
+  <link rel="stylesheet" href="/styles/admin-login.css">
 
 </head>
   <body>
     <!-- navbar partial -->
     {{> menu}}
-<div class="loginCard">
-  <div class="card text-center" style="width: 30rem;">
-    <img src="/images/admingolf.jpg" class="card-img-top">
-    <div class="card-body">
-      <h2 class="card-title">Admin Login</h2>
-      <div class="card-text">
-
-        <form class="login" action="/admin-login" method="POST">
-          <div class="form-group">
-            <input type="text" name="username" class="form-control" placeholder="Enter Username" />
+    <div class="loginCard">
+      <div id="cardSize" class="card text-center">
+        <img src="/images/admingolf.jpg" class="card-img-top">
+        <div class="card-body">
+          <h2 class="card-title">Admin Login</h2>
+          <div class="card-text">
+            <form class="login" action="/admin-login" method="POST">
+              <div class="form-group">
+                <input type="text" name="username" class="form-control" placeholder="Enter Username" />
+              </div>
+              <div class="form-group">
+                <input type="password" name="password" class="form-control" placeholder="Enter Password" />
+              </div>
+              <button id="button" type="submit" class="btn btn-link">Login &raquo;</button>
+            </form>
           </div>
-          <div class="form-group">
-            <input type="password" name="password" class="form-control" placeholder="Enter Password" />
-          </div>
-          <button type="submit" class="btn btn-link" style="background-color: #00240a; color: white;">Login &raquo;</button>
-        </form>
-      </div>
+        </div>
       </div>
     </div>
-  </div>
     {{> script}}
   </body>
-  </html>
+</html>
