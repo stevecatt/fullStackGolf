@@ -1,0 +1,36 @@
+body {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  margin: 3rem;
+  background-image: url("/images/diamond.jpg");
+}
+
+.menu {
+  margin-bottom: 1.5rem;
+}
+
+.regCard {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.regCard #cardSize {
+  width: 30rem;
+}
+
+.regCard #button {
+  background-color: #00240a;
+  color: white;
+}
+
+.card-title {
+  color: #00240a;
+}
+
+.admReg {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}

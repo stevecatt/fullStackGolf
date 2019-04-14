@@ -1,14 +1,48 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Manage Existing Teams</title>
-  </head>
+<html>
+<head>
+  <!-- Required meta tags -->
+  {{> meta}}
+  <link rel="stylesheet" href="/styles/manage-teams.css">
+  <title>Admin Register</title>
+</head>
   <body>
-    <div>
-      {{>menu}}
+    <!-- navbar partial -->
+    {{> menu}}
 
-      <div>
+    <div class="manCard">
+      <div id="cardSize" class="card text-center">
+        <div class="card-body">
+          <h2 class="card-title">Manage Existing Teams</h2>
+          <div><hr>
+          <div class="card-text">
+            <ul>
+              {{#teams}}
+              <li>
+                <h3>Team {{team}}</h3>
+                <p>Player One: {{player_one}}</p>
+                <p>Player Two: {{player_two}}</p>
+                <form class="delTeam" action="/delete-team" method="POST">
+                  <input type="hidden" name="deleteTeam" value="{{id}}" />
+                  <button id="button" type="submit" class="btn btn-link">Delete &raquo;</button>
+                </form>
+              </li><br>
+              {{/teams}}
+            </ul>
+            {{^teams}}
+              <h4>No existing teams found!</h4>
+            {{/teams}}
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{> script}}
+  </body>
+</html>
+
+
+
+      <!-- <div>
         <h2>Manage Existing Teams</h2>
         <ul>
           {{#teams}}
@@ -29,4 +63,4 @@
       </div>
     </div>
   </body>
-</html>
+</html> -->

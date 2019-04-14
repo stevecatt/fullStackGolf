@@ -58,24 +58,14 @@ app.set('views','./views')
 app.set('view engine','mustache')
 
 
-
-
 //render mustache pages
 
 app.get('/home', (req, res) => {
   res.render('home')
 })
 
-app.get('/last-weeks-scores', (req, res) => {
-  res.render('last-weeks-scores')
-})
-
 app.get('/next-weeks-matches', (req, res) => {
   res.render('next-weeks-matches')
-})
-
-app.get('/view-player-quotas', (req, res) => {
-  res.render('view-player-quotas')
 })
 
 app.get('/hello', (req,res) => {
