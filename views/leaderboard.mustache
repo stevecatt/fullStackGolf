@@ -7,13 +7,10 @@
   </head>
   <body>
     {{> menu}}
-
     <div id="leaderboardBody">
       <div>
-        <h2 id="title">Leaderboard</h2>
-      </div>
-      <div>
-          <table class="table">
+          <table class="table table-striped table-light">
+            <caption><h2 id="title">Leaderboard<h2></caption>
             <thead>
               <tr>
                 <th scope="col">Rank</th>
@@ -36,6 +33,7 @@
             </tr>
           </tbody>
         </table>
+      </div>
     </div>
     {{> script}}
   </body>

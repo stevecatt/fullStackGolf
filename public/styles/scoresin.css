@@ -1,19 +1,36 @@
 body {
   padding-top: 3rem;
   padding-bottom: 3rem;
-  background-image: url("/images/golf1.jpg")
+  margin: 3rem;
+  background-image: url("/images/diamond.jpg");
 }
 
 .menu {
   margin-bottom: 1.5rem;
 }
 
-.input-box {
-    background-image: url('/images/diamond');
-    background-color:white;
+.inputCard {
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
-.heads {
-    color: white;
 
+.inputCard #cardSize {
+  width: 30rem;
 }
-h2 {color: white}
+
+.inputCard .btn-link {
+  background-color: #00240a;
+  color: white;
+}
+
+.card-title {
+  color: #00240a;
+}
+
+.inputCard .form {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}

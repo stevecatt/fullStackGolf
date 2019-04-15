@@ -1,104 +1,95 @@
-<!DOCTYPE html>
-{{>meta}}
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-     <link rel="stylesheet" href="/styles/scoresin.css">
-    <title></title>
-  </head>
+<html>
+<head>
+  <!-- Required meta tags -->
+  {{> meta}}
+  <link rel="stylesheet" href="/styles/scoresin.css">
+  <title>Input Scores</title>
+</head>
   <body>
-
+    <!-- navbar partial -->
     {{> menu}}
-    {{#thisTeam}}
-    {{#date}}
-    <div class="heads" > 
-    <h2>Input Scores</h2>
-    <h3>Team Number {{teamNumber}}</h3>
-    
-    <h3>DateOf Game {{date}}</h3>
-    
+    <div class="inputCard">
+      <div id="cardSize" class="card text-center">
+        <div class="card-body">
+          <h2 class="card-title">Input Scores</h2>
+          <div class="card-text">
+            <div><hr><br>
+              {{#thisTeam}}
+              {{#date}}
+              <h4>Team Number {{teamNumber}}</h4>
+              <h4>Date Of Game: {{date}}</h4>
+              <form class="form" action="/input-score" method="POST">
+                <input type="hidden" name="origAPlayer" value="{{APlayer}}" />
+                <input type="hidden" name="origBPlayer" value="{{BPlayer}}" />
+                <br><h5>Player One:</h5>
+                <div class="form-group">
+                  <input type="text" name="playerName1" class="form-control" value="{{APlayer}}" placeholder="Player One Name" />
+                  <p>No show? <input type="checkbox" name="onePlayed" value="false"/></p>
+                </div>
+                <div class="form-group">
+                  <input type="text" name="score1" class="form-control" placeholder="Enter Score" />
+                </div>
+                <input type="hidden" name="aPlayerQuota" value="{{APlayerQuota}}" />
+                <br><h5>Player Two:</h5>
+                <div class="form-group">
+                  <input type="text" name="playerName2" class="form-control" value="{{BPlayer}}" placeholder="Player Two Name" />
+                  <p>No show? <input type="checkbox" name="twoPlayed" value="false"/></p>
+                </div>
+                <div class="form-group">
+                  <input type="text" name="score2" class="form-control" placeholder="Enter Score" />
+                </div>
+                <input type="hidden" name="bPlayerQuota" value="{{BPlayerQuota}}" />
+                <br><h5>Opposing Team:</h5>
+                <div class="form-group">
+                  <input type="text" name="opposition" class="form-control" placeholder="Enter Opposing Team #"/>
+                </div>
+                <input type="hidden" name= "teamNumber" value="{{teamNumber}}"/>
+                <input type="hidden" name="date" value="{{date}}"/>
+                <button type="submit" class="btn btn-link">Submit &raquo;</button>
+              </form>
+              {{/date}}
+            {{/thisTeam}}
+
+            {{#dateredo}}
+            <h4>Team Number {{teamNumber}}</h4>
+            <h4>Date Of Game: {{date}}</h4>
+            <p>{{message}}</p>
+            <form class="form" action="/input-score" method="POST">
+              <input type="hidden" name="origAPlayer" value="{{t1APlayer.name}}" />
+              <input type="hidden" name="origBPlayer" value="{{t1BPlayer.name}}" />
+              <br><h5>Player One:</h5>
+              <div class="form-group">
+                <input type="text" name="playerName1" class="form-control" value="{{t1APlayer.name}}" placeholder="Player One Name" />
+                <p>No show? <input type="checkbox" name="onePlayed" value="false"/></p>
+              </div>
+              <div class="form-group">
+                <input type="text" name="score1" value ="{{t1APlayer.score}}" class="form-control" placeholder="Enter Score" />
+              </div>
+              <input type="hidden" name="aPlayerQuota" value="{{t1APlayer.quota}}" />
+              <br><h5>Player Two:</h5>
+              <div class="form-group">
+                <input type="text" name="playerName2" class="form-control" value="{{t1BPlayer.name}}" placeholder="Player Two Name" />
+                <p>No show? <input type="checkbox" name="twoPlayed" value="false"/></p>
+              </div>
+              <div class="form-group">
+                <input type="text" name="score2" value ="{{t1BPlayer.score}}" class="form-control" placeholder="Enter Score" />
+              </div>
+              <input type="hidden" name="bPlayerQuota" value="{{t1BPlayer.quota}}" />
+              <br><h5>Opposing Team:</h5>
+              <div class="form-group">
+                <input type="text" name="opposition" class="form-control" placeholder="Enter Opposing Team #"/>
+              </div>
+              <input type="hidden" name= "teamNumber" value="{{t1APlayer.teamNumber}}"/>
+              <input type="hidden" name="date" value="{{date}}"/>
+              <button type="submit" class="btn btn-link">Submit &raquo;</button>
+            </form>
+            {{/dateredo}}
+            <p>{{message}}</p>
+          </div>
+        </div>
+      </div>
     </div>
-
-
-
-    <form action="/input-score" method="POST">
-        <input type="hidden" name="origAPlayer" value="{{APlayer}}" />
-        <input type="hidden" name="origBPlayer" value="{{BPlayer}}" />
- 
-      <div class="input-box">
-          <input type="text" name="playerName1" placeholder="Enter Player Name" value="{{APlayer}}" />
-          No show? <input type="checkbox" name="onePlayed" value="false"/>
-          <input type="text" name="score1" placeholder="Enter Score"/>
-          <span>Quota = {{APlayerQuota}}</span>
-          <input type="hidden" name="aPlayerQuota" value="{{APlayerQuota}}" />
-      </div>
-      <div class="input-box">
-
-      <input type="text" name="playerName2" placeholder="Enter Player Name" value="{{BPlayer}}" />
-          No show? <input type="checkbox" name="twoPlayed" value="false"/>
-          <input type="text" name="score2" placeholder="Enter Score"/>
-            <span>Quota = {{BPlayerQuota}}</span>
-          <input type="hidden" name="bPlayerQuota" value="{{BPlayerQuota}}" />
-      </div>
-
-      <div class="input-box">
-          <input type="text" name="opposition" placeholder="Enter Opposing Team #"/>
-          <input type="hidden" name= "teamNumber" value="{{teamNumber}}"/>
-          <input type="hidden" name="date" value="{{date}}"/>
-          <button type="submit">submit</button>
-      </div>
-      </form>
-      {{/date}}
-    {{/thisTeam}}
-
-    {{#dateredo}}
-    <div class="heads" > 
-    <h2>Input Scores</h2>
-    <h3>Team Number {{teamNumber}}</h3>
-    
-    <h3>DateOf Game {{date}}</h3>
-    <h2>{{message}}</h2>
-    </div>
-
-
-
-    <form action="/input-score" method="POST">
-        <input type="hidden" name="origAPlayer" value="{{t1APlayer.name}}" />
-        <input type="hidden" name="origBPlayer" value="{{t1BPlayer.name}}" />
- 
-      <div class="input-box">
-          <input type="text" name="playerName1" placeholder="Enter Player Name" value="{{t1APlayer.name}}" />
-          No show? <input type="checkbox" name="onePlayed" value="false"/>
-          <input type="text" name="score1" placeholder="Enter Score" value ="{{t1APlayer.score}}"/>
-          <span>Quota = {{t1BPlayer.Quota}}</span>
-          <input type="hidden" name="aPlayerQuota" value="{{t1APlayer.quota}}" />
-      </div>
-      <div class="input-box">
-
-      <input type="text" name="playerName2" placeholder="Enter Player Name" value="{{t1BPlayer.name}}" />
-          No show? <input type="checkbox" name="twoPlayed" value="false"/>
-          <input type="text" name="score2" placeholder="Enter Score" value="{{t1BPlayer.score}}"/>
-          <span>Quota = {{t1BPlayer.Quota}}</span>
-          <input type="hidden" name="bPlayerQuota" value="{{t1BPlayer.quota}}" />
-      </div>
-
-      <div class="input-box">
-          <input type="text" name="opposition" placeholder="Enter Opposing Team #"/>
-          <input type="hidden" name= "teamNumber" value="{{t1APlayer.teamNumber}}"/>
-          <input type="hidden" name="date" value="{{date}}"/>
-          <button type="submit">submit</button>
-      </div>
-      </form>
-      {{/dateredo}}
-
-
-
-
-
-
-    <h2>{{message}}</h2>
-
-    {{> script}}
-
-  </body>
+  </div>
+  {{> script}}
+</body>
 </html>

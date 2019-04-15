@@ -19,6 +19,12 @@ body {
   color: #00240a;
 }
 
+caption {
+  caption-side: top;
+  background: #fdfdfe;
+  text-align: center;
+}
+
 .numberColumn {
   padding-right: 2rem;
 }
