@@ -60,6 +60,10 @@ app.set('view engine','mustache')
 
 //render mustache pages
 
+app.get('/', (req,res) => {
+  res.redirect('/home')
+})
+
 app.get('/home', (req, res) => {
   res.render('home')
 })
