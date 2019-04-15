@@ -417,7 +417,9 @@ router.post('/input-score',(req,res)=>{
     t1BPlayer.played = isNoShow(req.body.twoPlayed)
     t1APlayer.overUnder = APlayerScore - t1APlayer.quota
     t1BPlayer.overUnder = BPlayerScore - t1BPlayer.quota
-    //Must enter secont team number
+
+
+    //Must enter second team number
     if(isNaN(oppTeamNumber)){
       console.log('entering second team')
      
@@ -495,9 +497,11 @@ router.post('/input-second',(req,res)=>{
         checkForBSub(BPlayer,origBPlayer)
         console.log("TEAM 2 Status")
         console.log('Aplayer status')
-        console.log(isNoShow(req.body.threePlayed))
+        console.log(req.body.threePlayed)
+        console.log(t2APlayer.played)
         console.log('bplayer status')
-        console.log(isNoShow(req.body.fourPlayed))
+        console.log(t2BPlayer.played)
+        console.log(req.body.fourPlayed)
         //console.log(subBNewPlayer[0])
 
         if(isNaN(APlayerScore)){
@@ -589,7 +593,14 @@ function playerPoints(playerOne, playerTwo) {
     teamTwoPoints += 1.5
   }
 }
+// //function simpleTeamPoints(teamOneAPlayer,TeamOneBPlayer,TeamTwoAPlayer,TeamTwoAPlayer){
+//   if(teamOnePoints==teamTwoPoints){
+//     if(){
 
+//     }
+//   }
+//   console.log("new function")
+// }
 function teamPoints(teamOnePlayerOne,teamOnePlayerTwo,teamTwoPlayerOne,teamTwoPlayerTwo) {
   //this looks correct 
   if (teamOnePlayerOne.played == false){

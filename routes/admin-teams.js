@@ -73,7 +73,8 @@ router.post('/add-teams', (req, res) => {
 
 router.get('/admin/manage-teams', (req, res) => {
 
-  db.any('SELECT * FROM teams').then((teams) => {
+  db.any('SELECT * FROM teams ORDER by id').then((teams) => {
+    console.log(teams)
   res.render('manage-teams', {teams: teams})
   })
 })
