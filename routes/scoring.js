@@ -67,88 +67,88 @@ function calculateQuotas(){
       for(index=0;index<quotas.length;index++){
       let quota=quotas[index]
 
-        
+
         if(quota.q1==null){
           let thisWeekQuota=5
           let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
           thisWeeksQuotas.push(quotapush)
 
-       
+
       }
         else if(quota.q2==null){
           let thisWeekQuota=quota.q1+3
         let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
-       
+
       }
       else if(quota.q3==null){
         if(quota.q1>=quota.q2){
           let thisWeekQuota=quota.q1
           let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
-          
+
         }
         else{thisWeekQuota=quota.q2
         let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
-       
+
       }
     }
       else if(quota.q4==null){
         let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3)/3)
         let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
-        
+
 
       }
       else if(quota.q5==null){
         let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3+quota.q4)/4)
         let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
-        
+
       }
       else if(quota.q6==null){
         let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3+quota.q4+quota.q5)/5)
         let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
-        
+
       }
       else if(quota.q7==null){
         let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3+quota.q4+quota.q5+quota.q6)/6)
         let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
-        
+
       }
       else if(quota.q8==null){
         let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3+quota.q4+quota.q5+quota.q6+quota.q7)/7)
         let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
-        
+
       }
       else if(quota.q9==null){
         let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3+quota.q4+quota.q5+quota.q6+quota.q7+quota.q8)/8 )
         let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
-        
+
       }
       else if(quota.q10==null){
         let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3+quota.q4+quota.q5+quota.q6+quota.q7+quota.q8+quota.q9)/9 )
         let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
-        
+
       }
       else if(quota.q11==null){
         let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3+quota.q4+quota.q5+quota.q6+quota.q7+quota.q8+quota.q9+quota.q10)/10 )
         let quotapush = {name:quota.golfer,quota:thisWeekQuota,newbie:"*"}
         thisWeeksQuotas.push(quotapush)
-       
+
       }
       else{let thisWeekQuota=Math.round((quota.q1+quota.q2+quota.q3+quota.q4+quota.q5+quota.q6+quota.q7+quota.q8+quota.q9+quota.q10)/10)
         let quotapush = {name:quota.golfer,quota:thisWeekQuota}
         thisWeeksQuotas.push(quotapush)
-        
+
       }
-      
+
     }
 
 
@@ -214,7 +214,7 @@ function ABPlayer(team,teamPlayer1,teamPlayer2){
 
 function checkForASub(APlayer,origAPlayer){
     subBNewPlayer.length=0
-  
+
 if (APlayer != origAPlayer) {
 
   let newAPlayer = thisWeeksQuotas.filter(quota=>quota.name==APlayer)
@@ -222,7 +222,7 @@ if (APlayer != origAPlayer) {
   subANewPlayer.push(newAPlayerQuota)
   // console.log("this is new player quota")
   // console.log(newAPlayerQuota)
-  
+
 }
 else  {
     let newAPlayer = thisWeeksQuotas.filter(quota=>quota.name==APlayer)
@@ -230,7 +230,7 @@ else  {
       subANewPlayer.push(newAPlayerQuota)
       // console.log("this is new player quota")
       // console.log(newAPlayerQuota)
-      // console.log("Bsubno Asub")      
+      // console.log("Bsubno Asub")
       // console.log("Asubno Asub")
 
 }
@@ -238,15 +238,15 @@ else  {
 
 function checkForBSub(BPlayer,origBPlayer){
       subBNewPlayer.length=0
-  
+
       if (BPlayer != origBPlayer) {
-  
+
       let newBPlayer = thisWeeksQuotas.filter(quota=>quota.name==BPlayer)
      newBPlayerQuota=newBPlayer[0].quota
       subBNewPlayer.push(newBPlayerQuota)
     // console.log("this is new a player quota")
     // console.log(newBPlayerQuota)
-    
+
     }
       else  {
      let newBPlayer = thisWeeksQuotas.filter(quota=>quota.name==BPlayer)
@@ -255,7 +255,7 @@ function checkForBSub(BPlayer,origBPlayer){
     // console.log("this is new b player quota")
     // console.log(newBPlayerQuota)
     // console.log("Bsubno Asub")
-  
+
   }
   }
 //this isnt used yet
@@ -285,13 +285,13 @@ router.post('/team-sign-in',(req,res)=>{
     //console.log(teamNumber)
     //console.log(password)
 
-    
+
     dates.length=0
     if(thisWeeksQuotas.length==0){
       res.render('sign-in-team',{message:"Sorry server busy please try again"})
 
     }else{
-    
+
 
        //console.log(thisWeeksQuotas)
         db.one('SELECT date FROM week_date WHERE id=$1',[week])
@@ -391,7 +391,7 @@ router.post('/input-score',(req,res)=>{
     // console.log(req.body.origBPlayer)
   console.log(oppTeamNumber)
 
-  
+
   checkForASub(APlayer,origAPlayer)
   checkForBSub(BPlayer,origBPlayer)
    console.log("TEAM 1 Status")
@@ -402,7 +402,7 @@ router.post('/input-score',(req,res)=>{
   //console.log(subANewPlayer[0])
   //onsole.log(subBNewPlayer[0])
 
-  
+
     t1APlayer = players.t1P1
     t1BPlayer = players.t1P2
     t1APlayer.teamNumber = teamNumber
@@ -422,27 +422,27 @@ router.post('/input-score',(req,res)=>{
     //Must enter second team number
     if(isNaN(oppTeamNumber)){
       console.log('entering second team')
-     
-      res.render('input-scores',{message:"must enter opposing team",dateredo:dates, t1APlayer:t1APlayer, t1BPlayer:t1BPlayer })
+
+      res.render('input-scores',{message:"Must enter opposing team numbers.",dateredo:dates, t1APlayer:t1APlayer, t1BPlayer:t1BPlayer })
     }else{
-      
+
       db.one('SELECT team,player_one,player_two FROM teams where team = $1',oppTeamNumber)
       .then((teams)=>{
          //console.log(getTeams)
          let team = teams.team
          let teamPlayer1 =teams.player_one
          let teamPlayer2 = teams.player_two
- 
+
          ABPlayers.length=0
          ABPlayer(team,teamPlayer1,teamPlayer2)
- 
+
              let otherTeam= ABPlayers.filter(team=>team.teamNumber==oppTeamNumber)
- 
+
              res.render('input-second',{otherTeam:otherTeam, date:dates, t1APlayer:t1APlayer, t1BPlayer:t1BPlayer})
- 
+
                   })
-      
-  
+
+
 
     }
     if(isNaN(APlayerScore)){
@@ -456,10 +456,10 @@ router.post('/input-score',(req,res)=>{
       inputScores(BPlayer,date,BPlayerScore)
     }
 
-    
-    
 
-   
+
+
+
             })
 
 
@@ -523,7 +523,7 @@ router.post('/input-second',(req,res)=>{
             playerPoints(t1BPlayer, t2BPlayer)
             teamPoints(t1APlayer,t1BPlayer,t2APlayer,t2BPlayer)
             console.log("team one: " + teamOnePoints, "team two: " +  teamTwoPoints)
-            
+
             let teamOnePointsToSend = parseFloat(teamOnePoints) + parseFloat(teamOneOldPoints)
             let teamTwoPointsToSend = parseFloat(teamTwoPoints) + parseFloat(teamTwoOldPoints)
             db.none('UPDATE teams SET points = $1 WHERE team = $2', [teamOnePointsToSend,t1APlayer.teamNumber])
@@ -534,7 +534,7 @@ router.post('/input-second',(req,res)=>{
                 teamTwoPoints = 0
 
               })
-              res.render('sign-in-team',{message:`Team: ${t1APlayer.teamNumber}: ${teamOnePoints} Team: ${t2APlayer.teamNumber}: ${teamTwoPoints} Points `})
+              res.render('sign-in-team',{message:`Team ${t1APlayer.teamNumber}: ${teamOnePoints} Points  |  Team ${t2APlayer.teamNumber}: ${teamTwoPoints} Points `})
             })
           })
         })
@@ -544,7 +544,7 @@ router.post('/input-second',(req,res)=>{
 
 
 
-   
+
 
 //Functions to calculate points awarded per team
 function isNoShow(boxValue) {
@@ -558,7 +558,7 @@ function isNoShow(boxValue) {
   }
 }
 function playerPoints(playerOne, playerTwo) {
-  
+
   if(playerOne.played == false && playerTwo.played == false){
     playerOne.overUnder = -3
     playerTwo.overUnder = -3
@@ -602,7 +602,7 @@ function playerPoints(playerOne, playerTwo) {
 //   console.log("new function")
 // }
 function teamPoints(teamOnePlayerOne,teamOnePlayerTwo,teamTwoPlayerOne,teamTwoPlayerTwo) {
-  //this looks correct 
+  //this looks correct
   if (teamOnePlayerOne.played == false){
     //team one cannot make points here
     if(teamOnePlayerTwo.played == false){
@@ -611,18 +611,18 @@ function teamPoints(teamOnePlayerOne,teamOnePlayerTwo,teamTwoPlayerOne,teamTwoPl
         //no points awarded in this case
         teamOnePoints = 0
         teamTwoPoints = 0
-      }// this looks wrong dont think you can get one point 
+      }// this looks wrong dont think you can get one point
       else if(teamTwoPlayerOne.played == false && teamTwoPlayerTwo.played == true){
         if (teamOneOverUnder > teamTwoOverUnder){
           //no points for team two either in this case cos they lost against no shows
           teamOnePoints += 0
           teamTwoPoints += 0
-          
+
         } else if (teamOneOverUnder < teamTwoOverUnder) {
           //only one player playing so correct
           teamTwoPoints += 2
         } else {
-          //this is tied with no show situation so ok 
+          //this is tied with no show situation so ok
           teamOnePoints += 0
           teamTwoPoints += 1
           //console.log("how did this situation occur")
@@ -633,12 +633,12 @@ function teamPoints(teamOnePlayerOne,teamOnePlayerTwo,teamTwoPlayerOne,teamTwoPl
           //no points for team two either in this case cos they lost against no shows
           teamOnePoints += 0
           teamTwoPoints += 0
-          
+
         } else if (teamOneOverUnder < teamTwoOverUnder) {
           //only one player playing so correct
           teamTwoPoints += 2
         } else {
-          //this is tied with no show situation so ok 
+          //this is tied with no show situation so ok
           teamOnePoints += 0
           teamTwoPoints += 1
           //console.log("how did this situation occur")
@@ -650,7 +650,7 @@ function teamPoints(teamOnePlayerOne,teamOnePlayerTwo,teamTwoPlayerOne,teamTwoPl
       } else if (teamOneOverUnder < teamTwoOverUnder) {
         teamTwoPoints += 4
       } else {
-        //tied situation 
+        //tied situation
         teamOnePoints += 0
         teamTwoPoints += 2
       }
@@ -666,7 +666,7 @@ function teamPoints(teamOnePlayerOne,teamOnePlayerTwo,teamTwoPlayerOne,teamTwoPl
         teamOnePoints += 1
         teamTwoPoints += 0
       }
-    } 
+    }
     //looks like it triggers if one or none play so this gould be an issue think it needs to be if player 1 ns and player 2 show or player 1 show and player2 ns
     else if(teamTwoPlayerOne.played == false && teamTwoPlayerTwo.played == true){
       if (teamOneOverUnder > teamTwoOverUnder){
@@ -736,7 +736,7 @@ function teamPoints(teamOnePlayerOne,teamOnePlayerTwo,teamTwoPlayerOne,teamTwoPl
         teamTwoPoints += 0
       }
     }
-    //added another case 
+    //added another case
     else if(teamTwoPlayerOne.played == false && teamTwoPlayerTwo.played == true){
       if (teamOneOverUnder > teamTwoOverUnder){
         teamOnePoints += 2
