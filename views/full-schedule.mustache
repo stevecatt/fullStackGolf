@@ -1,85 +1,80 @@
-<html>
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    {{> meta}}
+    <link rel="stylesheet" href="/styles/leaderboard.css">
+    <title>Schedule</title>
+  </head>
+  <body>
+    {{> menu}}
     <link rel="stylesheet" href="styles/fullschedule.css"></link>
-</head>   
-
-
+</head>
 <body>
-{{>menu}}
+  {{>menu}}
 
-     <div class="reqform">
-        <h2>Team Schedule</h2>
-        <div>
-        <form action="/full-schedule" method="POST">
-          <div>
-          <h3>Enter a week to view matches</h3><br>
-          <p><input type="text" name="week" placeholder="Enter a Week" /></p>
-          </div>
-          <button type="submit">Search</button>
-          <strong style="color:red">{{message9}}</strong>
+  <div class="schCard">
+    <div id="cardSize" class="card text-center">
+      <div class="card-body">
+        <h2 class="card-title">Schedule</h2>
+        <div><hr>
+        <div class="card-text">
+          <form class="login" action="/full-schedule" method="POST">
+            <h5>Enter a week to view schedule:</h5>
+            <div class="form-group">
+              <input type="text" name="week" class="form-control" placeholder="Enter Week" />
+            </div>
+            <button id="button" type="submit" class="btn btn-link">Search &raquo;</button>
           </form>
+          <p>{{message9}}</p>
+        </div>
+        </div>
+      </div>
     </div>
-
-
-<table class="table table-hover table-sm table-bordered"> 
-  <thead>
-  
+  </div><br>
+    <table class="table table-hover table-sm table-bordered">
+    <thead class="thead-light">
 			<tr>
-      <th scope="col">Week #</th>
-      <th scope="col">Match 1</th>
-      <th scope="col">Match 2</th>
-      <th scope="col">Match 3</th>
-      <th scope="col">Match 4</th>
-      <th scope="col">Match 5</th>
-      <th scope="col">Match 6</th>
-      <th scope="col">Match 7</th>
-      <th scope="col">Match 8</th>
-      <th scope="col">Match 9</th>
-      <th scope="col">Match 10</th>
-      <th scope="col">Match 11</th>
-      <th scope="col">Match 12</th>
-      <th scope="col">Match 13</th>
-      <th scope="col">Match 14</th>
-      <th scope="col">Match 15</th>
-    </tr>
+        <th scope="col">Week #</th>
+        <th scope="col">Match 1</th>
+        <th scope="col">Match 2</th>
+        <th scope="col">Match 3</th>
+        <th scope="col">Match 4</th>
+        <th scope="col">Match 5</th>
+        <th scope="col">Match 6</th>
+        <th scope="col">Match 7</th>
+        <th scope="col">Match 8</th>
+        <th scope="col">Match 9</th>
+        <th scope="col">Match 10</th>
+        <th scope="col">Match 11</th>
+        <th scope="col">Match 12</th>
+        <th scope="col">Match 13</th>
+        <th scope="col">Match 14</th>
+        <th scope="col">Match 15</th>
+      </tr>
     </thead>
-  
-<tbody> 
-<tr>
-      <th scope="row">{{week}}</th>
-      {{#match}}
-      <td>{{match_one}}</td>
-      <td>{{match_two}}</td>
-      <td>{{match_three}}</td>
-      <td>{{match_four}}</td>
-      <td>{{match_five}}</td>
-      <td>{{match_six}}</td>
-      <td>{{match_seven}}</td>
-      <td>{{match_eight}}</td>
-      <td>{{match_nine}}</td>
-      <td>{{match_ten}}</td>
-      <td>{{match_eleven}}</td>
-      <td>{{match_twelve}}</td>
-      <td>{{match_thirteen}}</td>
-      <td>{{match_fourteen}}</td>
-      <td>{{match_fifteen}}</td>  
-       {{/match}}
-    </tr>
+    <tbody>
+    {{#match}}
+      <tr>
+        <th scope="row">{{week}}</th>
+        <td>{{match_one}}</td>
+        <td>{{match_two}}</td>
+        <td>{{match_three}}</td>
+        <td>{{match_four}}</td>
+        <td>{{match_five}}</td>
+        <td>{{match_six}}</td>
+        <td>{{match_seven}}</td>
+        <td>{{match_eight}}</td>
+        <td>{{match_nine}}</td>
+        <td>{{match_ten}}</td>
+        <td>{{match_eleven}}</td>
+        <td>{{match_twelve}}</td>
+        <td>{{match_thirteen}}</td>
+        <td>{{match_fourteen}}</td>
+        <td>{{match_fifteen}}</td>
+      </tr>
+    {{/match}}
     </tbody>
-</table>
-</body>
-
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
-
-  </html>
-    
+  </table>
+  {{> script}}
+  </body>
+</html>
