@@ -28,6 +28,8 @@
                 </div>
                 <div class="form-group">
                   <input type="text" name="score1" class="form-control" placeholder="Enter Score" />
+                  <p>Quota: {{APlayerQuota}}</p>
+                  
                 </div>
                 <input type="hidden" name="aPlayerQuota" value="{{APlayerQuota}}" />
                 <br><h5>Player Two:</h5>
@@ -37,6 +39,7 @@
                 </div>
                 <div class="form-group">
                   <input type="text" name="score2" class="form-control" placeholder="Enter Score" />
+                   <p>Quota: {{BPlayerQuota}}</p>
                 </div>
                 <input type="hidden" name="bPlayerQuota" value="{{BPlayerQuota}}" />
                 <br><h5>Opposing Team:</h5>
@@ -64,6 +67,7 @@
               </div>
               <div class="form-group">
                 <input type="text" name="score1" value ="{{t1APlayer.score}}" class="form-control" placeholder="Enter Score" />
+                <p>Quota: {{t1APlayer.quota}}</p>
               </div>
               <input type="hidden" name="aPlayerQuota" value="{{t1APlayer.quota}}" />
               <br><h5>Player Two:</h5>
@@ -73,6 +77,7 @@
               </div>
               <div class="form-group">
                 <input type="text" name="score2" value ="{{t1BPlayer.score}}" class="form-control" placeholder="Enter Score" />
+                <p>Quota: {{t1APlayer.quota}}</p>
               </div>
               <input type="hidden" name="bPlayerQuota" value="{{t1BPlayer.quota}}" />
               <br><h5>Opposing Team:</h5>
