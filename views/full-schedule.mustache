@@ -2,79 +2,74 @@
 <html lang="en" dir="ltr">
   <head>
     {{> meta}}
-    <link rel="stylesheet" href="/styles/leaderboard.css">
+    <link rel="stylesheet" href="styles/fullschedule.css"></link>
     <title>Schedule</title>
   </head>
   <body>
-    {{> menu}}
-    <link rel="stylesheet" href="styles/fullschedule.css"></link>
-</head>
-<body>
-  {{>menu}}
-
-  <div class="schCard">
-    <div id="cardSize" class="card text-center">
-      <div class="card-body">
-        <h2 class="card-title">Schedule</h2>
-        <div><hr>
-        <div class="card-text">
-          <form class="login" action="/full-schedule" method="POST">
-            <h5>Enter a week to view schedule:</h5>
-            <div class="form-group">
-              <input type="text" name="week" class="form-control" placeholder="Enter Week" />
-            </div>
-            <button id="button" type="submit" class="btn btn-link">Search &raquo;</button>
-          </form>
-          <p>{{message9}}</p>
-        </div>
+    {{>menu}}
+    <div class="schCard">
+      <div id="cardSize" class="card text-center">
+        <div class="card-body">
+          <h2 class="card-title">Schedule</h2>
+          <div><hr>
+          <div class="card-text">
+            <form class="login" action="/full-schedule" method="POST">
+              <h5>Enter a week to view schedule:</h5>
+              <div class="form-group">
+                <input type="text" name="week" class="form-control" placeholder="Enter Week" />
+              </div>
+              <button id="button" type="submit" class="btn btn-link">Search &raquo;</button>
+            </form>
+            <p>{{message9}}</p>
+          </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div><br>
-    <table class="table table-hover table-sm table-bordered">
-    <thead class="thead-light">
-			<tr>
-        <th scope="col">Week #</th>
-        <th scope="col">Match 1</th>
-        <th scope="col">Match 2</th>
-        <th scope="col">Match 3</th>
-        <th scope="col">Match 4</th>
-        <th scope="col">Match 5</th>
-        <th scope="col">Match 6</th>
-        <th scope="col">Match 7</th>
-        <th scope="col">Match 8</th>
-        <th scope="col">Match 9</th>
-        <th scope="col">Match 10</th>
-        <th scope="col">Match 11</th>
-        <th scope="col">Match 12</th>
-        <th scope="col">Match 13</th>
-        <th scope="col">Match 14</th>
-        <th scope="col">Match 15</th>
-      </tr>
-    </thead>
-    <tbody>
-    {{#match}}
-      <tr>
-        <th scope="row">{{week}}</th>
-        <td>{{match_one}}</td>
-        <td>{{match_two}}</td>
-        <td>{{match_three}}</td>
-        <td>{{match_four}}</td>
-        <td>{{match_five}}</td>
-        <td>{{match_six}}</td>
-        <td>{{match_seven}}</td>
-        <td>{{match_eight}}</td>
-        <td>{{match_nine}}</td>
-        <td>{{match_ten}}</td>
-        <td>{{match_eleven}}</td>
-        <td>{{match_twelve}}</td>
-        <td>{{match_thirteen}}</td>
-        <td>{{match_fourteen}}</td>
-        <td>{{match_fifteen}}</td>
-      </tr>
-    {{/match}}
-    </tbody>
-  </table>
+    </div><br>
+      <table class="table table-hover table-sm table-bordered">
+      <thead class="thead-light">
+  			<tr>
+          <th scope="col">Week #</th>
+          <th scope="col">Match 1</th>
+          <th scope="col">Match 2</th>
+          <th scope="col">Match 3</th>
+          <th scope="col">Match 4</th>
+          <th scope="col">Match 5</th>
+          <th scope="col">Match 6</th>
+          <th scope="col">Match 7</th>
+          <th scope="col">Match 8</th>
+          <th scope="col">Match 9</th>
+          <th scope="col">Match 10</th>
+          <th scope="col">Match 11</th>
+          <th scope="col">Match 12</th>
+          <th scope="col">Match 13</th>
+          <th scope="col">Match 14</th>
+          <th scope="col">Match 15</th>
+        </tr>
+      </thead>
+      <tbody>
+      {{#match}}
+        <tr>
+          <th scope="row">{{week}}</th>
+          <td>{{match_one}}</td>
+          <td>{{match_two}}</td>
+          <td>{{match_three}}</td>
+          <td>{{match_four}}</td>
+          <td>{{match_five}}</td>
+          <td>{{match_six}}</td>
+          <td>{{match_seven}}</td>
+          <td>{{match_eight}}</td>
+          <td>{{match_nine}}</td>
+          <td>{{match_ten}}</td>
+          <td>{{match_eleven}}</td>
+          <td>{{match_twelve}}</td>
+          <td>{{match_thirteen}}</td>
+          <td>{{match_fourteen}}</td>
+          <td>{{match_fifteen}}</td>
+        </tr>
+      {{/match}}
+      </tbody>
+    </table>
   {{> script}}
   </body>
 </html>
