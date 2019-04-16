@@ -153,6 +153,8 @@ function calculateQuotas(callback){
 
     }
 
+    //added call back to wait for quotas to fill
+
     callback(thisWeeksQuotas)
 
   })
@@ -299,9 +301,11 @@ router.get('/team-sign-in',(req,res)=>{
 })
 
 router.post('/team-sign-in',(req,res)=>{
+  //using callback to wait for stuff filling thisweeks quotas
+  
     calculateQuotas(function(results) {
-      console.log(results)
-      console.log("FIRED!")
+      //console.log(results)
+      //console.log("FIRED!")
 
     let teamNumber=parseInt(req.body.teamNumber)
     let password = req.body.password
