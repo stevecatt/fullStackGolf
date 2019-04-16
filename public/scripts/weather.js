@@ -1,7 +1,7 @@
 let weather = document.getElementById("weather")
 
 function loadWeather() {
-  let currentWeather= "http://api.openweathermap.org/data/2.5/weather?zip=77373&units=imperial&appid=1a58f63ba901c71f51ab6e02fdfe37e2"
+  let currentWeather= "https://api.openweathermap.org/data/2.5/weather?zip=77373&units=imperial&appid=1a58f63ba901c71f51ab6e02fdfe37e2"
 
   fetch(currentWeather)
   .then(response=>response.json())
