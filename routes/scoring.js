@@ -14,6 +14,8 @@ let ABPlayers=[]
 let dates=[]
 let subANewPlayer=[]
 let subBNewPlayer=[]
+let APlayerNewbie=false
+let BPlayerNewbie = false
 
 //scoring to database
 function inputScores(playerName,matchDate,score){
@@ -58,7 +60,7 @@ function inputScores(playerName,matchDate,score){
 
 
 //calculate quotas
-function calculateQuotas(){
+function calculateQuotas(callback){
 
     db.any('SELECT * FROM "steveq_test"')
     .then ((quotas)=>{
@@ -151,8 +153,14 @@ function calculateQuotas(){
 
     }
 
+    //added call back to wait for quotas to fill
+
+    callback(thisWeeksQuotas)
 
   })
+
+
+
   }
 
 //looping through the teams to create teamPlayer1 and 2
@@ -187,6 +195,19 @@ function ABPlayer(team,teamPlayer1,teamPlayer2){
     let teamNumber=team
     let thisweekplayer1 = thisWeeksQuotas.filter(quota=>quota.name==teamPlayer1)
     let thisweekplayer2 = thisWeeksQuotas.filter(quota=>quota.name==teamPlayer2)
+    //determine whether quota is full or still under constrution <10 weeks scores
+    if (thisweekplayer1[0].newbie == "*"){
+      APlayerNewbie = true
+
+
+    }else{
+      BPlayerNewbie = false
+    }
+    if(thisweekplayer2[0].newbie=="*"){
+      BPlayerNewbie = true
+    }else{
+      BPlayerNewbie = false
+    }
 
     if(thisweekplayer1[0].quota >= thisweekplayer2[0].quota){
          APlayer= teamPlayer1
@@ -194,18 +215,21 @@ function ABPlayer(team,teamPlayer1,teamPlayer2){
          APlayerQuota=thisweekplayer1[0].quota
          BPlayerQuota=thisweekplayer2[0].quota
 
+
+
     }else{
          APlayer=teamPlayer2
          BPlayer=teamPlayer1
          APlayerQuota=thisweekplayer2[0].quota
          BPlayerQuota=thisweekplayer1[0].quota
+
         //  console.log("this is second case")
         //  console.log(APlayerQuota)
         // console.log(BPlayerQuota)
 
     }
 
-   let ABPlayersPush = {teamNumber:teamNumber,APlayer:APlayer, APlayerQuota:APlayerQuota,BPlayer:BPlayer,BPlayerQuota:BPlayerQuota}
+   let ABPlayersPush = {teamNumber:teamNumber,APlayer:APlayer, APlayerQuota:APlayerQuota,BPlayer:BPlayer,BPlayerQuota:BPlayerQuota,APlayerNewbie:APlayerNewbie,BPlayerNewbie:BPlayerNewbie}
    ABPlayers.push(ABPlayersPush)
 
 
@@ -277,20 +301,20 @@ router.get('/team-sign-in',(req,res)=>{
 })
 
 router.post('/team-sign-in',(req,res)=>{
-    calculateQuotas()
+  //using callback to wait for stuff filling thisweeks quotas
+
+    calculateQuotas(function(results) {
+      //console.log(results)
+      //console.log("FIRED!")
 
     let teamNumber=parseInt(req.body.teamNumber)
     let password = req.body.password
     let week = parseInt(req.body.week)
-    //console.log(teamNumber)
-    //console.log(password)
-
-
     dates.length=0
-    if(thisWeeksQuotas.length==0){
-      res.render('sign-in-team',{message:"Sorry server busy please try again"})
+    // if(thisWeeksQuotas.length==0){
+    //   res.render('sign-in-team',{message:"Sorry server busy please try again"})
 
-    }else{
+    // }else{
 
 
        //console.log(thisWeeksQuotas)
@@ -333,8 +357,11 @@ router.post('/team-sign-in',(req,res)=>{
         })
     })
     )
-  }
+
 })
+    })
+
+
 
 let players =
 {
@@ -392,8 +419,8 @@ router.post('/input-score',(req,res)=>{
   console.log(oppTeamNumber)
 
 
-  checkForASub(APlayer,origAPlayer)
-  checkForBSub(BPlayer,origBPlayer)
+   checkForASub(APlayer,origAPlayer)
+   checkForBSub(BPlayer,origBPlayer)
    console.log("TEAM 1 Status")
    console.log('Aplayer status')
    console.log(isNoShow(req.body.onePlayed))
@@ -514,6 +541,8 @@ router.post('/input-second',(req,res)=>{
         } else{
           inputScores(BPlayer,date,BPlayerScore)
         }
+        teamOnePoints = 0
+        teamTwoPoints = 0
         db.one('SELECT points FROM teams WHERE team = $1;', [t1APlayer.teamNumber]).then((points)=>{
           teamOneOldPoints = points.points
           db.one('SELECT points FROM teams WHERE team = $1;', [t2APlayer.teamNumber]).then((points) => {
