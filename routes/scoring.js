@@ -518,6 +518,9 @@ router.post('/input-second',(req,res)=>{
           teamOneOldPoints = points.points
           db.one('SELECT points FROM teams WHERE team = $1;', [t2APlayer.teamNumber]).then((points) => {
             teamTwoOldPoints = points.points
+              teamOnePoints = 0
+              teamTwoPoints = 0
+          
             //console.log("team one: " + teamOneOldPoints, "team two: " +  teamTwoOldPoints)
             playerPoints(t1APlayer, t2APlayer)
             playerPoints(t1BPlayer, t2BPlayer)
