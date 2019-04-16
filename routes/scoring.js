@@ -530,8 +530,7 @@ router.post('/input-second',(req,res)=>{
             .then(()=>{
               db.none('UPDATE teams SET points = $1 WHERE team = $2', [teamTwoPointsToSend,t2APlayer.teamNumber])
               .then(()=>{
-                teamOnePoints = 0
-                teamTwoPoints = 0
+               
 
               })
               res.render('sign-in-team',{message:`Team ${t1APlayer.teamNumber}: ${teamOnePoints} Points  |  Team ${t2APlayer.teamNumber}: ${teamTwoPoints} Points `})
