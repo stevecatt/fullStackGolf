@@ -198,8 +198,8 @@ function ABPlayer(team,teamPlayer1,teamPlayer2){
     //determine whether quota is full or still under constrution <10 weeks scores
     if (thisweekplayer1[0].newbie == "*"){
       APlayerNewbie = true
-      
-      
+
+
     }else{
       BPlayerNewbie = false
     }
@@ -214,7 +214,7 @@ function ABPlayer(team,teamPlayer1,teamPlayer2){
          BPlayer= teamPlayer2
          APlayerQuota=thisweekplayer1[0].quota
          BPlayerQuota=thisweekplayer2[0].quota
-         
+
 
 
     }else{
@@ -222,7 +222,7 @@ function ABPlayer(team,teamPlayer1,teamPlayer2){
          BPlayer=teamPlayer1
          APlayerQuota=thisweekplayer2[0].quota
          BPlayerQuota=thisweekplayer1[0].quota
-         
+
         //  console.log("this is second case")
         //  console.log(APlayerQuota)
         // console.log(BPlayerQuota)
@@ -302,7 +302,7 @@ router.get('/team-sign-in',(req,res)=>{
 
 router.post('/team-sign-in',(req,res)=>{
   //using callback to wait for stuff filling thisweeks quotas
-  
+
     calculateQuotas(function(results) {
       //console.log(results)
       //console.log("FIRED!")
@@ -357,11 +357,11 @@ router.post('/team-sign-in',(req,res)=>{
         })
     })
     )
-  
+
 })
     })
 
-    
+
 
 let players =
 {
@@ -547,14 +547,11 @@ router.post('/input-second',(req,res)=>{
           teamOneOldPoints = points.points
           db.one('SELECT points FROM teams WHERE team = $1;', [t2APlayer.teamNumber]).then((points) => {
             teamTwoOldPoints = points.points
-             
-          
-            //console.log("team one: " + teamOneOldPoints, "team two: " +  teamTwoOldPoints)
+            console.log("team one old points: " + teamOneOldPoints, "team two old points: " +  teamTwoOldPoints)
             playerPoints(t1APlayer, t2APlayer)
             playerPoints(t1BPlayer, t2BPlayer)
-            teamPoints(t1APlayer,t1BPlayer,t2APlayer,t2BPlayer)
+            newTeamPoints(t1APlayer,t1BPlayer,t2APlayer,t2BPlayer)
             console.log("team one: " + teamOnePoints, "team two: " +  teamTwoPoints)
-
             let teamOnePointsToSend = parseFloat(teamOnePoints) + parseFloat(teamOneOldPoints)
             let teamTwoPointsToSend = parseFloat(teamTwoPoints) + parseFloat(teamTwoOldPoints)
             db.none('UPDATE teams SET points = $1 WHERE team = $2', [teamOnePointsToSend,t1APlayer.teamNumber])
@@ -562,19 +559,11 @@ router.post('/input-second',(req,res)=>{
               db.none('UPDATE teams SET points = $1 WHERE team = $2', [teamTwoPointsToSend,t2APlayer.teamNumber])
               .then(()=>{
                 res.render('sign-in-team',{message:`Team ${t1APlayer.teamNumber}: ${teamOnePoints} Points  |  Team ${t2APlayer.teamNumber}: ${teamTwoPoints} Points `})
-
               })
-              
             })
           })
         })
     })
-
-
-
-
-
-
 
 //Functions to calculate points awarded per team
 function isNoShow(boxValue) {
@@ -623,345 +612,97 @@ function playerPoints(playerOne, playerTwo) {
     teamTwoPoints += 1.5
   }
 }
-// //function simpleTeamPoints(teamOneAPlayer,TeamOneBPlayer,TeamTwoAPlayer,TeamTwoAPlayer){
-//   if(teamOnePoints==teamTwoPoints){
-//     if(){
 
-//     }
-//   }
-//   console.log("new function")
-// }
-function teamPoints(teamOnePlayerOne,teamOnePlayerTwo,teamTwoPlayerOne,teamTwoPlayerTwo) {
-  //this looks correct
-  if (teamOnePlayerOne.played == false){
-    //team one cannot make points here
-    if(teamOnePlayerTwo.played == false){
-      //correct
-      if (teamTwoPlayerOne.played == false && teamTwoPlayerTwo.played == false){
-        //no points awarded in this case
-        teamOnePoints = 0
-        teamTwoPoints = 0
-      }// this looks wrong dont think you can get one point
-      else if(teamTwoPlayerOne.played == false && teamTwoPlayerTwo.played == true){
-        if (teamOneOverUnder > teamTwoOverUnder){
-          //no points for team two either in this case cos they lost against no shows
-          teamOnePoints += 0
-          teamTwoPoints += 0
-
-        } else if (teamOneOverUnder < teamTwoOverUnder) {
-          //only one player playing so correct
-          teamTwoPoints += 2
-        } else {
-          //this is tied with no show situation so ok
-          teamOnePoints += 0
-          teamTwoPoints += 1
-          //console.log("how did this situation occur")
-        }
-      }
-      else if(teamTwoPlayerOne.played == true && teamTwoPlayerTwo.played == false){
-        if (teamOneOverUnder > teamTwoOverUnder){
-          //no points for team two either in this case cos they lost against no shows
-          teamOnePoints += 0
-          teamTwoPoints += 0
-
-        } else if (teamOneOverUnder < teamTwoOverUnder) {
-          //only one player playing so correct
-          teamTwoPoints += 2
-        } else {
-          //this is tied with no show situation so ok
-          teamOnePoints += 0
-          teamTwoPoints += 1
-          //console.log("how did this situation occur")
-        }
-      }
-      else {
-        if (teamOneOverUnder > teamTwoOverUnder){
-        teamOnePoints += 0
-      } else if (teamOneOverUnder < teamTwoOverUnder) {
-        teamTwoPoints += 4
-      } else {
-        //tied situation
-        teamOnePoints += 0
-        teamTwoPoints += 2
-      }
-    }
-    //team 1 player 2 playing
-    } else if(teamTwoPlayerOne.played == false && teamTwoPlayerTwo.played == false){
-      if (teamOneOverUnder > teamTwoOverUnder){
-        teamOnePoints += 2
-      } else if (teamOneOverUnder < teamTwoOverUnder) {
-        teamTwoPoints += 0
-      } else {
-        //tie
-        teamOnePoints += 1
-        teamTwoPoints += 0
-      }
-    }
-    //looks like it triggers if one or none play so this gould be an issue think it needs to be if player 1 ns and player 2 show or player 1 show and player2 ns
-    else if(teamTwoPlayerOne.played == false && teamTwoPlayerTwo.played == true){
-      if (teamOneOverUnder > teamTwoOverUnder){
-        teamOnePoints += 2
-      } else if (teamOneOverUnder < teamTwoOverUnder) {
-        teamTwoPoints += 2
-      } else {
-        teamOnePoints += 1
-        teamTwoPoints += 1
-      }
-    }
-    //added another case
-    else if(teamTwoPlayerOne.played == true && teamTwoPlayerTwo.played == false){
-      if (teamOneOverUnder > teamTwoOverUnder){
-        teamOnePoints += 2
-      } else if (teamOneOverUnder < teamTwoOverUnder) {
-        teamTwoPoints += 2
-      } else {
-        teamOnePoints += 1
-        teamTwoPoints += 1
-      }
-    }
-    else{
-      // teamm 1 1 player team 2 2 players
-      if (teamOneOverUnder > teamTwoOverUnder){
-        teamOnePoints += 2
-      } else if (teamOneOverUnder < teamTwoOverUnder) {
-        teamTwoPoints += 4
-      } else {
-        teamOnePoints += 1
-        teamTwoPoints += 2
-      }
-    }
-  } else if (teamOnePlayerTwo.played == false){
-    if(teamOnePlayerOne.played == false){
-      if (teamTwoPlayerOne.played == false && teamTwoPlayerTwo.played == false){
-        teamOnePoints = 0
-        teamTwoPoints = 0
-      }
-      else if(teamTwoPlayerOne.played == false || teamTwoPlayerTwo.played == false){
-        if (teamOneOverUnder > teamTwoOverUnder){
-          teamOnePoints += 0
-        } else if (teamOneOverUnder < teamTwoOverUnder) {
-          teamTwoPoints += 2
-        } else {
-          teamOnePoints += 0
-          teamTwoPoints += 1
-        }
-      }
-      else {
-        if (teamOneOverUnder > teamTwoOverUnder){
-        teamOnePoints += 0
-      } else if (teamOneOverUnder < teamTwoOverUnder) {
-        teamTwoPoints += 4
-      } else {
-        teamOnePoints += 0
-        teamTwoPoints += 2
-      }
-    }
-  } else if(teamTwoPlayerOne.played == false && teamTwoPlayerTwo.played == false){
-      if (teamOneOverUnder > teamTwoOverUnder){
-        teamOnePoints += 2
-      } else if (teamOneOverUnder < teamTwoOverUnder) {
-        teamTwoPoints += 0
-      } else {
-        teamOnePoints += 1
-        teamTwoPoints += 0
-      }
-    }
-    //added another case
-    else if(teamTwoPlayerOne.played == false && teamTwoPlayerTwo.played == true){
-      if (teamOneOverUnder > teamTwoOverUnder){
-        teamOnePoints += 2
-      } else if (teamOneOverUnder < teamTwoOverUnder) {
-        teamTwoPoints += 2
-      } else {
-        teamOnePoints += 1
-        teamTwoPoints += 1
-      }
-    }
-    else if(teamTwoPlayerOne.played == true && teamTwoPlayerTwo.played == false){
-      if (teamOneOverUnder > teamTwoOverUnder){
-        teamOnePoints += 2
-      } else if (teamOneOverUnder < teamTwoOverUnder) {
-        teamTwoPoints += 2
-      } else {
-        teamOnePoints += 1
-        teamTwoPoints += 1
-      }
-    }
-    else{
-      if (teamOneOverUnder > teamTwoOverUnder){
-        teamOnePoints += 2
-      } else if (teamOneOverUnder < teamTwoOverUnder) {
-        teamTwoPoints += 4
-      } else {
-        teamOnePoints += 1
-        teamTwoPoints += 2
-      }
-    }
-  } else if (teamTwoPlayerOne.played == false){
-    if(teamTwoPlayerTwo.played == false){
-      if (teamOnePlayerOne.played == false && teamOnePlayerTwo.played == false){
-        teamOnePoints = 0
-        teamTwoPoints = 0
-      }
-      //added another test case
-      else if(teamOnePlayerOne.played == false && teamOnePlayerTwo.played == true){
-        if (teamOneOverUnder > teamTwoOverUnder){
+function newTeamPoints(t1A, t1B, t2A, t2B) {
+  //following conditional checks scores if there is a tie in points
+  if (teamOnePoints == teamTwoPoints) {
+    //check if team 2A played
+    if (t2A.played){
+      //check if team 2B played
+      if (t2B.played){
+        //check if team 1 and B played and everyone is awarded points for tying
+        if(t1A.played && t1B.played){
           teamOnePoints += 2
-        } else if (teamOneOverUnder < teamTwoOverUnder) {
-          teamTwoPoints += 0
-        } else {
+          teamTwoPoints += 2
+        }
+        //check if one team 1 player was a no show and if so only award one team point
+        else if (t1A.played || t1B.played) {
           teamOnePoints += 1
-          teamTwoPoints += 0
+          teamTwoPoints += 2
+        }
+        else {
+          teamTwoPoints += 2
         }
       }
-      else if(teamOnePlayerOne.played == true && teamOnePlayerTwo.played == false){
-        if (teamOneOverUnder > teamTwoOverUnder){
-          teamOnePoints += 2
-        } else if (teamOneOverUnder < teamTwoOverUnder) {
-          teamTwoPoints += 0
-        } else {
-          teamOnePoints += 1
-          teamTwoPoints += 0
-        }
-      }
+      //team 2B did not play, perform above checks again only awarding 1 point to team 1
       else {
-        if (teamOneOverUnder > teamTwoOverUnder){
-        teamOnePoints += 4
-      } else if (teamOneOverUnder < teamTwoOverUnder) {
-        teamTwoPoints += 0
-      } else {
-        teamOnePoints += 2
-        teamTwoPoints += 0
+        //check if team 1A and B played
+        if(t1A.played && t1B.played){
+          teamOnePoints += 2
+          teamTwoPoints += 1
+        }
+        //check if one team 1 player was a no show and if so only award one team point
+        else if (t1A.played || t1B.played) {
+          teamOnePoints += 1
+          teamTwoPoints += 1
+        }
+        else {
+          teamTwoPoints += 1
+        }
       }
     }
-  } else if(teamOnePlayerOne.played == false && teamOnePlayerTwo.played == false){
-      if (teamOneOverUnder > teamTwoOverUnder){
-        teamOnePoints += 0
-      } else if (teamOneOverUnder < teamTwoOverUnder) {
-        teamTwoPoints += 2
-      } else {
-        teamOnePoints += 1
-        teamTwoPoints += 0
+    //team 2 A did not play, perform above checks again
+    else {
+      //check if team 2B played
+      if (t2B.played){
+        //check if team 1 and B played and everyone is awarded points for tying
+        if(t1A.played && t1B.played){
+          teamOnePoints += 2
+          teamTwoPoints += 1
+        }
+        //check if one team 1 player was a no show and if so only award one team point
+        else if (t1A.played || t1B.played) {
+          teamOnePoints += 1
+          teamTwoPoints += 1
+        }
+        else {
+          teamTwoPoints += 1
+        }
       }
-    }
-    //added another test case
-    else if(teamOnePlayerOne.played == false && teamOnePlayerTwo.played == false){
-      if (teamOneOverUnder > teamTwoOverUnder){
-        teamOnePoints += 2
-      } else if (teamOneOverUnder < teamTwoOverUnder) {
-        teamTwoPoints += 2
-      } else {
-        teamOnePoints += 1
-        teamTwoPoints += 1
-      }
-    }
-    else if(teamOnePlayerOne.played == true && teamOnePlayerTwo.played == false){
-      if (teamOneOverUnder > teamTwoOverUnder){
-        teamOnePoints += 2
-      } else if (teamOneOverUnder < teamTwoOverUnder) {
-        teamTwoPoints += 2
-      } else {
-        teamOnePoints += 1
-        teamTwoPoints += 1
-      }
-    }
-    else{
-      if (teamOneOverUnder > teamTwoOverUnder){
-        teamOnePoints += 4
-      } else if (teamOneOverUnder < teamTwoOverUnder) {
-        teamTwoPoints += 2
-      } else {
-        teamOnePoints += 2
-        teamTwoPoints += 1
+      //team 2B did not play, perform above checks again only awarding 1 point to team 1
+      else {
+        //check if team 1A and B played
+        if(t1A.played && t1B.played){
+          teamOnePoints += 2
+        }
+        //check if one team 1 player was a no show and if so only award one team point
+        else if (t1A.played || t1B.played) {
+          teamOnePoints += 1
+        }
+        // no need to check if if no one showed, no points awarded
       }
     }
   }
-  else if (teamTwoPlayerTwo.played == false){
-    if(teamTwoPlayerOne.played == false){
-      if (teamOnePlayerOne.played == false && teamOnePlayerTwo.played == false){
-        teamOnePoints = 0
-        teamTwoPoints = 0
-      }
-      //another case to fix eroneous 1 point
-      else if(teamOnePlayerOne.played == false && teamOnePlayerTwo.played == true){
-        if (teamOneOverUnder > teamTwoOverUnder){
-          teamOnePoints += 2
-        } else if (teamOneOverUnder < teamTwoOverUnder) {
-          teamTwoPoints += 0
-        } else {
-          teamOnePoints += 1
-          teamTwoPoints += 0
+  else if (teamOnePoints > teamTwoPoints) {
+    //Don't need to check if team 2A or team2B played because they will be awarded zero points in every scenario
+      //Don' need to check if team 2B played
+        //check if team 1 A and B played to award 4 points
+        if(t1A.played && t1B.played){
+          teamOnePoints += 4
         }
-      }
-      else if(teamOnePlayerOne.played == true && teamOnePlayerTwo.played == false){
-        if (teamOneOverUnder > teamTwoOverUnder){
+        //check if one team 1 player was a no show and if so only award one team point
+        else if (t1A.played || t1B.played) {
           teamOnePoints += 2
-        } else if (teamOneOverUnder < teamTwoOverUnder) {
-          teamTwoPoints += 0
-        } else {
-          teamOnePoints += 1
-          teamTwoPoints += 0
         }
+        //Don't need to check if no one on team 1 played, because they won, but get no points
       }
-      else {
-        if(teamOneOverUnder > teamTwoOverUnder){
-        teamOnePoints += 4
-      } else if (teamOneOverUnder < teamTwoOverUnder) {
-        teamTwoPoints += 0
-      } else {
-        teamOnePoints += 2
-        teamTwoPoints += 0
-      }
-      }
-    } else if(teamOnePlayerOne.played == false && teamOnePlayerTwo.played == false){
-      if (teamOneOverUnder > teamTwoOverUnder){
-        teamOnePoints += 0
-      } else if (teamOneOverUnder < teamTwoOverUnder) {
-        teamTwoPoints += 2
-      } else {
-        teamOnePoints += 1
-        teamTwoPoints += 0
-      }
-    }
-    //anothere 1 point fix
-    else if(teamOnePlayerOne.played == false && teamOnePlayerTwo.played == true){
-      if (teamOneOverUnder > teamTwoOverUnder){
-        teamOnePoints += 2
-      } else if (teamOneOverUnder < teamTwoOverUnder) {
-        teamTwoPoints += 2
-      } else {
-        teamOnePoints += 1
-        teamTwoPoints += 1
-      }
-    }
-    else if(teamOnePlayerOne.played == true && teamOnePlayerTwo.played == false){
-      if (teamOneOverUnder > teamTwoOverUnder){
-        teamOnePoints += 2
-      } else if (teamOneOverUnder < teamTwoOverUnder) {
-        teamTwoPoints += 2
-      } else {
-        teamOnePoints += 1
-        teamTwoPoints += 1
-      }
-    }
-    else{
-      if (teamOneOverUnder > teamTwoOverUnder){
-        teamOnePoints += 4
-      } else if (teamOneOverUnder < teamTwoOverUnder) {
-        teamTwoPoints += 2
-      } else {
-        teamOnePoints += 2
-        teamTwoPoints += 1
-      }
-    }
-  }
+  //check ponits for team two as winner
   else {
-    if (teamOneOverUnder > teamTwoOverUnder){
-      teamOnePoints += 4
-    } else if (teamOneOverUnder < teamTwoOverUnder) {
+    //Don't need to check if team 1A or team 1B played because they will be awarded zero points in every scenario
+    if(t2A.played && t2B.played) {
       teamTwoPoints += 4
-    } else {
-      teamOnePoints += 2
+    }
+    else if (t2A.played || t2B.played) {
       teamTwoPoints += 2
     }
   }
