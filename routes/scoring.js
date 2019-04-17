@@ -237,7 +237,7 @@ function ABPlayer(team,teamPlayer1,teamPlayer2){
 
 
 function checkForASub(APlayer,origAPlayer){
-    subBNewPlayer.length=0
+    subANewPlayer.length=0
 
 if (APlayer != origAPlayer) {
 
@@ -414,10 +414,7 @@ router.post('/input-score',(req,res)=>{
     let date=req.body.date
     let origAPlayer = req.body.origAPlayer
     let origBPlayer = req.body.origBPlayer
-    // console.log(req.body.origAPlayer)
-    // console.log(req.body.origBPlayer)
   console.log(oppTeamNumber)
-
 
    checkForASub(APlayer,origAPlayer)
    checkForBSub(BPlayer,origBPlayer)
@@ -426,8 +423,6 @@ router.post('/input-score',(req,res)=>{
    console.log(isNoShow(req.body.onePlayed))
    console.log('bplayer status')
    console.log(isNoShow(req.body.twoPlayed))
-  //console.log(subANewPlayer[0])
-  //onsole.log(subBNewPlayer[0])
 
 
     t1APlayer = players.t1P1
@@ -444,7 +439,6 @@ router.post('/input-score',(req,res)=>{
     t1BPlayer.played = isNoShow(req.body.twoPlayed)
     t1APlayer.overUnder = APlayerScore - t1APlayer.quota
     t1BPlayer.overUnder = BPlayerScore - t1BPlayer.quota
-
 
     //Must enter second team number
     if(isNaN(oppTeamNumber)){
@@ -508,20 +502,19 @@ router.post('/input-second',(req,res)=>{
         t2BPlayer.teamNumber = teamNumber
         t2APlayer.name = APlayer
         t2BPlayer.name = BPlayer
-        t1APlayer.quota = subANewPlayer[0]
-        t1BPlayer.quota = subBNewPlayer[0]
+        checkForASub(APlayer,origAPlayer)
+        checkForBSub(BPlayer,origBPlayer)
+        console.log(subANewPlayer)
+        t2APlayer.quota = subANewPlayer[0]
+        t2BPlayer.quota = subBNewPlayer[0]
         t2APlayer.played = isNoShow(req.body.threePlayed)
         t2BPlayer.played = isNoShow(req.body.fourPlayed)
         t2APlayer.overUnder = APlayerScore - t2APlayer.quota
         t2BPlayer.overUnder = BPlayerScore - t2BPlayer.quota
         t1APlayer = players.t1P1
         t1BPlayer = players.t1P2
-        teamOneOverUnder = t1APlayer.overUnder + t1BPlayer.overUnder
-        teamTwoOverUnder = t2APlayer.overUnder + t2BPlayer.overUnder
 
 
-        checkForASub(APlayer,origAPlayer)
-        checkForBSub(BPlayer,origBPlayer)
         console.log("TEAM 2 Status")
         console.log('Aplayer status')
         console.log(req.body.threePlayed)
@@ -547,11 +540,14 @@ router.post('/input-second',(req,res)=>{
           teamOneOldPoints = points.points
           db.one('SELECT points FROM teams WHERE team = $1;', [t2APlayer.teamNumber]).then((points) => {
             teamTwoOldPoints = points.points
-            console.log("team one old points: " + teamOneOldPoints, "team two old points: " +  teamTwoOldPoints)
+            //console.log("team one old points: " + teamOneOldPoints, "team two old points: " +  teamTwoOldPoints)
+            //console.log('Team One O/U: ' + teamOneOverUnder + '; Team Two O/U: ' + teamTwoOverUnder)
             playerPoints(t1APlayer, t2APlayer)
             playerPoints(t1BPlayer, t2BPlayer)
+            teamOneOverUnder = t1APlayer.overUnder + t1BPlayer.overUnder
+            teamTwoOverUnder = t2APlayer.overUnder + t2BPlayer.overUnder
             newTeamPoints(t1APlayer,t1BPlayer,t2APlayer,t2BPlayer)
-            console.log("team one: " + teamOnePoints, "team two: " +  teamTwoPoints)
+            //console.log("team one: " + teamOnePoints, "team two: " +  teamTwoPoints)
             let teamOnePointsToSend = parseFloat(teamOnePoints) + parseFloat(teamOneOldPoints)
             let teamTwoPointsToSend = parseFloat(teamTwoPoints) + parseFloat(teamTwoOldPoints)
             db.none('UPDATE teams SET points = $1 WHERE team = $2', [teamOnePointsToSend,t1APlayer.teamNumber])
@@ -614,8 +610,12 @@ function playerPoints(playerOne, playerTwo) {
 }
 
 function newTeamPoints(t1A, t1B, t2A, t2B) {
+  console.log('Team One Points prior to checking for team score: ' + teamOnePoints + '; Team Two prior to checking for team score: ' + teamTwoPoints)
   //following conditional checks scores if there is a tie in points
-  if (teamOnePoints == teamTwoPoints) {
+  console.log('T1 OU: ' + teamOneOverUnder)
+  console.log('T2 OU: ' + teamTwoOverUnder)
+  if (teamOneOverUnder == teamTwoOverUnder) {
+    console.log('Tie fired')
     //check if team 2A played
     if (t2A.played){
       //check if team 2B played
@@ -683,7 +683,8 @@ function newTeamPoints(t1A, t1B, t2A, t2B) {
       }
     }
   }
-  else if (teamOnePoints > teamTwoPoints) {
+  else if (teamOneOverUnder > teamTwoOverUnder) {
+    console.log('Team One winning fired.')
     //Don't need to check if team 2A or team2B played because they will be awarded zero points in every scenario
       //Don' need to check if team 2B played
         //check if team 1 A and B played to award 4 points
@@ -696,8 +697,9 @@ function newTeamPoints(t1A, t1B, t2A, t2B) {
         }
         //Don't need to check if no one on team 1 played, because they won, but get no points
       }
-  //check ponits for team two as winner
-  else {
+  //check points for team two as winner
+  else if (teamOneOverUnder < teamTwoOverUnder) {
+    console.log('Team Two winning fired')
     //Don't need to check if team 1A or team 1B played because they will be awarded zero points in every scenario
     if(t2A.played && t2B.played) {
       teamTwoPoints += 4
