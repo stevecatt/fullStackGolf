@@ -10,23 +10,31 @@ We are not currently providing admin credentials because admin privileges would 
 ## Player credentials
 For similar reasons we are not providing player login credentials. Someone could add scores and disrupt the leaderboard. However, please view gifs below to see the website in action and the live link allows one to see some aspects of the website.
 
+<br>
+
 Admins are able to set up current season and archive previous season.
 
 <img src="readme/admin.gif" width="100%" height="450"/> 
+
+<br>
 
 Users are able to input scores for team and log no shows.
 
 <img src="readme/input-scores.gif" width="100%" height="450"/> 
 
+<br>
+
 Users are able to view match schedule by week number.
 
 <img src="readme/schedule.gif" width="100%" height="450"/> 
+
+<br>
 
 Users are able to view current leaderboard:
 
 <img src="readme/leaderboard.jpeg" width="100%" height="450"/>  
 
-
+<br>
 # Collaborators:
 * [Steve Cattanach](https://github.com/stevecatt)
 * [Summer Feiler](https://github.com/spfeiler)
