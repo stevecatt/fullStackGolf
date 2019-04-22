@@ -12,7 +12,7 @@ For similar reasons we are not providing player login credentials. Someone could
 
 Admins are able to set up current season and archive previous season.
 
-<img src="#" width="100%" height="450"/> 
+<img src="readme/admin.gif" width="100%" height="450"/> 
 
 Users are able to input scores for team and log no shows.
 
