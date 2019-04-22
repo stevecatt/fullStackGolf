@@ -35,6 +35,7 @@ Users are able to view current leaderboard:
 <img src="readme/leaderboard.jpeg" width="100%" height="450"/>  
 
 <br>
+
 # Collaborators:
 * [Steve Cattanach](https://github.com/stevecatt)
 * [Summer Feiler](https://github.com/spfeiler)
