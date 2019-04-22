@@ -2,7 +2,7 @@
 
 Live link: https://bh-golfapp.herokuapp.com/
 
-Bayou Houston (BH) Golf League App is a scoring and tracking system for a Houston area Golf League. Users are able to input scores, view their weekly quotas, and view the schedule. League administrators are able to add admins, create seasons, add new players and teams, manage existing teams, and archive most recent season to create a new season.
+Bayou-Houston (BH) Golf League App is a scoring and tracking system for a Houston area Golf League. Users are able to input scores, view their weekly quotas, and view the schedule. League administrators are able to add admins, create seasons, add new players and teams, manage existing teams, and archive most recent season to create a new season.
 
 ## Admin credentials
 We are not currently providing admin credentials because admin privileges would allow user to disrupt current season by archiving season, adding/deleting players teams, and adding more admins.
